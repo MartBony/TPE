@@ -52,17 +52,16 @@
 
 </article>
 <aside class="ascontent" id="a8">
-	<div class="imgopened"></div>
-	<div class="asidebut">
-		<button class="prec navig" onclick="page.animate.move(8, 'prec');">Précédent</button>
-		<button class="suiv navig" onclick="page.animate.move(8, 'suiv');">Suivant</button>
-	</div>
+	<button class="prec navig" onclick="page.animate.move(8, 'prec');">Précédent</button>
+	<button class="suiv navig" onclick="page.animate.move(8, 'suiv');">Suivant</button>
 </aside>
 <div class="rightbar">
 	<img src="images/ext2.jpg" id="bgd8" class="bgrightbar">
 </div>
 
 <script type="text/javascript">
+	setTimeout(function(){InitCanvasJS8()},2000);
+
 		function InitCanvasJS8() {
 
 			CanvasJS.addColorSet("customColorSet1",

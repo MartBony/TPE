@@ -24,20 +24,22 @@
 	</article>
 </article>
 <aside class="ascontent" id="a1">
-	<div class="imgopened"></div>
-	<div class="asidebut">
-		<button style="opacity: 0;" class="prec navig">Précédent</button>
-		<button class="suiv navig" onclick="page.animate.move(1, 'suiv');">Suivant</button>
-	</div>
+	<button style="opacity: 0;" class="prec navig">Précédent</button>
+	<button class="suiv navig" onclick="page.animate.move(1, 'suiv');">Suivant</button>
 </aside>
 <div class="rightbar">
 	<img src="images/a row2.jpg" id="bgd1" class="bgrightbar">
 </div>
 <script>
+	setTimeout(function(){InitCanvasJS1()}, 2000);
+	
+
 	function InitCanvasJS1() {
 		
 		var chart = new CanvasJS.Chart("chartContainer", {
-			animationEnabled: true,
+			height: 300,
+			width: 500,
+			animationEnabled: false,
 			title:{
 				text: "La pollution du web",
 				horizontalAlign: "center"

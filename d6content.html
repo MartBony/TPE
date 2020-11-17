@@ -38,7 +38,7 @@
 		<h4>Resultats de compression</h4>
 		<div id="chartContainerResultLOSS"></div>
 		<script type="text/javascript">
-			//InitCanvasJS6result(); 
+			setTimeout(function(){InitCanvasJS6result()},2000);
 			// SCRIPT CANVAS JS
 
 			function InitCanvasJS6result() {
@@ -57,7 +57,7 @@
 				]);
 
 				var chart6 = new CanvasJS.Chart("chartContainerResultLOSS", {
-					animationEnabled: true,
+					animationEnabled: false,
 					zoomEnabled: true,
 					zoomType: 'xy',
 					exportFileName: 'Résultat compression avec perte (FFT)',
@@ -203,11 +203,8 @@
 	</article>
 </article>
 <aside class="ascontent" id="a6">
-	<div class="imgopened"></div>
-	<div class="asidebut">
-		<button class="prec navig" onclick="page.animate.move(6, 'prec');">Précédent</button>
-		<button class="suiv navig" onclick="page.animate.move(6, 'suiv');">Suivant</button>
-	</div>
+	<button class="prec navig" onclick="page.animate.move(6, 'prec');">Précédent</button>
+	<button class="suiv navig" onclick="page.animate.move(6, 'suiv');">Suivant</button>
 </aside>
 <div class="rightbar">
 	<img src="images/modern3.jpg" id="bgd6" class="bgrightbar">

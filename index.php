@@ -4,7 +4,8 @@
 	<title>Son et Compression - TPE</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<link rel="stylesheet" media="screen and (max-width: 800px)" type="text/css" href="phone.css">
+	<script type="text/javascript" src="../jquery-3.5.0.min.js"></script>
   	<link rel="apple-touch-icon" sizes="57x57" href="icon/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="icon/apple-icon-60x60.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="icon/apple-icon-72x72.png">
@@ -23,11 +24,12 @@
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-TileImage" content="icon/ms-icon-144x144.png">
 	<meta name="theme-color" content="#ffffff">
+	<link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/10.0.0/css/fabric.min.css" />
+	<meta name="viewport" content="width=device-width" />
 </head>
 <body>
 	<header>
-		<img src="images/logon.jpg" class="logon logo">
-		<!-- <img src="images/logob.jpg" class="logob logo"> Pur l'animation que g abandonné-->
+		<?php include('images/logo.svg'); ?>
 		<h1>Son et compression des données</h1>
 	</header>
 	<section class="contgenl">
@@ -233,118 +235,130 @@
 			position: 0,
 			nombreDiapo: 10,
 			visitHistory: new Array(),
-			animate: {
-				openPage: function(rank){
-					var i = rank-1;
+			loadPage(rank){
+				var i = rank-1;
 
-					if (page.visitHistory[i] == true){
-						if (rank == 5) {
-							animatecaninv();
-							animatecanfreq();
-							
-							animatecantime();
-						}
-						else if(rank == 4){
-							animatecantren();
-							animatecanond();
-						}
-									
-						$('.p'+ rank +'').css({'display':'block'});
+				if (page.visitHistory[i] == true){
+					if (rank == 5) {
+						animatecaninv();
+						animatecanfreq();
+						
+						animatecantime();
+					}
+					else if(rank == 4){
+						animatecantren();
+						animatecanond();
+					}
+					page.animate.openPage(rank, i);
+				}
+				else{
+
+					$('.diapocontain').eq(i).children($('.loaderacc')).addClass('opened');
+
+					$( ".p"+ rank ).load("d"+ rank +"content.html",function() {
+
+					$('.loaderacc').removeClass('opened');
+
+						setTimeout(function (){	
+							page.animate.openPage(rank, i);
+						}, 1);
+					});
+
+					page.visitHistory[i] = true;
+
+					
+				}
+
+				history.pushState({key : ''+ rank}, 'titre', '');
+				page.position = rank;
+			},
+			animate: {
+				openPage: function(rank, i){
+					if (window.innerWidth > 800) {
+						var position = getPosition($('.diapocontain').eq(i)),
+							width = getwidth($('.diapocontain').eq(i));
+						$('.p'+ rank).css({'display':'block'});
 
 						$('.diapocontain').eq(i).css({'z-index':'2'});
 						$('.diapocontain').eq(i).css({'transition':'all 0s linear'});
-						setPosition($('.diapocontain').eq(i), getPosition($('.diapocontain').eq(i)).left, getPosition($('.diapocontain').eq(i)).top, 'fixed');
-						setwidth($('.diapocontain').eq(i), getwidth($('.diapocontain').eq(i)), 'px');// Mettre la diapo à sa position absolue et taille
-
-						$('.diapocontain').eq(i).removeClass('default');
-						$('.diapocontain').eq(i).css({'transition':''});
-						$('.diapocontain').eq(i).after('<div class="diapocontain default dc0"></div>'); //Diapo noire pour conserver la grille
-
-						$('.retour').css({'display':'block'});
 
 
 						setTimeout(function (){
-							$('.p'+ rank).addClass('opened');
+							$('.diapocontain').eq(i).css({'width': width +'px'});// Mettre la diapo à sa position absolue et taille
+							$('.diapocontain').eq(i).css({'position':'fixed','left': position.left +'px', 'top': position.top +'px'});
+							$('.diapocontain').eq(i).after('<div class="diapocontain default dc0"></div>'); //Diapo noire pour conserver la grille
+							
+							setTimeout(function (){
+								$('html, body').animate({scrollTop: 0}, 300);
 
-							$('.diapocontain').eq(i).addClass('opened');
-							$('.diapocontain').eq(i).css({'top':'', 'left':'', 'width':''});
-							$('.retour').addClass('opened');
+								$('.gridcontainer').css({'height':'0'});
+								$('.diapocontain').eq(i).removeClass('default');
+								$('.diapocontain').eq(i).css({'transition':''});
+								
 
-							$('.p'+ rank +' .content').addClass('opened');
-							$('.p'+ rank +' article').each(function(i){
+								$('.retour').css({'display':'block'});
+
+
+								$('.p'+ rank).addClass('opened');
+
+								$('.diapocontain').eq(i).addClass('opened');
+								$('.diapocontain').eq(i).css({'top':'', 'left':'', 'width':''});
+								$('.retour').addClass('opened');
+
+								$('.p'+ rank +' .content').addClass('opened');
+								$('.p'+ rank +' article').each(function(i){
+									setTimeout(function(){
+										$('.p'+ rank +' article').eq(i).addClass('opened');
+									}, 350+i*100);
+								});
+
 								setTimeout(function(){
-									$('.p'+ rank +' article').eq(i).addClass('opened');
-								}, 350+i*100);
-							});
-
-							setTimeout(function(){
-								$('.diapocontain').removeClass('default');
-								$('.reduire').css({'display':'block'});
-								$('.reduire').css({'opacity':'1'});
-							},600);
-						}, 20);
-						
+									$('.diapocontain').removeClass('default');
+									$('.reduire').css({'display':'block'});
+									$('.reduire').css({'opacity':'1'});
+								},600);
+							}, 20);
+						}, 10);
 					}
 					else{
+						$('.diapocontain').eq(i).css({'transform': 'scale(0)', 'transition':'all 200ms cubic-bezier(0.7, 0, 1, 0)'});
+						$('.p'+ rank).css({'display':'block'});
 
-						$('.loaderacc').eq(i).css({'display':'block'});
-
-						$( ".p"+ rank ).load("d"+ rank +"content.html",function() {
-
-							$('.loaderacc').css({'display':'none'});
-
+						setTimeout(function(){
+							$('.p'+ rank).addClass('opened');
 							setTimeout(function (){
-									
-									$('.p'+ rank +'').css({'display':'block'});
+								$('.gridcontainer').css({'height':'0'});
+								$('html, body').animate({scrollTop: 0}, 300);
+								$('.diapocontain').eq(i).css({'transform': '', 'transition':'none'});
+								$('.diapocontain').eq(i).addClass('opened');
+								$('.diapocontain').eq(i).css({'top':'', 'left':'', 'width':''});
+								$('.diapocontain').eq(i).css({'z-index':'2'});
+								$('.retour').css({'display':'block'});
+								setTimeout(function (){
+									$('.diapocontain').eq(i).css({'transform': 'scale(1)', 'transition':'all 200ms cubic-bezier(0.1, 1, 0, 1)'});
 
-									$('.diapocontain').eq(i).css({'z-index':'2'});
-									$('.diapocontain').eq(i).css({'transition':'all 0s linear'});
-									setPosition($('.diapocontain').eq(i), getPosition($('.diapocontain').eq(i)).left, getPosition($('.diapocontain').eq(i)).top, 'fixed');
-									setwidth($('.diapocontain').eq(i), getwidth($('.diapocontain').eq(i)), 'px');// Mettre la diapo à sa position absolue et taille
-
-									$('.diapocontain').eq(i).removeClass('default');
-									$('.diapocontain').eq(i).css({'transition':''});
-									$('.diapocontain').eq(i).after('<div class="diapocontain default dc0"></div>'); //Diapo noire pour conserver la grille
-
-									$('.retour').css({'display':'block'});
-
-
-									setTimeout(function (){
-										$('.p'+ rank).addClass('opened');
-
-										$('.diapocontain').eq(i).addClass('opened');
-										$('.diapocontain').eq(i).css({'top':'', 'left':'', 'width':''});
-										$('.retour').addClass('opened');
-
-										$('.p'+ rank +' .content').addClass('opened');
-										$('.p'+ rank +' article').each(function(i){
-											setTimeout(function(){
-												$('.p'+ rank +' article').eq(i).addClass('opened');
-											}, 350+i*100);
-										});
-
+									$('.retour').addClass('opened');
+									$('.p'+ rank +' .content').addClass('opened');
+									$('.p'+ rank +' article').each(function(i){
 										setTimeout(function(){
-											$('.diapocontain').removeClass('default');
-											$('.reduire').css({'display':'block'});
-											$('.reduire').css({'opacity':'1'});
-										},600);
-									}, 20);
-							}, 1);
-						});
+											$('.p'+ rank +' article').eq(i).addClass('opened');
+										}, 350+i*100);
+									});
 
-						page.visitHistory[i] = true;
-
-						
+									setTimeout(function(){
+										$('.diapocontain').removeClass('default');
+									},600);
+								}, 10);
+							}, 200);
+						}, 10);
 					}
-
-					history.pushState({key : ''+ rank}, 'titre', 'd'+ rank +'.php');
-					page.position = rank;
 				},
 				retour: function(){
 
 
 					$('.gridcontainer').removeClass('hidden');
 					$('.gridcontainer').css({'display':'grid'});
+					$('.gridcontainer').css({'height':''});
 
 					$('.reduire').css({'opacity':'0'});
 					$('.diapocontain').css({'z-index':''});
@@ -355,6 +369,7 @@
 
 					$('.retour').css({'display':'block'});
 
+					$('html, body').animate({scrollTop: 0}, 300);
 
 					$('.page').removeClass('opened');
 
@@ -362,6 +377,9 @@
 
 					$('.content').removeClass('opened');
 					$('article').removeClass('opened');
+
+
+					$('.content').removeClass('full');
 
 
 					setTimeout(function (){
@@ -380,11 +398,9 @@
 					$('article').removeClass('opened');
 					if (dir == 'suiv') {
 						var to = pos+1 ;
-						/* $('.p'+ pos +'').css({'transform':'translateX(-200px)'}); Crée des problèmes avec .blur*/
 					}
 					else if(dir == 'prec') {
 						var to = pos-1;
-						/*$('.p'+ pos +'').css({'transform':'translateX(100%)'});*/
 					}
 
 					var i = to-1;
@@ -394,10 +410,8 @@
 					if (page.visitHistory[i] == true){
 						$('.content').addClass('opened');
 						setTimeout(function(){
-							$('.p'+ pos).css({'display':'none'});
+							$('.p'+ pos).css({'display':''});
 						},100);
-
-
 
 						$('.diapocontain').removeClass('opened');
 						$('.diapocontain').css({'z-index':'', 'position':''});
@@ -408,7 +422,9 @@
 
 							$('.p'+ to +'').css({'display':'block'});
 							$('.diapocontain').eq(i).addClass('opened').removeClass('default');
-							$('.diapocontain').eq(i).css({'z-index':'2', 'position':'fixed'});
+							$('.diapocontain').eq(i).css({'z-index':'2', 'transform':'scale(1)'});
+							if(window.innerHeight > 800) $('.diapocontain').eq(i).css({'position':'fixed'});
+
 
 							$('.p'+ to).css({'display':'block'});
 
@@ -454,7 +470,8 @@
 
 								$('.p'+ to +'').css({'display':'block'});
 								$('.diapocontain').eq(i).addClass('opened').removeClass('default');
-								$('.diapocontain').eq(i).css({'z-index':'2', 'position':'fixed'});
+								$('.diapocontain').eq(i).css({'z-index':'2', 'transform':'scale(1)'});
+								if(window.innerHeight > 800) $('.diapocontain').eq(i).css({'position':'fixed'});
 
 
 								$('.p'+ to).css({'display':'block'});
@@ -499,7 +516,7 @@
 
 					$('.content').addClass('opened');
 
-					history.pushState({key : 'move', pos : ''+ pos}, 'titre', '../TPE/d'+ to +'.php');
+					history.pushState({key : 'move', pos : ''+ pos}, 'titre', '');
 					
 					page.position = to;
 				},
@@ -549,12 +566,14 @@
 				$('.accueil').css({'background-position':'0% -100px'});
 			});
 
+			if (window.innerHeight < 800) $('.accueil button').click();
+			
 			$('.diapocontain').each(function(e){
-				if ($(this).hasClass('default')) {
-					$(this).on('click', function(){
-						page.animate.openPage(e+1);
-					});
-				}
+				$(this).on('click', function(){
+					if ($(this).hasClass('default')) {
+						page.loadPage(e+1);
+					}
+				});
 			});
 
 			$('.retour').click(function(){
@@ -574,7 +593,7 @@
 
 		function openplan(){
 
-			history.pushState({key : 'plan'}, 'titre', 'plan.php'); // https://youtu.be/L4QlCWUBdRg
+			history.pushState({key : 'plan'}, 'titre', ''); // https://youtu.be/L4QlCWUBdRg
 			var num = 0;
 			$('body').css({'overflow-x':'hidden'});
 
@@ -634,14 +653,6 @@
 		function getheight (element){
 			var height = element.height();
 	  		return( height );
-		}
-
-		function setwidth (element, width, unit) {
-			element.css({'width':''+ width +''+ unit});
-		}
-
-		function setPosition (element, left, top, position) {
-			element.css({'position':position,'left':''+ left +'px', 'top':''+ top +'px'});
 		}
 	</script>
 	<noscript>Votre navigateur ne supporte pas javascript, mettez-le impérativement à jour ou utiliser-en un autre plus récent</noscript>

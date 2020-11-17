@@ -23,7 +23,7 @@
 		<p>Mathématiquement, nous traduisons cet enroulement par un vecteur rotatif changeant de taille et traçant notre figure. Ainsi quand à un instant <em>t</em> il y a un pic sur la courbe de gauche ci-dessous, alors notre vecteur rotatif à droite s'éloigne de l'origine. A l'inverse, il s'en rapproche quand il y a un creux sur l'onde.</p>
 		<div class="canmultcont">
 			<canvas id="canond" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-			<img class="logo" src="images/arro.svg">
+			<i class="ms-Icon ms-Icon--Forward" aria-hidden="true"></i>
 			<canvas id="canenrvec" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
 		</div>
 		<p>On enroule plus ou moins ce signal sur lui même. Cela correspond à faire tourner le vecteur rotatif plus ou moins rapidement autour du cercle alors qu'il continue de tracer la même figure.</p>
@@ -55,7 +55,7 @@
 		<p>Cette particularité se retrouve quelles que soient les fréquences du signal, et quel que soit le nombre de fréquences dans le signal. Ainsi, avec un signal de départ résultant de l'addition des ondes pures de 2Hz et 4Hz, on obtient cette figure enroulée :</p>
 		<div class="canmultcont">
 			<canvas id="canadded" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-			<img class="logo" src="images/enroul.svg">
+			<i class="ms-Icon ms-Icon--Refresh" aria-hidden="true"></i>
 			<canvas id="canaddedenr" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
 		</div>
 		<div class="slidercontainer">
@@ -92,11 +92,8 @@
 </article>
 
 <aside class="ascontent" id="a4">
-	<div class="imgopened"></div>
-	<div class="asidebut">
-		<button class="prec navig" onclick="page.animate.move(4, 'prec');">Précédent</button>
-		<button class="suiv navig" onclick="page.animate.move(4, 'suiv');">Suivant</button>
-	</div>
+	<button class="prec navig" onclick="page.animate.move(4, 'prec');">Précédent</button>
+	<button class="suiv navig" onclick="page.animate.move(4, 'suiv');">Suivant</button>
 </aside>
 <div class="rightbar">
 	<img src="images/extend2.jpg" id="bgd4" class="bgrightbar">
