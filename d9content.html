@@ -1,0 +1,146 @@
+			<article class="content" id="c9">
+				<article>
+					<h2>Conclusion</h2>
+				</article>
+				<article>
+					<h4>La diversité des méthodes de compression d'un son</h4>
+					<!--<div id="Graphfinal"></div>-->
+					<p>Pour conclure, un son est une vibration de l'air captée par un microphone qui la transforme en courant électrique. Le signal audio est ensuite enregistré. Cet enregistrement digitalisé peut être plus facilement transféré. La taille importante des fichiers purs limite la fluidité et la rapidité du transport. On a donc cherché à compresser les fichiers purs. <br><br> Nous avons utilisé des méthodes de compression de deux grandes familles. D’un côté une compression très efficace, la FFT (réduisant la taille du fichier de plus de 50 fois) mais au prix d'une perte de données importante, obligeant à un compromis entre la qualité du son et le niveau de compression. D'un autre côté, des méthodes de compression sans perte de données: la RLE, la LZ77 et le HUFFMAN, ne permettant que de réduire jusqu'à 2 fois la taille du fichier.</p>
+				</article>
+				<article>
+					<h4>La compression dans la technologie actuelle</h4>
+					<p>On retrouve ces méthodes de compression dans tous les secteurs de la technologie. Un simple fichier mp3 utilise la transformation de Fourier pour adapter le son à l’oreille humaine et ainsi supprimer certaines fréquences à certains endroits de la piste audio.<br> Les fichiers ZIP utilisent la deflate qui regroupe Huffman et LZ77.<br> Les images JPEG utilisent la transformation de Fourier pour simplifier de grandes parties de l’image en zones de couleur. Bref, dès qu’il s’agit de compression, on retrouve les mêmes procédés de base mais utilisés de manière différente. <br><br> Le domaine dans lequel la compression reste et restera le plus important, est le cloud et le cloud computing, c’est-à-dire la mise à disposition de stockage ou de puissance de calcul décentralisée grâce à internet. Le cloud est aujourd’hui l’outil principal causant la pollution du web. Le cloud utilise des méthodes de compression très performantes.</p>
+				</article>
+			</article>
+			<aside class="ascontent" id="a9">
+				<img src="images/cloud.jpg" id="d9opened" class="imgopened" draggable="false">
+				<div class="asidebut">
+					<button class="prec navig" onclick="move(9, 'prec');">Précédent</button>
+					<button class="suiv navig" onclick="move(9, 'suiv');">Suivant</button>
+				</div>
+			</aside>
+			<div class="blur">
+			</div>
+			<div class="rightbar">
+				<img src="images/cloud.jpg" id="bgd9" class="bgrightbar">
+			</div>
+			<script type="text/javascript">
+					function InitCanvasJS9() {
+
+						CanvasJS.addColorSet("customColorSet1",
+							[// Color Set Array
+								 "#4661EE",
+							     "#EC5657",
+							     "#1BCDD1",
+							     "#8FAABB",
+							     "#B08BEB",
+							     "#3EA0DD",
+							     "#F5A52A",
+							     "#23BFAA",
+							     "#FAA586",
+							     "#EB8CC6"
+							]);
+						
+						var chart = new CanvasJS.Chart("Graphfinal", {
+							width: 900,
+							animationEnabled: true,
+							zoomEnabled: true,
+							zoomType: 'xy',
+							exportFileName: 'Résultat compression sans perte',
+							exportEnabled: true,
+							theme: "light2",
+							colorSet: "customColorSet1",
+							toolTip: {
+								shared: false,
+								content: " <span style='\"'color: {color}; font-weight: 800;'\"'>{name}</span><br/><span style='\"'color: blue;'\"'>x: </span> {x}, <span style='\"'color: blue;'\"'>y:</span> {y} bits"
+							},
+							subtitles: [{
+								text: "Taille du fichier en fonction de sa durée"
+							}],
+							legend: {
+								cursor: "pointer",
+								itemclick: toggleDataSeries9,
+								verticalAlign: "center",
+								horizontalAlign: "right",
+								fontSize: 14,
+								maxWidth: 250
+							},
+							axisY: {
+								includeZero: true,
+								title: "Taille du fichier (bits)",
+								crosshair: {
+									enabled: true,
+									snapToDataPoint: true,
+									labelFormatter: function(e) {
+										return CanvasJS.formatNumber(e.value, "##0") + " bits";
+									}
+								}
+							},
+							axisX: {
+								title: "Durée de l'enregistrement (s)",
+								crosshair: {
+									enabled: true,
+									snapToDataPoint: true,
+								}
+							},
+							data: [{
+								type: "line",
+								name: "Aucune compression",
+								lineDashType: "shortDash",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 7077941, x:5 },
+									{ y: 14139445, x:10},
+									{ y: 21184565, x:15},
+									{ y: 28246069, x:20},
+									{ y: 42352693, x:30},
+									{ y: 56475701, x:40},
+									{ y: 70582325, x:50},
+									{ y: 84688949, x:60}
+								]
+							},{
+								type: "line",
+								name: "Huffman (chunk=8)",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 3589777, x:5 },
+									{ y: 6874350, x:10},
+									{ y: 10311433, x:15},
+									{ y: 13276533, x:20},
+									{ y: 19997291, x:30},
+									{ y: 25450712, x:40},
+									{ y: 31398132, x:50},
+									{ y: 37691605, x:60}
+								]
+							}, {
+								type: "line",
+								name: "FFT (timestep 50)",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 1593463, x: 60 },
+									{ y: 1233047, x: 45 },
+									{ y: 998615, x: 30 },
+									{ y: 581879, x: 15 },
+									{ y: 194137, x:5  },
+								]
+							}]
+						});
+
+						chart.render();
+
+						function toggleDataSeries9(e) {
+							if(typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+								e.dataSeries.visible = false;
+							}
+							else {
+								e.dataSeries.visible = true;            
+							}
+							chart.render();
+						}
+
+
+					}
+
+					
+
+				</script>

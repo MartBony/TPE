@@ -1,30 +1,81 @@
+var wScroll = 0;
+
 $(document).ready(function (){
+	position = 0;
+	activated = [false,false,false,false, false];
 
-	//setpos('#d2', getimgpos('#d1').left, getimgpos('#d1').top);
-	
-	
-	
-	// Fonctions
+	$(window).scroll(function(){
+		wScroll = $(this).scrollTop();
+		if (position == 1){
+			if (document.getElementById('c1')){
+  
+				$('#c1 .bgparralax').css({'transform':'translateY('+ wScroll/4 +'px) scale(1.1)'});
 
-	function getimgpos (id){
-		var position = { left : Math.floor($(id).offset().left), top : Math.floor($(id).offset().top) };
-  		return( position );
-	}
+			}
+			if (document.getElementById('chartContainer')){
+  
+				if (wScroll > $('#chartContainer').offset().top - ($(window).height() / 1.4)  && activated[0] == false) {
+					InitCanvasJS1();
+					$('#chartContainer').css({'transform':'scale(1)'});
+					$('#chartContainer').css({'opacity':'1'});
+					activated[0] = true;
+				}
 
-	function getwidth (id){
-		var width = $(id).width();
-  		return( width );
-	}
+			}
+		}
+		else if (position == 5) {
+			if (document.getElementById('caneuler')){
+  
+				if (wScroll > $('#caneuler').offset().top - ($(window).height() / 1.6) && activated[1] == false) {
+					animatecaneuler();
+					activated[1] = true;
+				}
 
-	function setwidth (id, width) {
-		var obj = $(id);
-		obj.css({'width':''+ width +'px'});
-	}
+			}
+		}
+		else if (position == 6) {
+			if (document.getElementById('chartContainerResultLOSS')){
+				if (wScroll > $('#chartContainerResultLOSS').offset().top - ($(window).height() / 1.4)  && activated[2] == false) {
+					InitCanvasJS6result();
+					$('#chartContainerResultLOSS').css({'transform':'scale(1)'});
+					$('#chartContainerResultLOSS').css({'opacity':'1'});
+					activated[2] = true;
+				}
 
-	function setpos (id, left, top) {
-		var obj = $(id);
-		obj.css({'position':'absolute'});
-		obj.css({'left':''+ left +'px'});
-		obj.css({'top':''+ top +'px'});
-	}
+			}
+		}
+		else if(position == 8) {
+			if (document.getElementById('chartContainerResultWLOSS')){
+  
+				if (wScroll > $('#chartContainerResultWLOSS').offset().top - ($(window).height() / 1.4)  && activated[3] == false) {
+					InitCanvasJS8();
+					$('#chartContainerResultWLOSS').css({'transform':'scale(1)'});
+					$('#chartContainerResultWLOSS').css({'opacity':'1'});
+					activated[3] = true;
+				}
+
+			}
+		}
+		else if(position == 9){
+			if (document.getElementById('Graphfinal')){
+				if (wScroll > $('#Graphfinal').offset().top - ($(window).height() / 1.8)  && activated[4] == false) {
+					InitCanvasJS9();
+					$('#Graphfinal').css({'transform':'scale(1)'});
+					$('#Graphfinal').css({'opacity':'1'});
+					activated[4] = true;
+				}
+			}
+		}
+		else if(position == 10){
+			if (document.getElementById('c10')){
+  
+				$('#c10 .bgparralax').css({'transform':'translateY('+ wScroll/4 +'px) scale(1.1)'});
+
+			}
+		}
+	});
 });
+
+function scrolltotop(){
+	window.scrollTo(0, 0);
+}

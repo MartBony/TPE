@@ -1,0 +1,659 @@
+<article class="content" id="c7">
+
+	<article>
+		<h2>Compression sans perte de données</h2>
+		<p class="paratexte" style="cursor: italic;">L’un des concepts les plus incroyables de ce TPE est l’idée même de la compression. Comment rendre la taille d’une information, quelle soit sonore, visuelle ou textuelle, plus légère que l’information elle-même? La partie précédente était consacrée à la compression avec perte de données. Ce type de compression est, en pratique, très performant. En effet il est logique que la simplification d’une information prenne beaucoup moins de place que l’information originelle. Dans cette partie, nous nous concentrerons sur un autre type de compression, la compression sans perte de données.</p>
+	</article>
+
+	<article>
+		<h4>Introduction</h4>
+		<p>La <em class="bold">compression</em> de données sans perte est une opération informatique consistant à transformer l'information en une suite de caractères plus courte que l'information de départ. À partir de cette <em class="bold">chaîne de caractères</em> (le terme informatique de suite de caractères), il est possible de reconstituer l'information originelle sans aucune altération ou simplification.
+		<br>Concrètement on rend quelque chose plus court que lui-même sans le modifier. Partons d’un exemple très simple. Imaginons que l’on cherche à écrire :</p>
+		<p class="encode-text" style="font-size: 13px;">0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</p>
+		<p>Il est beaucoup plus court d’écrire <em class="bold">100 fois ('0')</em>. Nous venons de créer un modèle de compression pour une information textuelle. Voici un exemple de compression de données sans perte que nous développerons dans la session suivante intitulée <em class="bold">RLE</em>.</p>
+
+		<span class="rq"><img src="images/rq.svg">En pratique, dans notre programme, nous travaillons non avec une information textuelle mais avec une information sonore. Or nous avons vu que l'information sonore peut être écrite sous forme d'une suite de valeurs. Cette suite de valeurs peut elle-même s'écrire sous forme d'une suite de 0 et de 1 (base 2) et donc sous forme de caractères. Dès lors nous travaillerons dans cette partie sur des suites de caractères.</span>
+
+
+		<p>Il existe beaucoup d'autres méthodes pour compresser une information sans perdre des données. On peut diviser ces méthodes en deux catégories, les codages entropiques et les codages algorithmiques.</p>
+		<p>Les <em class="bold">codages entropiques</em> sont des types de codage basés sur les statistiques. L'idée est que plus un caractère revient souvent moins il prend de place.</p>
+		<p>Les <em class="bold">codages algorithmiques</em> travaillent sur les motifs récurrents. C'est à dire qu'ils visent à mettre en place des raccourcis lorsqu'un ensemble de caractères apparait très souvent.</p>
+		<!-- DEFINIR COMPRESSION -->
+	</article>
+
+	<article>
+		<!-- RLE -->
+				<h4>RLE</h4>
+				<p>La <em class="bold">RLE</em> (Run Length Encoding) est un type de compression qui se base sur l'idée d'optimisation des chaines de cacactères exprimée précédemment. Dans ce modèle on fait précéder chaque caractère du nombre de fois que ce caractère est répété. En pratique cet algorithme n'est pas du tout efficace mais c'est un très adapté pour débuter. Cette méthode de compression est entropique.</p>
+
+				<div style="width: 90%;">
+					<!-- Code source from https://codepen.io/andreasstorm/pen/gKGbxo -->
+					<label for="inp" class="inp">
+						<input type="text" id="RLE-input" class="input" placeholder="&nbsp;" onchange="functionCallbackCompressionRLE(); inputRLEtoggleClass(this);" onkeyup="functionCallbackCompressionRLE();" onkeydown="functionCallbackCompressionRLE();">
+						<span class="label">RLE: Entrer un texte</span>
+						<span class="border"></span>
+					</label>
+					<br>
+						
+					<p class="decode-text" id="RLE-output"></p>
+
+					<script type="text/javascript">
+
+						function inputRLEtoggleClass(obj) {
+							if($(obj).val() && $(obj).val() != '') {
+								$(obj).addClass('input-test-placeholder');
+							} else {
+								$(obj).removeClass('input-test-placeholder');
+							}
+						}
+
+						function functionCallbackCompressionRLE() {
+							let input = $('#RLE-input').val();
+							let OutString = '';
+							let nbOccurence = 1;
+
+							for(var i = 0; i < input.length; i++) {
+
+								let IsNextCharSame = false;
+
+								// Looking next char...
+								if(i < input.length - 1) {// If next char
+									if(input.charAt(i+1) == input.charAt(i)) {
+										nbOccurence += 1;
+										IsNextCharSame = true;
+									}
+								}
+
+								if(!(IsNextCharSame)) {
+									OutString += nbOccurence.toString(10) + '{"'+ input.charAt(i) +'"} - ';
+									nbOccurence = 1;
+								}
+							}
+
+							$('#RLE-output').html(OutString.slice(0, -3));
+						}
+					</script>
+				</div>
+
+
+				<br>
+				<!-- STYLE POUR LE CODE -->
+				<div class="codebutton" onclick="opencode(0);"><p>Cliquer pour voir le code</p></div>
+				<span class="code c0">
+					VARIABLE InputString EST_DU_TYPE ChaineDeCaractère;<br>
+					VARIABLE OutString EST_DU_TYPE ChaineDeCaractère;<br>
+					VARIABLE NbOccurence EST_DU_TYPE Nombre;<br>
+					VARIABLE i EST_DU_TYPE Entier;<br>
+					<br>
+					NbOccurence = 1;<br>
+					SAISIR InputString;<br>
+					<br>
+					POUR i ALLANT_DE 0 À TAILLE(InputString)-1:<br>
+					&emsp;VARIABLE IsNextCharSame EST_DU_TYPE VraiFaux;<br>
+					&emsp;IsNextCharSame = False;<br><br>
+					&emsp;SI InputString[i + 1] == InputString[i]: <span class='comment'>// si le caractère actuel est égal au prochain caractère</span><br>
+					&emsp;&emsp;NbOccurence = NbOccurence + 1;<br>
+					&emsp;&emsp;IsNextCharSame = True;<br>
+					&emsp;FIN_CONDITION;<br><br>
+					&emsp;SI IsNextCharSame == False:<br>
+					&emsp;&emsp;OutString = OutString + nbOccurence + '{"' + InputString[i] + '"} - ';<br>
+					&emsp;&emsp;nbOccurence = 1;<br>
+					&emsp;FIN_CONDITION;<br>
+					FIN_BOUCLE;<br><br>
+					AFFICHER OutString;
+				</span>
+				<br>
+	</article>
+
+	<article>
+		<h4>Codage Huffman</h4>
+
+				<p>Le <em class="bold">codage Huffman</em> appartient à la catégorie des codages <em class="bold">entropiques</em>.</p>
+				<p>En informatique on encode les caractères en bits, c'est à dire qu'une information sous forme de texte est transformée en une suite de 0 et de 1. Cet encodage est rendu possible grâce et des tables de correspondance entre le binaire et le texte, ce sont les tables d'encodages. (La pierre de Rosette de l'informatique)<br>
+				Voici le tableau d'encodage <em class="bold">ASCII</em> (American Standard Code for Information Interchange).</p>
+
+				<table style="font-size: 12px;" class="table-encode TableCSS">
+					<thead>
+						<th style="border: 1px solid black;">Code en base 2</th>
+						<th style="border: 1px solid black;">Caractère</th>
+						<th style="border: 1px solid black;">Signification</th>
+						<th style="border: none; background-color: #ffffff">&nbsp;</th>
+						<th style="border: 1px solid black;">Code en base 2</th>
+						<th style="border: 1px solid black;">Caractère</th>
+						<th style="border: 1px solid black;">Signification</th>
+
+					</thead>
+					<tbody>
+						<tr><td>0000000</td><td>NUL</td><td>Null</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000001</td><td>A</td><td rowspan="26">Alphabet majuscule</td></tr>
+						<tr><td>0000001</td><td>SOH</td><td>Début d'en-tête</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000010</td><td>B</td></tr>
+						<tr><td>0000010</td><td>STX</td><td>Début de texte</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000011</td><td>C</td></tr>
+						<tr><td>0000011</td><td>ETX</td><td>Fin de texte</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000100</td><td>D</td></tr>
+						<tr><td>0000100</td><td>EOT</td><td>Fin de transmission</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000101</td><td>E</td></tr>
+						<tr><td>0000101</td><td>ENQ</td><td>Demande</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000110</td><td>F</td></tr>
+						<tr><td>0000110</td><td>ACK</td><td>Accusé de reception</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1000111</td><td>G</td></tr>
+						<tr><td>0000111</td><td>BEL</td><td>Sonnerie</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001000</td><td>H</td></tr>
+						<tr><td>0001000</td><td>BS</td><td>Espace en arrière/supprimer</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001001</td><td>I</td></tr>
+						<tr><td>0001001</td><td>HT</td><td>Tabulation horizontale</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001010</td><td>J</td></tr>
+						<tr><td>0001010</td><td>LF</td><td>Saut de ligne</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001011</td><td>K</td></tr>
+						<tr><td>0001011</td><td>VT</td><td>Tabulation vertical</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001100</td><td>L</td></tr>
+						<tr><td>0001100</td><td>FF</td><td>Saut de page</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001101</td><td>M</td></tr>
+						<tr><td>0001101</td><td>CR</td><td>Retour à la ligne</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001110</td><td>N</td></tr>
+						<tr><td>0001110</td><td>SO</td><td>Code spécial</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1001111</td><td>O</td></tr>
+						<tr><td>0001111</td><td>SI</td><td>Code standart</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010000</td><td>P</td></tr>
+						<tr><td>0010000</td><td>DLE</td><td>Echappement en transmission</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010001</td><td>Q</td></tr>
+
+						<tr><td>0010001</td><td>DC1</td><td rowspan="4">contrôle de périphérique 1 à 4</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010010</td><td>R</td></tr>
+						<tr><td>0010010</td><td>DC2</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010011</td><td>S</td></tr>
+						<tr><td>0010011</td><td>DC3</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010100</td><td>T</td></tr>
+						<tr><td>0010100</td><td>DC4</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010101</td><td>U</td></tr>
+
+						<tr><td>0010101</td><td>NAK</td><td>Accusé de réception négatif</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010110</td><td>V</td></tr>
+						<tr><td>0010101</td><td>NAK</td><td>Accusé de réception négatif</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1010111</td><td>W</td></tr>
+						<tr><td>0010110</td><td>SYN</td><td>Attente synchronisée</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011000</td><td>X</td></tr>
+						<tr><td>0010111</td><td>ETB</td><td>Fin de bloc de transmission</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011001</td><td>Y</td></tr>
+						<tr><td>0011000</td><td>CAN</td><td>Annulation</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011010</td><td>Z</td></tr>
+						<tr><td>0011001</td><td>EM</td><td>Fin de support</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011011</td><td>[</td><td>Crochet ouvrant</td></tr>
+						<tr><td>0011010</td><td>SUB</td><td>Remplacement</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011100</td><td>\</td><td>Barre oblique inversée</td></tr>
+						<tr><td>0011011</td><td>ESC</td><td>Echap</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011101</td><td>]</td><td>Crochet fermant</td></tr>
+						<tr><td>0011100</td><td>FS</td><td>Séparateur de fichier</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011110</td><td>^</td><td>Accent circonflexe</td></tr>
+						<tr><td>0011101</td><td>GS</td><td>Séparateur de groupe</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1011111</td><td>_</td><td>Tiret du bas (underscore)</td></tr>
+						<tr><td>0011110</td><td>RS</td><td>Séparateur d'enregistrement</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100000</td><td>`</td><td>Accent grave</td></tr>
+						<tr><td>0011111</td><td>US</td><td>Séparateur d'unité</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100001</td><td>a</td><td rowspan="26">Alphabet minuscule</td></tr>
+						<tr><td>0100000</td><td>SP</td><td>Espace</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100010</td><td>b</td></tr>
+						<tr><td>0100001</td><td>!</td><td>Point d'exclamation</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100011</td><td>c</td></tr>
+						<tr><td>0100010</td><td>"</td><td>Guillemet</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100100</td><td>d</td></tr>
+						<tr><td>0100011</td><td>#</td><td>Croisillon / Hashtag</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100101</td><td>e</td></tr>
+						<tr><td>0100100</td><td>$</td><td>Dollar</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100110</td><td>f</td></tr>
+						<tr><td>0100101</td><td>%</td><td>Pour cent</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1100111</td><td>g</td></tr>
+						<tr><td>0100110</td><td>&</td><td>Esperluette</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101000</td><td>h</td></tr>
+						<tr><td>0100111</td><td>'</td><td>Apostrophe</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101001</td><td>i</td></tr>
+						<tr><td>0101000</td><td>(</td><td>Parenthèse ouvrante</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101010</td><td>j</td></tr>
+						<tr><td>0101001</td><td>)</td><td>Parenthèse fermante</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101011</td><td>k</td></tr>
+						<tr><td>0101010</td><td>*</td><td>Astérisque</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101100</td><td>l</td></tr>
+						<tr><td>0101011</td><td>+</td><td>Plus</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101101</td><td>m</td></tr>
+						<tr><td>0101100</td><td>,</td><td>Virgule</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101110</td><td>n</td></tr>
+						<tr><td>0101101</td><td>-</td><td>Trait d'union, moins</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1101111</td><td>o</td></tr>
+						<tr><td>0101110</td><td>.</td><td>Point</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110000</td><td>p</td></tr>
+						<tr><td>0101111</td><td>/</td><td>Barre oblique</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110001</td><td>q</td></tr>
+
+						<tr><td>0110000</td><td>0</td><td rowspan="10">Chiffre de 0 à 9</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110010</td><td>r</td></tr>
+						<tr><td>0110001</td><td>1</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110011</td><td>s</td></tr>
+						<tr><td>0110010</td><td>2</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110100</td><td>t</td></tr>
+						<tr><td>0110011</td><td>3</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110101</td><td>u</td></tr>
+						<tr><td>0110100</td><td>4</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110110</td><td>v</td></tr>
+						<tr><td>0110101</td><td>5</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1110111</td><td>w</td></tr>
+						<tr><td>0110110</td><td>6</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111000</td><td>x</td></tr>
+						<tr><td>0110111</td><td>7</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111001</td><td>y</td></tr>
+						<tr><td>0111000</td><td>8</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111010</td><td>z</td></tr>
+						<tr><td>0111001</td><td>9</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111011</td><td>{</td><td>Accolade ouvrante</td></tr>
+
+						<tr><td>0111010</td><td>:</td><td>Deux points</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111100</td><td>|</td><td>Barre verticale</td></tr>
+						<tr><td>0111011</td><td>;</td><td>Point virgule</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111101</td><td>}</td><td>Accolade fermante</td></tr>
+						<tr><td>0111100</td><td>&lsaquo;</td><td>Inférieur</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111110</td><td>~</td><td>Tidle</td></tr>
+						<tr><td>0111101</td><td>=</td><td>Egale</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td> <td>1111111</td><td>DEL</td><td>Delete</td></tr>
+						<tr><td>0111110</td><td>&rsaquo;</td><td>Supérieur</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td> </tr>
+						<tr><td>0111111</td><td>?</td><td>Point d'interrogation</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td> </tr>
+						<tr><td>1000000</td><td>@</td><td>Arobase</td> <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td>  <td style="border: none; background-color: #ffffff;">&nbsp;</td> </tr>
+
+					</tbody>
+				</table>
+
+
+				<p>L'idée du codage Huffman est d'encoder chaque caractère selon sa fréquence d'apparition de sorte que plus un caractère est fréquent, moins il prend de place. Par exemple en Français, la lettre la plus fréquente est le E avec 12,10% d'apparition, puis vient le A avec 7,11%, le I avec 6,59%, etc. Dès lors, si l'on utilisait le codage Huffman sur un texte long en Français, le E prendrait moins de bits à écrire que le A et que le I.</p>
+				<p>La première étape du codage Huffman est de dresser un tableau de la fréquence d'apparition de chaque caractère.</p>
+				<p>Ensuite il faut générer un encodage particulier dit <em class="bold">code à longueur variable</em>. Pour ce faire, le codage Huffman utilise une structure d'arbres composés de nœuds. On associe à chaque caractère sa fréquence d'apparition puis on les associe les uns aux autres pour créer un seul arbre.</p>
+
+				<!-- <canvas id="HuffmanExemple" width="12" height="0"></canvas> -->
+				<!-- <video src="images/desy.mp4" autoplay="" muted="" loop="" poster="images/cube.jpg" class="video"></video> -->
+
+				<p>Grâce à l'arbre, on a notre encodage à longueur variable. En effet, le code binaire devient le <em class="bold">&laquo; chemin d'accès &raquo;</em> depuis la base de l'arbre. On part du premier nœud, si on va sur la branche de gauche le code binaire est 0 et si on va sur celle de droite le code binaire est 1. <video src="images/ag.mp4" autoplay="" muted="" loop="" controls class="video"></video><br>
+				Pour décoder un codage Huffman il faut connaitre le code binaire de chaque caractère, ainsi on à l'habitude d'inclure en début de fichier une partie qui nous informe sur la concordance binaire-texte. C'est ce qu'on appelle un <em class="bold">dictionnaire</em>.</p>
+
+				<p>Grâce à ce <em class="bold">dictionnaire</em>, on transforme les caractères en suite de bits (0/1). Plus un caractère apparait souvent, moins il prend de place en binaire. Ainsi, l'encodage grâce au codage Huffman prend moins de place qu'un encodage classique.</p>
+
+				<span class="rq"><img src="images/rq.svg">
+					En pratique, certains textes ayant une entropie très faible (chaque caractère apparait aussi souvent que les autres), typiquement les textes générés aléatoirement, peuvent prendre plus de place en codage Huffman que sans codage. En effet il faut au départ inclure un dictionnaire.
+				</span>
+				<p>Dans l'expérimentation ci-dessous vous verrez l'arbre se construire petit à petit. En fonction de la taille du texte l'opération peut être plus ou moins longue avant d'atteindre une position d'équilibre. </p>
+
+				<div style="width: 90%;">
+					<label for="inp" class="inp">
+						<input type="text" id="Huffman-input" class="input" placeholder="&nbsp;" onchange="functionCallbackCompressionHuffman(); inputHuffmanToggleClass(this);" onkeyup="functionCallbackCompressionHuffman();" onkeydown="functionCallbackCompressionHuffman();">
+						<span class="label">Huffman: Entrer un texte</span>
+						<span class="border"></span>
+					</label>
+					<br>
+
+					<!-- <p class="decode-text" id="Huffman-output"></p> -->
+
+					<canvas id="HuffmanExemple" width="1200" height="800"></canvas>
+
+
+					
+
+
+				</div>
+
+
+				<span class="code">
+					VARIABLE InputString EST_DU_TYPE ChaineDeCaractère;<br>
+					VARIABLE OutString EST_DU_TYPE ChaineDeCaractère;<br>
+					VARIABLE AllCharactere EST_DU_TYPE Liste(Caractère);<span class='comment'>// Une liste est un enssemble de valeur</span><br>
+					VARIABLE AllFrequency EST_DU_TYPE Liste(Entier);<br>
+					VARIABLE i EST_DU_TYPE Entier;<br>
+					VARIABLE ii EST_DU_TYPE Entier;<br><br>
+
+					SAISIR InputString;<br><br>
+
+					<span class='comment'>// Première étape, dresser une liste de l'enssemble des caractère</span><br>
+					POUR i ALLANT_DE 0 À TAILLE(InputString)-1:<br>
+					&emsp;VARIABLE IsNewChar EST_DU_TYPE VraiFaux;<br>
+					&emsp;IsNewChar = True;<br>
+					&emsp;POUR ii ALLANT_DE 0 À TAILLE(AllCharactere)-1:<br>
+					&emsp;&emsp;SI AllCharactere[ii] == InputString[i]:<br>
+					&emsp;&emsp;&emsp;IsNewChar = False;<br>
+					&emsp;&emsp;FIN_CONDITION;<br>
+					&emsp;FIN_BOUCLE;<br>
+					&emsp;SI IsNewChar == True: <span class='comment'>// Si le caractère n'a pas encore été croisé</span><br>
+					&emsp;&emsp;AJOUTER_A AllCharactere: InputString[i];<br>
+					&emsp;FIN_CONDITION;<br>
+					FIN_BOUCLE;<br><br>
+
+					<span class='comment'>// Deuxième étape, dresser un tableau de la fréquence d'apparition de chaque caractère</span><br>
+					POUR i ALLANT_DE 0 À TAILLE(AllCharactere)-1:<br>
+					&emsp;VARIABLE NbChar EST_DU_TYPE Entier;<br>
+					&emsp;NbChar = 0;<br>
+					&emsp;POUR ii ALLANT_DE 0 À TAILLE(InputString)-1:<br>
+					&emsp;&emsp;SI AllCharactere[i] == InputString[ii]:
+					&emsp;&emsp;&emsp;NbChar = NbChar + 1;<br>
+					&emsp;&emsp;FIN_CONDITION;<br>
+					&emsp;FIN_BOUCLE;<br>
+					&emsp;AJOUTER_A AllFrequency: NbChar;<br>
+					FIN_BOUCLE;<br><br>
+
+
+
+
+
+					AFFICHER OutString;
+				</span>
+
+	</article>
+
+	<article>
+		<h4>LZ77</h4>
+				<p>La compression LZ77 est une méthode de <em class="bold">codage algorithmique</em>. La méthode consiste à remplacer les groupes de caractères récurrents par les coordonnées de la dernière occurence, c'est à dire l'emplacement dans la <em class="bold">chaîne de caractères</em> du dernier ensemble de caractères qui coincide avec le/les caractères actuels.</p>
+
+				<p>Ce type de compression est très performant sur des données textuelles qui se repètent. Prenons l'exemple d'un texte vantant les mérites de la soupe aux champignons, les mots <em class="bold">&laquo; soupe aux champignons &raquo;</em> apparaitront souvent et seront considérablement compressés puisque au lieu de les écrire en entier, on écrit le premier en entier puis pour les suivants, on indique simplement les coordonnées du premier mot.</p>
+
+				<span class="rq"><img src="images/rq.svg">
+					La compression LZ77 couplé au codage Huffman forme un algorithme assez complet appellé <em class="bold">Deflate</em> utilisé notamment pour le format <em class="bold">zip</em>.
+				</span>
+
+				<div style="width: 80%;">
+					<label for="inp" class="inp">
+						<input type="text" id="LZ77-input" class="input" placeholder="&nbsp;" onchange="functionCallbackCompressionLZ77(); inputLZ77ToggleClass(this);" onkeyup="functionCallbackCompressionLZ77();" onkeydown="functionCallbackCompressionLZ77();">
+						<span class="label">LZ77: Entrer un texte</span>
+						<span class="border"></span>
+					</label>
+					<br>
+
+					<p class="decode-text" id="LZ77-output"></p>
+
+					<script type="text/javascript">
+						function inputLZ77ToggleClass(obj) {
+							if($(obj).val() && $(obj).val() != '') {
+								$(obj).addClass('input-test-placeholder');
+							} else {
+								$(obj).removeClass('input-test-placeholder');
+							}
+						}
+
+						function functionCallbackCompressionLZ77() {
+							let inputString = $('#LZ77-input').val();
+							let outputString = "";
+
+							// Perform the LZ77
+							// Config
+							let WindowsSize = 20;
+							let CorrelationSize = 15;
+
+
+							i = 0;
+							while(i<inputString.length) {
+								let AllOccurence = [];
+								let idOccurence = [];
+
+								for(let x=1; x < WindowsSize; x++) {
+
+									if(i-x >= 0) {
+										if(inputString.charAt(i) == inputString.charAt(i-x)) {
+											let numberOccurence = 1;
+											let id = x;
+
+											for(let y=1; y<CorrelationSize; y++) {
+												// i - x + y  >> (i-x)+y >> y>x
+												if(i+y < inputString.length && y < x) {
+													// Test Same Caractere
+													if(inputString.charAt(i+y) == inputString.charAt(i-x+y))
+														numberOccurence++;
+												}
+											}
+
+											AllOccurence.push(numberOccurence);
+											idOccurence.push(id);
+
+										}
+									}
+
+								}
+
+
+								let bestID = -1;
+								let BestNumber = -1;
+								for(let x=0; x<idOccurence.length; x++) {
+									if(BestNumber < AllOccurence[x]) {
+										BestNumber = AllOccurence[x];
+										bestID = idOccurence[x];
+									}
+								}
+
+								if(bestID == -1) {
+									outputString += inputString.charAt(i);
+								} else {
+									if(outputString.charAt(outputString.length - 1) == '+')
+										outputString = outputString.slice(0, -1);
+
+									outputString += '+ {' + bestID + ', ' + BestNumber + '} +';
+								}
+
+								i += ((BestNumber == -1) ? 1 : BestNumber);
+							}
+
+							$('#LZ77-output').html(outputString);
+						}
+
+					</script>
+				</div>
+
+				<p></p><br><br>
+	</article>
+
+	<!-- MODIF -->
+	<style type="text/css">
+		.code-keywords {
+			color: #016374;
+		}
+
+		.code-keytypes {
+			color: #a67f59;
+		}
+
+		.code-keyoperator {
+			color: #c33934;
+		}
+		.comment {
+			color: #677671;
+		}
+
+	</style>
+	<script type="text/javascript">
+		function ligne(x1, y1, x2, y2, color, id) {
+			id.strokeStyle = color;
+			id.beginPath();
+			id.moveTo(x1, y1);
+			id.lineTo(x2, y2);
+			id.stroke();
+		}
+
+		function rond(x, y, rayon, s_angle, f_angle, sens_cont, color, pleind, id) {
+			id.strokeStyle = color;
+			id.fillStyle = color;
+			id.beginPath();
+			id.arc(x, y, rayon, s_angle, f_angle, sens_cont);
+			id.stroke()
+			if (pleind == true) {
+				id.fill();
+			}
+		}
+
+		function texte(x,y,pxsize,content, color, id){
+			id.fillStyle = color;
+			id.font = pxsize +" Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif";
+			id.fillText(content, x, y); 
+		}
+
+		function opencode(id) {
+			if ($('.code.c'+ id).hasClass('opened')) {
+				setTimeout(function(){$('.code.c'+ id).css({'display':'none'})},300);
+				$('.code.c'+ id).removeClass('opened');
+				$('.codebutton p').eq(id).text("Cliquer pour voir le code");
+			}
+			else{
+				$('.code.c'+ id).css({'display':'block'});
+				$('.code.c'+ id).addClass('opened');
+				$('.codebutton p').eq(id).text("Fermer le code");
+			}
+		}
+
+		$('.code').each(function( id ) {
+			let htmlString = $(this).html();
+
+			let KeyWord = ['VARIABLE', 'EST_DU_TYPE', 'POUR', 'FIN_BOUCLE', 'TANT_QUE', 'ALLANT_DE', 'À', 'TAILLE', 'SAISIR', 'SI', 'SINON', 'FIN_CONDITION', 'AFFICHER', 'AJOUTER_A'];
+			let KeyType = ['ChaineDeCaractère', 'Nombre', 'Entier', 'VraiFaux', 'Liste', 'Caractère'];
+			let KeyOperator = ["True", "False", " + ", " - ", " = ", " == "];
+
+
+			for(let i=0; i < KeyWord.length; i++) {
+				htmlString = htmlString.replace(new RegExp(KeyWord[i], 'g'), '<span class="code-keywords">'+KeyWord[i]+'</span>');
+			}
+
+			for(let i=0; i < KeyType.length; i++) {
+				htmlString = htmlString.replace(new RegExp(KeyType[i], 'g'), '<span class="code-keytypes">'+KeyType[i]+'</span>');
+			}
+
+			for(let i=0; i < KeyOperator.length; i++) {
+				htmlString = htmlString.replace(new RegExp(KeyOperator[i], 'g'), '<span class="code-keyoperator">'+KeyOperator[i]+'</span>');
+			}
+
+
+
+			$(this).html(htmlString);
+		});
+	</script>
+
+</article>
+
+
+<aside class="ascontent" id="a7">
+	<img src="images/shadow2.jpg" id="d6opened" class="imgopened" draggable="false">
+	<div class="asidebut">
+		<button class="prec navig" onclick="move(7, 'prec');">Précédent</button>
+		<button class="suiv navig" onclick="move(7, 'suiv');">Suivant</button>
+	</div>
+</aside>
+<div class="blur">
+</div>
+<div class="rightbar">
+	<img src="images/shadow2.jpg" id="bgd7" class="bgrightbar">
+</div>
+<script type="text/javascript">
+	function inputHuffmanToggleClass(obj) {
+		if($(obj).val() && $(obj).val() != '') {
+			$(obj).addClass('input-test-placeholder');
+		} else {
+			$(obj).removeClass('input-test-placeholder');
+		}
+	}
+
+
+	var HuffmanCanvas  = document.getElementById('HuffmanExemple');
+	var HuffmanContext = HuffmanCanvas.getContext('2d');
+	var HuffmanAnimationRunning = false;
+
+
+	class HuffmanTreeClass {
+		constructor() {
+			this.branch1 = null;
+			this.branch2 = null;
+
+			this.char = null;
+			this.val = null;
+		}
+	}
+
+	function functionCallbackCompressionHuffman() {
+		HuffmanAnimationRunning = false;
+
+		setTimeout(function()  {
+			HuffmanAnimationRunning = true;
+			BuildCanvas($('#Huffman-input').val());
+		}, 3000);
+	}
+
+	function BuildCanvas(text) {
+		var AllChar = [];
+		var AllFrequency = [];
+
+		// Make a list of all char
+		for(var i=0; i < text.length; i++) {
+			let IsIn = false;
+
+			for(var x=0; x < AllChar.length; x++) {
+				if(AllChar[x] == text.charAt(i)) {
+					IsIn = true;
+				}
+			}
+
+			if(IsIn == false) {
+				AllChar.push(text.charAt(i));
+			}
+		}
+
+		// Build the frequency list
+		for(var i=0; i<AllChar.length; i++) {
+			AllFrequency.push(0);
+
+			for(var x=0; x<text.length; x++) {
+				if(AllChar[i] == text.charAt(x)) {
+					AllFrequency[AllFrequency.length - 1] += 1;
+				}
+			}
+
+		}
+
+
+		/// Organise list...
+		var HuffmanTreeRootList = [];
+		for(var i=0; i<AllChar.length; i++) {
+			HuffmanTreeRootList.push({
+				value: AllFrequency[i],
+				char: AllChar[i]
+			});
+		}
+		HuffmanTreeRootList.sort(function(a, b) {
+			if(a.value > b.value) return 1;
+			if(b.value > a.value) return -1;
+		});
+
+
+
+
+
+		// Build Huffman Tree
+		var HuffmanTreeList = [];
+		for(var i=0; i<HuffmanTreeRootList.length; i++) {
+			let nHUFF = new HuffmanTreeClass();
+			nHUFF.char = HuffmanTreeRootList[i].char;
+			nHUFF.val = HuffmanTreeRootList[i].value;
+			HuffmanTreeList.push(nHUFF);
+		}
+
+
+
+
+		// Start canvas update
+		CanvasAnimate(HuffmanTreeRootList, HuffmanTreeList);
+	}
+
+
+
+	function RecurrentDrawHuffmanTree(HuffmanTree, x, y, ctx, angle, size) {
+
+		// Print actual HuffmanTree
+		ctx.lineWidth = 3;
+		rond(x, y, 30, 0, Math.PI*2, false, "rgb(0, 0, 0)", false, ctx);
+		texte(x-19,y+7, "15px", HuffmanTree.val.toString(), "rgb(255, 0, 0)", ctx);
+
+		if(HuffmanTree.char != null) {
+			texte(x+0,y+7, "15px", ": '" + HuffmanTree.char + "'", "rgb(255, 0, 0)", ctx);
+		}
+
+		// Make the same on branch
+		if(HuffmanTree.branch1 != null) {
+			let X = Math.cos((180-angle) * 3.14159265358979 / 180);
+			let Y = Math.sin((180-angle) * 3.14159265358979 / 180);
+
+			ligne(x + X * 30, y + Y * 30, x + X * size, y + Y * size, "rgb(250, 50, 50)", ctx);
+			RecurrentDrawHuffmanTree(HuffmanTree.branch1, x + X * (size+30), y + Y * (size+30), ctx, angle+15, size-15);
+		}
+
+		if(HuffmanTree.branch2 != null) {
+			let X = Math.cos(angle * 3.14159265358979 / 180);
+			let Y = Math.sin(angle * 3.14159265358979 / 180);
+
+			ligne(x + X * 30, y + Y * 30, x + X * size, y + Y * size, "rgb(250, 50, 50)", ctx);
+			RecurrentDrawHuffmanTree(HuffmanTree.branch2, x + X * (size+30), y + Y * (size+30), ctx, angle+15, size-15);
+		}
+
+	}
+
+	function CanvasAnimate(HuffmanTreeRootList, HuffmanTreeList) {
+
+		// CLS
+		HuffmanContext.clearRect(0, 0, HuffmanCanvas.width, HuffmanCanvas.height);
+		let wdCanvas = HuffmanCanvas.width;
+		let awdCanvasx = (wdCanvas - HuffmanTreeList.length * 65)/2;
+
+
+		// Display the Huffman Tree
+		for(var i=0; i<HuffmanTreeList.length; i++) {
+			/// CENTER THE TREE...
+			RecurrentDrawHuffmanTree(HuffmanTreeList[i], awdCanvasx+(i)*65, 50, HuffmanContext, 30, 100);
+		}
+
+
+		// Calculate Next Step....
+		if(HuffmanTreeList.length > 1) {
+
+			let b1 = HuffmanTreeList.shift();
+			let b2 = HuffmanTreeList.shift();
+
+			let newb = new HuffmanTreeClass();
+			newb.branch1 = b1;
+			newb.branch2 = b2;
+			newb.val = b1.val + b2.val;
+
+			HuffmanTreeList.push(newb);
+			HuffmanTreeList.sort(function(a, b){
+				if(a.val > b.val) return 1;
+				if(b.val > a.val) return -1;
+			});
+
+		}
+			
+
+
+
+		/// Animatition Loop
+		if(HuffmanAnimationRunning) {
+			setTimeout(function() {
+				CanvasAnimate(HuffmanTreeRootList, HuffmanTreeList);
+			}, 2000);
+		} else {
+			HuffmanContext.clearRect(0, 0, HuffmanCanvas.width, HuffmanCanvas.height);
+		}
+		
+	}
+
+</script>

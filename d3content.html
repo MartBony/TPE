@@ -1,0 +1,42 @@
+<article class="content" id="c3">
+	<article>
+		<h2>Fonctionnement d'un microphone</h2>
+	</article>
+	<article>
+		<p>Pour savoir comment fonctionne un micro il faut connaitre une propriété électromagnétique : Lorsque l’on fait se déplacer un aimant proche d’une bobine de cuivre, le champ magnétique de l’aimant induit un faible courant électrique dans la bobine de cuivre.</p>
+		<video src="images/bb.mp4" autoplay="" muted="" loop="" poster="images/bbpo.jpg" class="video"></video>
+	</article>
+	<article>
+		<p>Un microphone est composé d’une membrane qui est reliée à la bobine de cuivre, l’aimant est posé sur un socle et ne bouge pas. Lorsque l’air vibre, lorsqu’il y a un son, la membrane oscille et la bobine se déplace autour de l’aimant. Cela induit un courant électrique dans la bobine, et c'est ce que l’on enregistre.</p>
+		<video src="images/micro.mp4" autoplay="" muted="" loop="" poster="images/micro-post.jpg" class="video"></video>
+		<p>Le microphone enregistre une série de pressions de l'air dans le temps. Un son échantillonné à 45 000 Hz possède 45 000 points de données, ou samples, chaque seconde enregistrée.</p>
+		<div class="canmultcont">
+			<canvas id="candotsi" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<p class="italic">Signal sonore simple échantilloné à 30Hz</p>
+		</div>
+	</article>
+	<article>
+		<p>
+			La membrane sert à capter les sons avec précision.
+			De cette manière on enregistre les vibrations de l’air que l’on peut décomposer pour réécouter le son enregistré.
+		</p>
+	</article>
+	<article>
+		<p>
+			Un haut-parleur fonctionne de la manière inverse, on utilise de l’électricité pour déplacer une membrane qui fait vibrer l’air et crée un son.
+		</p>
+	</article>
+</article>
+<aside class="ascontent" id="a3">
+	<img src="images/colors2.png" id="d3opened" class="imgopened" draggable="false">
+	<div class="asidebut">
+		<button class="prec navig" onclick="move(3, 'prec');">Précédent</button>
+		<button class="suiv navig" onclick="move(3, 'suiv');">Suivant</button>
+	</div>
+</aside>
+<div class="blur">
+</div>
+<div class="rightbar">
+	<img src="images/colors2.png" id="bgd3" class="bgrightbar">
+</div>
+<script type="text/javascript" src="js/canvasd3.js"></script>

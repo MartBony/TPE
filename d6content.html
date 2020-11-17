@@ -1,0 +1,216 @@
+			<article class="content" id="c6">
+				<article>
+					<h2>Accélération de la Transformation de Fourier</h2>
+				</article>
+				<article>
+					<p>Dans le calcul de la transformation, on calcule autant de fréquences d'enroulement f que de points de données composant le signal d'origine. Etant donné que l'on calcule pour chaque fréquence d'enroulement les positions sur le plan complexe de tous les points d'enregistrement du signal audio pour en faire une moyenne, le nombre d'opérations devient monumental.</p>
+					<p>Dans ces conditions, la complexité du traitement est de N<em class="exposant">2</em> opérations avec N le nombre de samples (points de données du signal). Concrètement si on voulait tester la présence dans un signal des fréquences entre 0 et 20 000 Hz, il faudrait calculer (20 000)<em class="exposant">2</em> opérations, soit 400 millions. Avec une opération par minute on prendrait 760 années à tout calculer.</p>
+				</article>
+				<article>
+					<h4>Transformation de Fourier rapide (FFT)</h4>
+					<p>Il existe un moyen d'accélérer la Transformation de Fourier grâce à un algorithme de calcul de la DFT (une certaine manière de calculer la DFT), crée en 1965 par James Cooley et John Tukey: La transformation de Fourier rapide (FFT soit Fast Fourier Transform) crée alors en plein avènement des transistors et des premiers ordinateurs modernes.</p>
+					<p>Cet algorithme est construit de manière à réduire la quantité d'opérations à Nlog<em class="indice">2</em>(N) avec N le nombre de samples. Ceci représente pour une plage de fréquences de 0 à 20 000 Hz seulement 28 600 opérations. Soit un temps de calcul de 198 jours seulement avec une opération par minute.</p>
+				</article>
+				<article>
+					<h4>Application de la FFT</h4>
+					<p>Pour utiliser la FFT nous avons créé un algorithme suivant les principes de l'algorithme de Cooley-Tukey. Cet algorithme est écrit en python, un language de programmation de nombreux logiciels de nos ordinateurs modernes.</p>
+					<p>Cet algorithme prend en entrée un signal audio enregistré avec un microphone, et donc composé de multiples samples. Ensuite il décompose ce signal en fréquences et crée le spectre de notre enregistrement. Enfin, le programme compile ces informations en un fichier en bits (unité d'information : 0 ou 1).</p>
+					<ul class="flex">
+						<li><figure><img src="images/FFT/i1.png"></figure></li>
+						<li><video class="video" src="images/FFT/f2.mp4" autoplay="" loop="" muted="" poster="images/FFT/f2po.jpg"></video></li>
+						<li><figure><img src="images/FFT/inv2.png"></figure></li>
+					</ul>
+				</article>
+				<article>
+					<h4>Programmation de l'expérimentation</h4>
+					<ul class="flex col rev">
+						<li class="canmultcont"><figure><img src="images/FFT/ap.png"></figure><p>Arborescence de notre programme de compression par la FFT</p></li>
+						<li class="canmultcont"><figure><img src="images/FFT/ap2.png"></figure><p>Extrait du code écrit par nos soins.</p></li>
+					</ul>
+				</article>
+				<article>
+					<p>Le programme possède plusieures paramètres relatifs à la FFT: 
+						<ul>
+							<li><em class="bold">Timestep</em>: le nombre d'updates de fréquences par seconde.</li>
+							<li><em class="bold">Limitderivateinstantanate</em>: un degré de simplification du traitement de l'amplitude des fréquences.</li>
+						</ul>
+					</p>
+					<h4>Resultats de compression</h4>
+					<div id="chartContainerResultLOSS"></div>
+					<script type="text/javascript">
+						//InitCanvasJS6result(); 
+						// SCRIPT CANVAS JS
+
+						function InitCanvasJS6result() {
+							CanvasJS.addColorSet("customColorSet2",
+							[// Color Set Array
+								 "#4661EE",
+							     "#EC5657",
+							     "#1BCDD1",
+							     "#8FAABB",
+							     "#B08BEB",
+							     "#3EA0DD",
+							     "#F5A52A",
+							     "#23BFAA",
+							     "#FAA586",
+							     "#EB8CC6"
+							]);
+
+							var chart6 = new CanvasJS.Chart("chartContainerResultLOSS", {
+								animationEnabled: true,
+								zoomEnabled: true,
+								zoomType: 'xy',
+								exportFileName: 'Résultat compression avec perte (FFT)',
+								exportEnabled: true,
+								theme: "light2",
+								colorSet: "customColorSet2",
+								toolTip: {
+									shared: false,
+									content: " <span style='\"'color: {color}; font-weight: 800;'\"'>{name}</span><br/><span style='\"'color: blue;'\"'>x: </span> {x}, <span style='\"'color: blue;'\"'>y:</span> {y} bits"
+								},
+								subtitles: [{
+									text: "Taille du fichier en fonction de sa durée"
+								}],
+								legend: {
+									cursor: "pointer",
+									itemclick: toggleDataSeries6,
+									verticalAlign: "center",
+									horizontalAlign: "right",
+									fontSize: 14,
+									maxWidth: 250
+								},
+								axisY: {
+									includeZero: true,
+									title: "Taille du fichier (bits)",
+									crosshair: {
+										enabled: true,
+										snapToDataPoint: true,
+										labelFormatter: function(e) {
+											return CanvasJS.formatNumber(e.value, "##0") + " bits";
+										}
+									}
+								},
+								axisX: {
+									title: "Durée de l'enregistrement (s)",
+									crosshair: {
+										enabled: true,
+										snapToDataPoint: true,
+									}
+								},
+								data: [{
+									type: "line",
+									name: "Aucune compression",
+									lineDashType: "shortDash",
+									showInLegend: true,
+									dataPoints: [
+										{ y: 0, x:0 },
+										{ y: 7077941, x:5 },
+										{ y: 14139445, x:10},
+										{ y: 21184565, x:15},
+										{ y: 28246069, x:20},
+										{ y: 42352693, x:30},
+										{ y: 56475701, x:40},
+										{ y: 70582325, x:50},
+										{ y: 84688949, x:60}
+									]
+								},
+								{
+									type: "line",
+									name: "FFT (timestep 100)",
+									showInLegend: true,
+									dataPoints: [
+										{ y: 2710232, x: 60 },
+										{ y: 2087864, x: 45 },
+										{ y: 1623192, x: 30 },
+										{ y: 914616, x: 15 },
+										{ y: 0, x: 0 }
+									]
+								}, {
+									type: "line",
+									name: "FFT (timestep 150)",
+									showInLegend: true,
+									dataPoints: [
+										{ y: 3845369, x: 60 },
+										{ y: 2950233, x: 45 },
+										{ y: 2266137, x: 30 },
+										{ y: 1253689, x: 15 },
+										{ y: 0, x: 0 },
+									]
+								}, {
+									type: "line",
+									name: "FFT (timestep 50)",
+									showInLegend: true,
+									dataPoints: [
+										{ y: 1593463, x: 60 },
+										{ y: 1233047, x: 45 },
+										{ y: 998615, x: 30 },
+										{ y: 581879, x: 15 },
+										{ y: 0, x: 0 },
+									]
+								}, {
+									type: "line",
+									name: "LimitDerivateInstantanate=100",
+									showInLegend: true,
+									dataPoints: [
+										{ y: 1965912, x: 60 },
+										{ y: 1507896, x: 45 },
+										{ y: 1063000, x: 30 },
+										{ y: 579064, x: 15 },
+										{ y: 0, x: 0 },
+									]
+								}]
+							});
+
+							chart6.render();
+
+							function toggleDataSeries6(e) {
+								if(typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+									e.dataSeries.visible = false;
+								}
+								else {
+									e.dataSeries.visible = true;            
+								}
+								chart6.render();
+							}
+						}
+
+					</script>
+					<figcaption>Les taux de compression réduisent la taille du fichier sonore jusqu'a 53 fois.</figcaption>
+					<h4>Expérimentations sonores</h4>
+					<p>Rappellons que la compression par la Transformation de Fourier entraine des pertes de qualité. Pour obtenir un son de la qualité d'un MP3, il faudrait traiter le son ulterieurement avec d'autres algorithmes.</p>
+					<p class="paratexte">Son de piano enregistré puis son compressé</p>
+					<ul class="flex">
+						<li><audio src="audio/enrpi.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+						<li><audio src="audio/enrpires.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+					</ul>
+					<p class="paratexte">Son de voix robotique, avec peu de tons.</p>
+					<ul class="flex">
+						<li><audio src="audio/audiotest.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+						<li><audio src="audio/enrglres.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+					</ul>
+					<p class="paratexte">Extrait de musique contemporaine avec des percussions.</p>
+					<ul class="flex">
+						<li><audio src="audio/enrmm.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+						<li><audio src="audio/enrmmres.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+					</ul>
+					<p>On atteint des taux de compression significatifs grâce à la Transformation de Fourier. Cependant il y a une perte notable de qualité et on entend de nombreuses coupures dans le signal.</p>
+					<p>Ce problème n’est sans doute pas lié à la qualité de notre enregistrement ou de notre compression mais plutôt à une mauvaise restitution du signal audio, un problème de décompression. En effet, pour restituer notre signal audio à partir de la suite de fréquences et amplitudes calculées par la FFT, nous juxtaposons partie après partie la somme des fréquences et des amplitudes du signal. Cela crée des discontinuités entre les parties reconstituées du signal sonore. <br><br>Pour corriger ce problème, on pourrait essayer de faire une interpolation linéaire entre des différents paramètres : fréquences et amplitudes au moment de la restitution du signal. Le protocole d’une FFT polyvalente donnant un résultat acceptable comporte de nombreux modules à ajouter en plus de l’étape de la FFT. Une fois ces modules appliqués correctement, la FFT devient non seulement fonctionnelle et correcte, mais en plus extrêmement utile et efficace.</p>
+				</article>
+				<article>
+					<h4>Conclusion et limites</h4>
+					<p>Mieux comprendre une onde sonore complexe grâce à l'analyse de ses fréquences fondamentales est la porte d'entrée vers une compression efficace. La transformation de Fourier est un outil formidable qui permet la compression drastique d'un signal audio. Elle est même le moteur de beaucoup d'applications de technologie et de physique actuelles que ce soit pour la création d'un fichier mp3, pour la compression d'une image en JPEG, voire l'analyse des ondes de probabilités des particules.</p>
+					<p>Cependant, son application est lente sauf à utiliser la transformation de Fourier rapide, bien plus complexe.</p>
+				</article>
+			</article>
+			<aside class="ascontent" id="a6">
+				<img src="images/modern3.jpg" id="d6opened" class="imgopened" draggable="false">
+				<div class="asidebut">
+					<button class="prec navig" onclick="move(6, 'prec');">Précédent</button>
+					<button class="suiv navig" onclick="move(6, 'suiv');">Suivant</button>
+				</div>
+			</aside>
+			<div class="blur">
+			</div>
+			<div class="rightbar">
+				<img src="images/modern3.jpg" id="bgd6" class="bgrightbar">
+			</div>

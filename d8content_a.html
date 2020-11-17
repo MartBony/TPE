@@ -1,0 +1,186 @@
+<!-- PS NE PAS OUBLIER D'INCLURE CANVASJS AVANT CE SCRIPT (DANS LE HEADER) ET D'APPELLER LA METHODE InitCanvasJS7(); A LA FIN DE L'ANIMATION -->
+<div class="page p7">
+
+			<article class="content" id="c7">
+				<h2>Résultat: Compression sans perte</h2>
+				<p class="paratexte">Dans la session précédente, nous avons vu comment peut-on compresser une information sonore ou textuelle sans altération ou simplification. Mais en pratique ces algorithmes sont-ils efficace? Nous permettent-ils de compresser efficacement l'information sonore?</p>
+
+				<h4>Introduction</h4>
+				<p>Pour répondre à la question de l'efficacité de ces algorithmes, nous avons développé un logiciel qui enregistre les données receuilli par un microphone puis nous avons enregistrer ces données grâce à ces trois algorithmes.</p>
+
+
+				<h4>Nos Attentes</h4>
+				<p>Avant de voir les résultats nous savions déjà que la méthode RLE allait être totalement inéfficace. Nous pensions que la courbe du codage Huffman allait s'atténuer car ce système de compression n'est performant que lorsque le fichier est volumineux.</p>
+
+				<h4>Résultat</h4>
+
+				<div id="chartContainerResultWLOSS" style="height: 500px; width: 900px; margin: 0px 0px 100px 0px; position: relative;"></div>
+				<script type="text/javascript">
+
+					InitCanvasJS7();
+					function InitCanvasJS7() {
+						
+						var chart = new CanvasJS.Chart("chartContainerResultWLOSS", {
+							width: 900,
+							animationEnabled: true,
+							zoomEnabled: true,
+							exportEnabled: true,
+							theme: "light2",
+							title: {
+								text: "Résultat",
+
+							},
+							toolTip: {
+								shared: false,
+								content: " <span style='\"'color: {color}; font-weight: 800;'\"'>{name}</span><br/><span style='\"'color: blue;'\"'>x: </span> {x}, <span style='\"'color: blue;'\"'>y:</span> {y} bits"
+							},
+							subtitles: [{
+								text: "Taille du fichier en fonction de sa durée"
+							}],
+							legend: {
+								cursor: "pointer",
+								itemclick: toggleDataSeries,
+								verticalAlign: "center",
+								horizontalAlign: "right",
+								fontSize: 14,
+								maxWidth: 250
+							},
+							axisY: {
+								includeZero: true,
+								title: "Taille du fichier (bits)",
+								crosshair: {
+									enabled: true,
+									snapToDataPoint: true,
+									labelFormatter: function(e) {
+										return CanvasJS.formatNumber(e.value, "##0") + " bits";
+									}
+								}
+							},
+							axisX: {
+								title: "Durée de l'enregistrement (s)",
+								crosshair: {
+									enabled: true,
+									snapToDataPoint: true,
+								}
+							},
+							data: [{
+								type: "line",
+								name: "Aucune compression",
+								lineDashType: "shortDash",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 7077941, x:5 },
+									{ y: 14139445, x:10},
+									{ y: 21184565, x:15},
+									{ y: 28246069, x:20},
+									{ y: 42352693, x:30},
+									{ y: 56475701, x:40},
+									{ y: 70582325, x:50},
+									{ y: 84688949, x:60}
+								]
+							},
+							{
+								type: "line",
+								name: "Huffman (chunk=8)",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 3589777, x:5 },
+									{ y: 6874350, x:10},
+									{ y: 10311433, x:15},
+									{ y: 13276533, x:20},
+									{ y: 19997291, x:30},
+									{ y: 25450712, x:40},
+									{ y: 31398132, x:50},
+									{ y: 37691605, x:60}
+								]
+							},
+							{
+								type: "line",
+								name: "Huffman (chunk=7)",
+								showInLegend: true,
+								dataPoints: [
+									{y: 3895239, x:5},
+									{y: 7542128, x:10},
+									{y: 11236908, x:15},
+									{y: 14462243, x:20},
+									{y: 21779055, x:30}
+								]
+
+							},
+							{
+								type: "line",
+								name: "Huffman (chunk=9)",
+								showInLegend: true,
+								dataPoints: [
+									{y: 3837663, x:5},
+									{y: 7403253, x:10},
+									{y: 11019609, x:15},
+									{y: 14144313, x:20},
+									{y: 21304544, x:30}
+								]
+							},
+							{
+								type: "line",
+								name: "RLE",
+								showInLegend: true,
+								dataPoints: [
+									{y: 10171160, x:5},
+									{y: 19907944, x:10},
+									{y: 29389672, x:15},
+									{y: 37515816, x:20},
+									{y: 56531496, x:30},
+									{y: 74578520, x:40}
+								]
+							}]
+						});
+
+						chart.render();
+
+						function toggleDataSeries(e) {
+							if(typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+								e.dataSeries.visible = false;
+							}
+							else {
+								e.dataSeries.visible = true;            
+							}
+							chart.render();
+						}
+
+
+					}
+
+					
+
+				</script>
+
+				<br><br>
+
+				<span class="rq"><img src="images/rq.svg">
+					Dans notre programme nous travaillons avec des données binaires. En binaire il n'existe que deux caractères, 0 et 1. Ce serait un non-sens de pratiquer un codage Huffman sur deux caractères. Dès lors il faut une technique pour créer plus de caractère. Pour ce faire nous concidérons que un caractère est égale à un enssemble de 7, 8 ou 9 bits. Ainsi nous avons respectivement 2<sup>7</sup>, 2<sup>8</sup>, 2<sup>9</sup> caractères possibles. Le terme <em class="bold">&laquo; chunk &raquo;</em> (tronçons en Anglais) se réfère au nombre de bits pour former un caractère.
+				</span>
+
+				<p>
+					Nous avions raison en ce qui concerne la RLE. En effet ce type de compression est moins efficace que sans aucune compression dans ce cas là. Contrairement à nos attentes, la courbe du codage Huffman (chunk 7, 8 ou 9 confondu) ne semble pas s'atténuer. Ceci peu néanmoins s'expliquer par la taille du fichier très conscéquente (7077941 bits pour 5s).<br>
+					En conclusion, le codage Huffman (chunk = 8) est plus performant que le RLE.
+				</p>
+
+				<br><hr>
+
+
+
+			</article>
+
+			<aside class="ascontent" id="a7">
+				<img src="images/shadow.jpg" id="d7opened" class="imgopened" draggable="false">
+				<div class="asidebut">
+					<button class="prec navig">Précédent</button>
+					<button style="opacity: 0;" class="suiv navig">Suivant</button>
+				</div>
+			</aside>
+			<div class="blur">
+			</div>
+			<div class="rightbar">
+				<img src="images/shadow.jpg" id="bgd7" class="bgrightbar">
+			</div>
+
+		</div>

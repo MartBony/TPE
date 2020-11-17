@@ -1,0 +1,225 @@
+			<article class="content" id="c8">
+				<article>
+					<h2>Résultats des compressions sans perte</h2>
+					<p class="paratexte">Dans la session précédente, nous avons vu comment on peut compresser une information sonore ou textuelle sans altération ou simplification. Mais en pratique ces algorithmes sont-ils efficaces? Nous permettent-ils de compresser efficacement l'information sonore?</p>
+				</article>
+
+				<article>
+					<!--<h4>Introduction</h4>
+					<p>Pour répondre à la question de l'efficacité de ces algorithmes, nous avons développé un logiciel qui enregistre les données recueillies par un microphone puis nous avons enregistré ces données grâce à ces trois algorithmes.</p>-->
+
+					<h4>Nos Attentes</h4>
+					<p>Avant de voir les résultats nous savions déjà que la méthode RLE allait être totalement inefficace. Nous pensions que la courbe du codage Huffman allait s'atténuer car ce système de compression n'est performant que lorsque le fichier est volumineux.</p>
+				</article>
+
+				<article>
+
+					<h4>Résultat des expérimentations</h4>
+
+					<div id="chartContainerResultWLOSS"></div>
+
+					<span class="rq"><img src="images/rq.svg">
+						Dans notre programme nous travaillons avec des données binaires. En binaire il n'existe que deux caractères, 0 et 1. Ce serait un non-sens de pratiquer un codage Huffman sur deux caractères. Dès lors il faut une technique pour créer plus de caractères. Pour ce faire nous considérons qu'un caractère est égal à un ensemble de 7, 8 ou 9 bits. Ainsi nous avons respectivement 2<sup>7</sup>, 2<sup>8</sup>, 2<sup>9</sup> caractères possibles. Le terme <em class="bold">&laquo; chunk &raquo;</em> (tronçons en Anglais) se réfère au nombre de bits pour former un caractère.
+					</span>
+
+					<p>
+						Nous avions raison en ce qui concerne la RLE. En effet ce type de compression est moins efficace que sans aucune compression. Contrairement à nos attentes, la courbe du codage Huffman (chunk 7, 8 ou 9 confondus) ne semble pas s'atténuer. Ceci peut néanmoins s'expliquer par la taille du fichier très conséquente (7077941 bits pour 5s).<br>
+						Les mauvaises performances de la LZ77 ont plusieurs explications. Il est possible que les informations utilisées ne présentaient pas assez de répétitions. Ces résultats peuvent aussi grandement varier en fonction des paramètres (chunk, longueur du buffer). La LZ77 n'aurait donc pas été configurée de manière optimale lors de nos tests. De plus, celle ci occupe beaucoup d'espace de mémoire et a donc été interrompue avant de pouvoir tester de meilleurs paramêtres.<br>
+						En conclusion, le codage Huffman (chunk = 8) est le plus performant des algorithmes de compression testés.
+					</p>
+				</article>
+				<article>
+					<h4>Résultats audios</h4>
+
+					<p class="paratexte">Musique instrumentale puis résultat compressé et interprété avec Huffman de chunk 7.</p>
+					<ul class="flex">
+						<li><audio src="audio/func.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+						<li><audio src="audio/func.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+					</ul>
+					<p class="paratexte">Enregistrement d'une voix robotique avec peu de tons puis résultat compressé et interprété avec la Huffman chunk 8</p>
+					<ul class="flex">
+						<li><audio src="audio/manq.wav" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+						<li><audio src="audio/manq.wav" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+					</ul>
+					<p class="paratexte">Musique instrumentale puis fichier compressé et interprété avec la LZ77.</p>
+					<ul class="flex">
+						<li><audio src="audio/funcsuit.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+						<li><audio src="audio/funcsuit.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+					</ul>
+
+				</article>
+
+
+			</article>
+			<aside class="ascontent" id="a8">
+				<img src="images/ext2.jpg" id="d8opened" class="imgopened" draggable="false">
+				<div class="asidebut">
+					<button class="prec navig" onclick="move(8, 'prec');">Précédent</button>
+					<button class="suiv navig" onclick="move(8, 'suiv');">Suivant</button>
+				</div>
+			</aside>
+			<div class="blur">
+			</div>
+			<div class="rightbar">
+				<img src="images/ext2.jpg" id="bgd8" class="bgrightbar">
+			</div>
+
+			<script type="text/javascript">
+					function InitCanvasJS8() {
+
+						CanvasJS.addColorSet("customColorSet1",
+							[// Color Set Array
+								 "#4661EE",
+							     "#EC5657",
+							     "#1BCDD1",
+							     "#8FAABB",
+							     "#B08BEB",
+							     "#3EA0DD",
+							     "#F5A52A",
+							     "#23BFAA",
+							     "#FAA586",
+							     "#EB8CC6"
+							]);
+						
+						var chart = new CanvasJS.Chart("chartContainerResultWLOSS", {
+							width: 900,
+							animationEnabled: true,
+							zoomEnabled: true,
+							zoomType: 'xy',
+							exportFileName: 'Résultat compression sans perte',
+							exportEnabled: true,
+							theme: "light2",
+							colorSet: "customColorSet1",
+							toolTip: {
+								shared: false,
+								content: " <span style='\"'color: {color}; font-weight: 800;'\"'>{name}</span><br/><span style='\"'color: blue;'\"'>x: </span> {x}, <span style='\"'color: blue;'\"'>y:</span> {y} bits"
+							},
+							subtitles: [{
+								text: "Taille du fichier en fonction de sa durée"
+							}],
+							legend: {
+								cursor: "pointer",
+								itemclick: toggleDataSeries,
+								verticalAlign: "center",
+								horizontalAlign: "right",
+								fontSize: 14,
+								maxWidth: 250
+							},
+							axisY: {
+								includeZero: true,
+								title: "Taille du fichier (bits)",
+								crosshair: {
+									enabled: true,
+									snapToDataPoint: true,
+									labelFormatter: function(e) {
+										return CanvasJS.formatNumber(e.value, "##0") + " bits";
+									}
+								}
+							},
+							axisX: {
+								title: "Durée de l'enregistrement (s)",
+								crosshair: {
+									enabled: true,
+									snapToDataPoint: true,
+								}
+							},
+							data: [{
+								type: "line",
+								name: "Aucune compression",
+								lineDashType: "shortDash",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 7077941, x:5 },
+									{ y: 14139445, x:10},
+									{ y: 21184565, x:15},
+									{ y: 28246069, x:20},
+									{ y: 42352693, x:30},
+									{ y: 56475701, x:40},
+									{ y: 70582325, x:50},
+									{ y: 84688949, x:60}
+								]
+							},
+							{
+								type: "line",
+								name: "Huffman (chunk=8)",
+								showInLegend: true,
+								dataPoints: [
+									{ y: 3589777, x:5 },
+									{ y: 6874350, x:10},
+									{ y: 10311433, x:15},
+									{ y: 13276533, x:20},
+									{ y: 19997291, x:30},
+									{ y: 25450712, x:40},
+									{ y: 31398132, x:50},
+									{ y: 37691605, x:60}
+								]
+							},
+							{
+								type: "line",
+								name: "Huffman (chunk=7)",
+								showInLegend: true,
+								dataPoints: [
+									{y: 3895239, x:5},
+									{y: 7542128, x:10},
+									{y: 11236908, x:15},
+									{y: 14462243, x:20},
+									{y: 21779055, x:30}
+								]
+
+							},
+							{
+								type: "line",
+								name: "Huffman (chunk=9)",
+								showInLegend: true,
+								dataPoints: [
+									{y: 3837663, x:5},
+									{y: 7403253, x:10},
+									{y: 11019609, x:15},
+									{y: 14144313, x:20},
+									{y: 21304544, x:30}
+								]
+							},
+							{
+								type: "line",
+								name: "RLE",
+								showInLegend: true,
+								dataPoints: [
+									{y: 10171160, x:5},
+									{y: 19907944, x:10},
+									{y: 29389672, x:15},
+									{y: 37515816, x:20},
+									{y: 56531496, x:30},
+									{y: 74578520, x:40}
+								]
+							},
+							{
+								type: "line",
+								name: "LZ77",
+								showInLegend: true,
+								dataPoints: [
+									{y: 8411439, x: 5},
+									{y: 25234146, x: 15},
+									{y: 49107887, x: 30},
+									{y: 71525852, x: 45}
+								]
+							}]
+						});
+
+						chart.render();
+
+						function toggleDataSeries(e) {
+							if(typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+								e.dataSeries.visible = false;
+							}
+							else {
+								e.dataSeries.visible = true;            
+							}
+							chart.render();
+						}
+
+
+					}
+
+					
+
+				</script>

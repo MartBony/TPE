@@ -1,0 +1,67 @@
+<article class="content" id="c1">
+	<article>
+		<h2>Introduction</h2>
+		<p class="paratexte">Le monde d'internet fait aujourd'hui partie des principales menaces pour nos écosystèmes de par l'importante consommation énergétique qu'il nécessite. Ce TPE présente et exploite des méthodes de compression de données pour réduire la quantité d'information traitée.</p>
+		<div class="bgparralax int"></div>
+	</article>
+	<article>
+		<h4>Contexte : La pollution du web</h4>
+		<p>L'enjeu est de taille. L'énorme traffic de données sur internet à un impact démesuré sur l'environnement. Les nouvelles technologies du web, de l'information et de la communication consomment à elles seules plus de 10% de l'électricité mondiale soit 1037 terawatt-heure par an (La production de 40 centrales nucléaires) avec une prévision de consommation de 1/5<em class="exposant">ème</em> de l'électricité en 2020.</p>
+		<p>De plus, ces activités sont à elles seules les causes de 2% des rejets de gaz à effet de serre en 2016 (4% en 2020).</p>
+		<p>Pour ce qui est de l'information, chaque seconde 29 000 Go d'information sont publiées dans le monde par les utilisateurs. Aussi, d'après Google, chaque jour sur youtube sont regardées plus d'un milliard d'heures de vidéos et sont mises en ligne 400 heures de vidéos haute définition chaque minute.</p>
+		<div id="chartContainer"></div><figcaption>Les activités des utilisateurs et des datacenters sont les principales causes de rejet de gaz à effet de serre</figcaption><br>
+		<p>Pourtant il existe des solutions, tout d'abord en réduisant notre consommation immodérée de cet outil, et aussi en essayant de réduire au mieux la quantité d'information circulant sur le réseau.</p>
+		<p>Une vidéo mp4 pèse environ <em class="bold">18 000 kbits</em> d'information par seconde. Pourtant une vidéo brute de 1024px par 1024px avec 3 couleurs de 16 bits avec une fréquence d'image de 24Hz pèse <em class="bold">48 Mo/s</em>. La vidéo mp4 est donc 22 fois plus légère.</p>
+	</article>
+	<article>
+		<h4>Notre TPE : Comment compresser les données pour limiter le coût énergétique du transport d'information</h4>
+		<p>Nous nous proposons d'expliquer et d'utiliser les procédés permettant la compression des données. Nous nous concentrerons sur la partie Audio des videos.</p>
+		<p>La <em class="bold"> compression de données</em> est une opération informatique qui consiste à transformer une suite de bits A en une suite de bits B, plus courte et contenant sensiblement les mêmes informations.</p>
+		<ul><li>On appelle <em class="bold">compression sans perte</em>  un type de compression qui restitue après décompression une suite de bits strictement identique à l'original.</li>
+		<li>On appelle <em class="bold"> compression avec perte</em> un type de compression qui ne restitue pas après décompression une suite de bits strictement identique à l'original. </li></ul>
+		<br>
+		<p>Nous commencerons par définir précisement ce qu'est un son et comment nous l'enregistrons. Ensuite, nous aborderons une transformation mathématique permettant une compression importante au prix d'une perte de données: La transformation de Fourier. Enfin nous verrons les algorithmes de compression sans perte de données pour trouver celui le plus adapté à la compression d'un signal audio.</p>
+	</article>
+</article>
+<aside class="ascontent" id="a1">
+	<img src="images/a row2.jpg" id="d1opened" class="imgopened" draggable="false">
+	<div class="asidebut">
+		<button style="opacity: 0;" class="prec navig">Précédent</button>
+		<button class="suiv navig" onclick="move(1, 'suiv');">Suivant</button>
+	</div>
+</aside>
+<div class="blur"></div>
+<div class="rightbar">
+	<img src="images/a row2.jpg" id="bgd1" class="bgrightbar">
+</div>
+<script>
+	function InitCanvasJS1() {
+		
+		var chart = new CanvasJS.Chart("chartContainer", {
+			animationEnabled: true,
+			title:{
+				text: "La pollution du web",
+				horizontalAlign: "center"
+			},
+			subtitles:[{
+				text: '(% dans les emissions de gaz à effet de serre)',
+				horizontalAlign: "center"
+			}],
+			data: [{
+				type: "doughnut",
+				startAngle: 180,
+				//innerRadius: 60,
+				indexLabelFontSize: 17,
+				indexLabel: "{label} - #percent%",
+				toolTipContent: "<b>{label}:</b> {y} (#percent%)",
+				dataPoints: [
+					{ y: 28, label: "Installations" },
+					{ y: 25, label: "Datacenters" },
+					{ y: 47, label: "Internautes" }
+				]
+			}]
+		});
+
+		chart.render();
+	}
+</script>

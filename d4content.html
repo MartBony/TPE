@@ -1,0 +1,106 @@
+<article class="content" id="c4">
+	<article>
+		<h2>Introduction à la Transformation de Fourier</h2>
+		<p class="paratexte">La compression, ou comment décrire un son autrement que par des points de données.</p>
+	</article>
+	<article>
+		<h4>Spectre du son</h4>
+		<p>On réécrit notre onde différement pour que son stockage soit moins volumineux. On n'écrit plus le son comme une suite de samples (points de pression de l'air par rapport au temps) mais comme une série de fréquences.</p>
+		<div class="canmultcont">
+			<canvas id="cansimp" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<p class="italic">On ne décrit plus 30 points de données mais une seule fréquence.</p>
+		</div>
+		<p>On prend un signal audio brut, enregistré avec un microphone, et présentant un nombre important de samples. Puis on le décompose en fréquences en établissant son spectre. On peut résumer des milliers de points en quelques fréquences.</p>
+		<video class="video" src="images/purefr.mp4" autoplay="" loop="" muted="" poster="images/purefr.jpg" style="width: 70%;"></video>
+		<p>Le spectre d'un son est établi grâce à un outil créé par le physicien et mathématicien Joseph Fourier : la Transformation de Fourier.</p>
+	</article>
+	<div class="slide">
+		<h4>Construisons la transformation</h4>
+		<p class="paratexte">La Transformation de Fourier expliquée ici est surnommée DFT pour Discrete Fourier Transform ou Transformation de Fourier Discrète.</p>
+		<h5>Le principe d'enroulement.</h5>
+		<p>Prenons un signal pur de 1 Herz. L'idée générale de la Transformation de Fourier est d'enrouler ce signal sur lui-même.</p>
+		<canvas id="cantren" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		<p>Mathématiquement, nous traduisons cet enroulement par un vecteur rotatif changeant de taille et traçant notre figure. Ainsi quand à un instant <em>t</em> il y a un pic sur la courbe de gauche ci-dessous, alors notre vecteur rotatif à droite s'éloigne de l'origine. A l'inverse, il s'en rapproche quand il y a un creux sur l'onde.</p>
+		<div class="canmultcont">
+			<canvas id="canond" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<img class="logo" src="images/arro.svg">
+			<canvas id="canenrvec" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		</div>
+		<p>On enroule plus ou moins ce signal sur lui même. Cela correspond à faire tourner le vecteur rotatif plus ou moins rapidement autour du cercle alors qu'il continue de tracer la même figure.</p>
+		<canvas id="canfreqvar" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		<div class="slidercontainer">
+			<input type="range" min="1" max="100" value="20" class="slider" id="sliderfv">
+		</div>
+		<span class="spr">Faites varier le curseur rouge ci-dessus pour tester différentes vitesses de rotation du vecteur</span>
+		<p>Ce taux d'enroulement est traduit lui aussi par une fréquence : le nombre de tours sur lui-même du signal chaque seconde de signal, ou plus simplement, le nombre de cycles par seconde. Une fréquence d'enroulement de 1 cycle par seconde (1Hz) signifie que chaque seconde de signal sonore est enroulée une fois autour du cercle. 1/2 cycle par seconde (1/2 Hz) signifie que chaque seconde de signal est enroulée autour de la moitiée du cercle. Il faudra alors 2 secondes de signal pour faire le tour du cercle.</p>
+		<span class="rq"><img src="images/rq.svg">Il y a donc deux fréquences <em class="bold">distinctes</em> : La fréquence du signal d'origine et la fréquence d'enroulement autour du cercle.</span>
+	</div>
+	<div class="slide">
+		<h5>La face cachée de l'enroulement</h5>
+		<p>Le principe d'enroulement posséde une particularité : Lorsque la fréquence d'enroulement est identique à la fréquence du signal de départ, la figure se superpose et s'écarte soudainement de l'origine.</p>
+		<div class="canmultcont">
+			<canvas id="canmatch" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<aside>
+				<figure><img src="images/pisup.png" class="little"></figure>
+				<p class="italic">Lorsque la fréquence d'enroulement se rapproche de la fréquence du signal, la figure se superpose et s'éloigne de l'origine.</p>
+			</aside>
+		</div>
+		<div class="slidercontainer">
+			<input type="range" min="10" max="100" value="10" class="slider" id="slidermatch">
+		</div>
+		<span class="spr">Faites varier le curseur rouge ci-dessus pour tester différentes fréquences d'enroulement</span>
+		
+	</div>
+	<div class="slide">
+		<p>Cette particularité se retrouve quelles que soient les fréquences du signal, et quel que soit le nombre de fréquences dans le signal. Ainsi, avec un signal de départ résultant de l'addition des ondes pures de 2Hz et 4Hz, on obtient cette figure enroulée :</p>
+		<div class="canmultcont">
+			<canvas id="canadded" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<img class="logo" src="images/enroul.svg">
+			<canvas id="canaddedenr" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		</div>
+		<div class="slidercontainer">
+			<input type="range" min="20" max="600" value="20" class="slider" id="sliderae">
+		</div>
+		<span class="rq"><img src="images/rq.svg">On observe encore que la figure se superpose aux fréquences d'enroulement de 2Hz de 4Hz. Nous pourrions vous donner la figure de gauche sans vous dire ses fréquences, et vous pourriez les retrouver en faisant varier le slider d'enroulement.</span>
+	</div>
+	<div class="slide">
+		<p>Pour résumer la figure enroulée, on calcule le centre de gravité de celle-ci. La plupart du temps, il reste proche de l'origine, mais lorsque la fréquence d'enroulement se superpose à l'une des fréquences du son initial, le centre de gravité s'éloigne de l'origine.</p>
+		<canvas id="cancgrav" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		<div class="slidercontainer">
+			<input type="range" min="100" max="1000" value="100" class="slider" id="slidercgrav">
+		</div>
+		<p>Suivre les déplacements du centre de gravité en fonction de la fréquence d'enroulement permet de représenter en un point à deux coordonnées le comportement global du signal enroulé.</p>
+	</div>
+	<div class="slide">
+		<p>La dernière étape de la DFT (Transformation de Fourier discrète) consiste à représenter la position de ce centre de gravité en fonction de la fréquence d'enroulement. Sur la courbe obtenue, on repère aisément la/les fréquences du signal.</p>
+		<div class="canmultcont">
+			<canvas id="cancgraph" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<p class="italic">La fréquence du signal sonore est de 1Hz</p>
+		</div>
+		<div class="canmultcont">
+			<figure><img class="resadd" src="images/resadd.png"></figure>
+			<p class="italic">Fonction transformée du signal composé de fréquences de 2Hz et 4Hz. Les pics sont clairement visibles.</p>
+		</div>
+	</div>
+	<article>
+		<h4>Conclusion</h4>
+		<p>La DFT transforme un signal sonore g défini par g(t) (pression en fonction du temps), quelle que soit sa complexité, en une autre fonction ĝ(f) (coordonnées du centre de gravité en fonction de la fréquence d'enroulement).
+		</p>
+		<p>Cette fonction ĝ nous permet de repérer les différentes fréquences du signal. On l'appelle le spectre du son.</p>
+		<p>L'étape suivante consiste à trouver l'équation mathématique correspondante.</p>
+	</article>
+</article>
+
+<aside class="ascontent" id="a4">
+	<img src="images/extend2.jpg" id="d4opened" class="imgopened" draggable="false">
+	<div class="asidebut">
+		<button class="prec navig" onclick="move(4, 'prec');">Précédent</button>
+		<button class="suiv navig" onclick="move(4, 'suiv');">Suivant</button>
+	</div>
+</aside>
+<div class="blur">
+</div> 
+<div class="rightbar">
+	<img src="images/extend2.jpg" id="bgd4" class="bgrightbar">
+</div>
+<script type="text/javascript" src="js/canvasd4a.js"></script>
