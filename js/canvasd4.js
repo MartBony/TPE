@@ -397,7 +397,7 @@ sliderfv.oninput = function() {
 	sliderfv = this.value;
 	freqfv = sliderfv/20;
 	firstfv = true;
-} 
+}
 
 var Originefv = [cfreqvar_width/3, cfreqvar_height/2];
 

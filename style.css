@@ -15,15 +15,6 @@
 	}
 }
 
-@keyframes openfondu {
-	0%{
-		opacity: 0;
-	}
-	100%{
-		opacity: 1;
-	}
-}
-
 @keyframes openbg {
 	0%{
 		background-size: 110%; 
@@ -198,6 +189,12 @@ body
 	background-color: rgba(255,255,255,0.8);
 	border-radius: 50%;
 	border: 1px solid black;
+}
+
+.retour.opened
+{
+	opacity: 1;
+	left: 5px;
 }
 
 .contret
@@ -381,12 +378,42 @@ h1
 
 .diapocontain
 {
-	width: 22.5vw;
-	height: 12.5vw;
-	opacity: 0;
+	transition: all 400ms cubic-bezier(0.1 , 0.9 , 0.2 , 1);
+	opacity: 1;
+	transform: translateY(0);
 	background: black;
 	overflow: hidden;
 	position: relative;
+	left: 100%;
+	top: 10px;
+	margin: 0;
+}
+
+.diapocontain.default
+{
+	width: 22.5vw;
+	height: 12.5vw;
+	left: 0;
+	top: 0;
+}
+
+.diapocontain.hidden
+{
+	opacity: 0;
+	transform: translateY(50px);
+}
+
+.diapocontain.full
+{
+	transform: translateX(500px);
+}
+
+.diapocontain.opened
+{
+	transition: all 500ms cubic-bezier(0.9 , 0 , 0.1 , 1);
+	left: calc(100% - 410px);
+	width: 400px;
+	top: 10px;
 }
 
 .loaderacc {
@@ -421,17 +448,23 @@ h1
 	-webkit-user-select: none;
 	text-shadow: 0 0 10px rgba(0,0,0,0.7);
 	transform: scale(0.97);
+	opacity: 0;
 	transition: 300ms all cubic-bezier(.02,.31,0,1);
 }
 
-.diapocontain:hover .diapo
+.diapocontain.default h3
+{
+	opacity: 1;
+}
+
+.diapocontain.default:hover .diapo
 {
 	opacity: 0.9;
 	transform: scale(1);
 	transition: all 1s cubic-bezier(.02,.31,0,1);
 }
 
-.diapocontain:hover h3
+.diapocontain.default:hover h3
 {
 	transform: scale(1);
 	transition: all 1s cubic-bezier(.02,.31,0,1);
@@ -439,11 +472,17 @@ h1
 
 .diapo
 {
-	opacity: 0.7;
-	transform: scale(1.03);
+	opacity: 1;
+	transform: scale(1);
 	width: 100%;
 	margin: auto;
 	transition: all 300ms cubic-bezier(.02,.31,0,1);
+}
+
+.diapocontain.default .diapo
+{
+	opacity: 0.7;
+	transform: scale(1.03);
 }
 
 .accueil
@@ -677,25 +716,34 @@ h1
 	bottom: 0;
 	background: white;
 	opacity: 0;
+	transform: scale(0.9);
 	display: none;
-	transition: all 200ms cubic-bezier(0.8 , 0 , 0.2 , 1);
+	transition: all 200ms cubic-bezier(0.8 , 0 , 0.2 , 1) 200ms;
 	z-index: 2;
 }
 
 .page.opened /* Je suis obligé sinon les autres navigateurs que edge font pas le fondu*/
 {
-	animation: 200ms openfondu cubic-bezier(0.8 , 0 , 0.2 , 1) forwards;
+	transition: all 600ms cubic-bezier(0.1 , 0.9 , 0.2 , 1) 300ms;
+	opacity: 1;
+	transform: none;
 }
 
 /* Barre latérale droite */
 
 .ascontent
 {
+	transition: all 500ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	position: fixed;
-	right: 5%;
-	top: 5%;
-	width: 100%;
+	right: 10px;
+	top: 10px;
+	width: 400px;
 	z-index: 3;
+}
+
+.ascontent.full
+{
+	transform: translateX(500px);
 }
 
 .reduire
@@ -795,7 +843,8 @@ h1
 
 .imgopened
 {
-	width: 100%;
+	width: 400px;
+	height: 225px;
 }
 
 .asidebut
@@ -833,11 +882,16 @@ h1
 {
 	transition: all 600ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	height: 100vh;
-	width: 100%;
+	width: 420px;
 	position: fixed;
 	right: 0;
 	top: 0;
 	overflow: hidden;
+}
+
+.rightbar.full
+{
+	transform: translateX(500px);
 }
 
 .rightbar img
@@ -847,25 +901,9 @@ h1
 	left: -440px;
 	top: 0;
 	overflow: hidden;
-	filter: blur(5px) saturate(180%);
-	-moz-filter: blur(5px) saturate(180%);
-	-webkit-filter: blur(5px) saturate(180%);
-}
-
-.blur
-{
-	position: fixed;
-	background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,1), rgba(0,0,0,1));
-	/*background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.7), rgba(0,0,0,0.7));*/
-	transition: all 600ms cubic-bezier(0.8 , 0 , 0.2 , 1);
-	width: 100%;
-	height: 100vh;
-	top: 0;
-	right: 0;
-	/*backdrop-filter: blur(100px) saturate(180%);
-	-webkit-backdrop-filter: blur(100px) saturate(180%);*/
-	z-index: 2;
-	opacity: 1;
+	filter: blur(5px) saturate(180%) brightness(20%);
+	-moz-filter: blur(5px) saturate(180%) brightness(20%);
+	-webkit-filter: blur(5px) saturate(180%) brightness(20%);
 }
 
 /* Contenu */
@@ -873,9 +911,7 @@ h1
 .content
 {
 	box-sizing: border-box;
-	padding-top: 50px;
-	padding-right: 420px;
-	padding-left: 0px;
+	padding: 50px 420px 0px 0px;
 	position: absolute;
 	top: 0px;
 	left: 0px;

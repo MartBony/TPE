@@ -1,172 +1,170 @@
-			<article class="content" id="c5">
-				<article>
-					<h2>La transformation de Fourier, l'équation mathématique</h2>
-					<p class="paratexte">Nous allons définir une équation mathématique qui, appliquée à un signal sonore, nous donne le centre de gravité de la figure enroulée en fonction de la fréquence d'enroulement.</p>
-				</article>
+<article class="content" id="c5">
+	<article>
+		<h2>La transformation de Fourier, l'équation mathématique</h2>
+		<p class="paratexte">Nous allons définir une équation mathématique qui, appliquée à un signal sonore, nous donne le centre de gravité de la figure enroulée en fonction de la fréquence d'enroulement.</p>
+	</article>
 
-				<article>
-					<h4>Prérequis</h4>
+	<article>
+		<h4>Prérequis</h4>
 
-					<h5>Nombres complexes</h5>
-					<p>Les nombres complexes constituent un <em class="bold">ensemble</em>, au même titre que les réels (1.4365, π, 10/3, ...) ou les entiers (0, 1, 4, ...). Ces nombres sont constitués à partir d'un nombre bien particulier : <em class="bold">la racine carrée de -1</em>, appelée <em class="bold">i</em>. Autrement dit, ce nombre étrange i au carré donne -1 (Ce qui n'est pas possible à réaliser avec un nombre réel).</p>
-					<p>Un nombre complexe peut être écrit avec deux parties: Une <em class="bold">partie réelle</em> x et une <em class="bold">partie imaginaire</em> iy. On note x+iy avec x et y des réels et i le nombre imaginaire. Tout nombre complexe peut être écrit de cette façon.</p>
-					<p>Cette écriture nous permet de représenter le nombre complexe dans un plan, avec x l'abscisse du nombre et y son ordonnée. Ce plan est appelé <em class="bold">plan complexe</em>:</p>
-					<figure><img src="images/planc.svg" class="little"></figure>
-					<p>De cette manière, on ne positionne plus un point par des coordonnées x et y, mais par <em class="bold">un seul nombre</em>. Cette manière de définir la position permet de décrire tout ce qui a à voir avec les rotations et les enroulements. On utilise pour cela la formule d'Euler.</p>
+		<h5>Nombres complexes</h5>
+		<p>Les nombres complexes constituent un <em class="bold">ensemble</em>, au même titre que les réels (1.4365, π, 10/3, ...) ou les entiers (0, 1, 4, ...). Ces nombres sont constitués à partir d'un nombre bien particulier : <em class="bold">la racine carrée de -1</em>, appelée <em class="bold">i</em>. Autrement dit, ce nombre étrange i au carré donne -1 (Ce qui n'est pas possible à réaliser avec un nombre réel).</p>
+		<p>Un nombre complexe peut être écrit avec deux parties: Une <em class="bold">partie réelle</em> x et une <em class="bold">partie imaginaire</em> iy. On note x+iy avec x et y des réels et i le nombre imaginaire. Tout nombre complexe peut être écrit de cette façon.</p>
+		<p>Cette écriture nous permet de représenter le nombre complexe dans un plan, avec x l'abscisse du nombre et y son ordonnée. Ce plan est appelé <em class="bold">plan complexe</em>:</p>
+		<figure><img src="images/planc.svg" class="little"></figure>
+		<p>De cette manière, on ne positionne plus un point par des coordonnées x et y, mais par <em class="bold">un seul nombre</em>. Cette manière de définir la position permet de décrire tout ce qui a à voir avec les rotations et les enroulements. On utilise pour cela la formule d'Euler.</p>
 
-					<h5>Formule d'Euler</h5>
-					<p>Cette formule nous dit que si l'on prend <em class="bold"> e, appelée la constante d'Euler</em> (un nombre particulier se rapprochant de 2.7) à la puissance un certain nombre <em class="bold">α fois i</em>, on trouve sur le plan complexe le point que l'on aurait obtenu en parcourant le même nombre <em class="bold">α</em> d'unités autour du cercle trigonométrique (de rayon 1 unité) en partant de la droite.</p>
-					<div class="eulercont" style="width: 100%;height: 305px">
-						<div class="euler">
-							<span class="eulerformula"><span>e</span><p>αi</p>= cos(α)+isin(α)</span>
-							<canvas id="caneuler" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra.</canvas>
-						</div>
-					</div>
-					<div class="slidercontainer">
-						<input type="range" min="0" max="628" value="0" class="slider" id="slidereuler">
-					</div>
-				</article>
-				<div class="containscroll-e">
-					<div class="slide">
-						<h4>Enrouler la fonction sonore</h4>
-						<p>Partons de la formule d'Euler. Décrivons en premier lieu un tour complet autour du cercle (le périmètre du cercle trigonométrique est de 2π). Pour cela on remplace dans la formule le nombre α par 2π.</p>
-						<span class="eulerformula"><span>e</span><p>2πi</p></span>
-						<canvas id="cantour" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-					</div>
-					<div class="slide">
-						<p>On rajoute <em class="bold">la notion de temps</em> à la puissance. Il s'agit du <em class="bold">temps t en abscisse de l'onde sonore</em>. Ainsi une seconde d'onde sonore fera tourner le vecteur rotatif ci-dessous d'un tour complet. Au bout de deux secondes, le vecteur aura fait deux tours. Au bout d'une demie seconde le vecteur aura parcouru un demi tour de cercle.</p>
-						<span class="eulerformula"><span>e</span><p>2πit</p></span>
-						<canvas id="cantime" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-					</div>
-					<div class="slide">
-						<p>On cherche à <em class="bold">ralentir ou accélérer le vecteur rotatif selon une fréquence précise</em> (la fréquence que l'on obtiendra en abscisse sur la courbe ĝ). Si la fréquence est réglée sur 1/10, le vecteur rotatif parcourra 1/10 du tour du cercle en une seconde et est alors ralenti de 10 fois. Il faudra alors dix secondes pour réaliser un tour complet (car on a e^2π*10*(1/10)*i = e^2πi)</p>
-						<span class="eulerformula"><span>e</span><p>2πift</p></span>
-						<canvas id="canfreq" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-						<div class="slidecontainer">
-							<input type="range" min="1" max="10" value="5" class="slider" id="sliderfreq">
-						</div>
-					</div>
-					<div class="slide">
-						<p>Par convention, on préfère une <em class="bold">rotation négative</em>, dans le sens des aiguilles d'une montre. On ajoute par conséquent un moins devant la puissance.</p>
-						<span class="eulerformula"><span>e</span><p>-2πift</p></span>
-						<canvas id="caninv" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-					</div>
-					<div class="slide">
-						<p>On multiplie notre vecteur rotatif par la fonction sonore d'origine lors de l'instant t. <em class="bold">Le vecteur est agrandi ou rétréci selon la valeur de la pression enregistrée à ce moment t</em>. Si la pression est à 1/2, le vecteur est réduit de moitié.</p>
-						<span class="eulerformula"><span>g(t)e</span><p>-2πift</p></span>
-						<div class="contentenroul">
-							<div class="canmultcont">
-								<canvas id="canmult" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-								<img class="logo" src="images/enroul.svg">
-								<canvas id="canmult2" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-							</div>
-							<div class="slidecontainer" style="height: 50px;">
-								<input type="range" min="1" max="1000" value="500" class="slider" id="slidermultfreq"><label>Fréquence de l'onde</label>
-								<input type="range" min="1" max="500" value="300" class="slider" id="slidermultamp"><label>Amplitude de l'onde</label>
-								<input type="range" min="0" max="360" value="0" class="slider" id="slidermultalt"><label>Phase de l'onde</label>
-							</div>
-						</div>
-						<span class="rq"><img src="images/rq.svg">On enroule toujours ces 2π secondes de signal une fois autour du cercle: la fréquence f ne change pas (elle est de 1/2π c'est à dire un tour pour 2π secondes). On ne modifie que les caractéristiques du signal sonore d'origine.</span>
-					</div>
-					<div class="slide">
-						<figure>
-							<img class="little" src="images/1hz sinusoidal.png">
-							<figcaption>Pour la suite de cette partie nous utiliserons un son pur de 1 Herz</figcaption>
-						</figure>
-						<p>On cherche le centre de gravité de la figure enroulée qui est la moyenne des points de la courbe enroulée. Plus il y a de points enregistrés par le microphone, plus le calcul sera précis (l'idéal serait de calculer avec l'intégrale de la courbe).</p>
-						<span class="eulerformula"><span><p class="normal">1/N</p><em class="add"><p>N</p>∑<p>k=1</p></em> g(t<em class="indice">k</em>)e</span><p>-2πift<em class="indice">k</em></p></span>
-						<div class="canmultcont">
-							<canvas id="canmoy" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-							<canvas id="cangraph" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-						</div>
-						<div class="slidecontainer" style="height: 50px;">
-							<input type="range" min="1" max="1000" value="100" class="slider" id="slidermoy"><label>Fréquence d'enroulement</label>
-						</div>
-						<span class="rq"><img src="images/rq.svg">Cette fois c'est bien la fréquence d'enroulement que l'on fait varier, celle du signal reste toujours de 1Hz.</span>
-						<p>On peut déduire avec notre équation les fréquences pures du signal de départ c'est à dire 1Hz dans le cas ci-dessus.</p>
-						<span class="rq"><img src="images/rq.svg">Le graphique de droite ne correspond pas à l'equation montrée ci-dessus, celle-ci ne donne pas deux coordonnées mais les parties réelles (vert) et imaginaires (bleu) d'un seul nombre complexe.</span>
-					</div>
-					<div class="slide">
-						<p>Voici la formule finale de la DFT</p>
-						<span class="eulerformula"><span>ĝ(f) = <p class="normal"></p><em class="add"><p>N</p>∑<p>k=1</p></em> g(t<em class="indice">k</em>)e</span><p>-2πift<em class="indice">k</em></p></span>
-						<span class="rq"><img src="images/rq.svg">Remarquez que l'on a enlevé la division par N. La raison en est mathématique et nous permettra de calculer la durée du signal analysé.</span>
-						<p>On dit que la DFT permet une compression avec perte de données car nous ne calculons pas l'intégrale de la fonction sonore, mais la somme d'une suite de points enroulés (ici les samples).</p>
-					</div>
-				</div>
-				<article>
-					<h4>Test de la DFT</h4>
-					<p>Ci-dessous une application plus complexe de la transformation de Fourier, il est possible ici d'additionner deux signaux sonores purs avec les champs de texte ci-dessous pour y appliquer ensuite la DFT.</p>
-					<p class="paratexte">Le but de cet algorithme est de retrouver les différentes fréquences du signal d'origine en calculant la DFT. On pourrait l'utiliser sur un signal inconnu pour retrouver ses fréquences</p>
-					<br>
-					<div class="hzselcontainer">
-						<input type="text" name="fr1" value="1" id="hzselect">Hz
-						+
-						<input type="text" name="fr2" value="2.3" id="hzselect2">Hz
-					</div>
-					<div class="buttonscalc">
-						<div class="claculstart"><p>Go</p></div>
-						<span><div class="loadercanconc"></div></span>
-					</div>
-					<div class="canmultcont">
-						<div>
-							<canvas id="canadd" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-							<figcaption>Signal enregistré</figcaption>
-						</div>
-						<img class="logo" src="images/enroul.svg">
-						<div>
-							<canvas id="canaddenr" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-							<figcaption>Signal enroulé</figcaption>
-						</div>
-					</div>
-					<div class="canmultcont">
-						<div>
-							<canvas id="canaddconc" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
-							<figcaption>Coordonnées du centre de gravité de la figure en fonction de la fréquence</figcaption>
-						</div>
-					</div>
-					<div class="slidecontainer" style="height: 50px;">
-						<input type="range" min="1" max="1000" value="100" class="slider" id="slideraddenr"><label>Fréquence d'enroulement</label>
-					</div>
-				</article>
-				<article>
-					<h4>Conclusion</h4>
-					<p>On peut appliquer cette DFT sur de petits échantillons audios, même si ceux-ci sont très sophistiqués. Nous allons essayer de l'appliquer sur des échantillons audio plus importants, et essayer de traiter en temps réel des sons de plusieurs milliers de samples par seconde.</p>
-				</article>
-			</article>
-			<aside class="ascontent" id="a5">
-				<img src="images/line2.jpg" id="d5opened" class="imgopened" draggable="false">
-				<div class="asidebut">
-					<button class="prec navig" onclick="move(5, 'prec');">Précédent</button>
-					<button class="suiv navig" onclick="move(5, 'suiv');">Suivant</button>
-				</div>
-			</aside>
-			<div class="blur">
+		<h5>Formule d'Euler</h5>
+		<p>Cette formule nous dit que si l'on prend <em class="bold"> e, appelée la constante d'Euler</em> (un nombre particulier se rapprochant de 2.7) à la puissance un certain nombre <em class="bold">α fois i</em>, on trouve sur le plan complexe le point que l'on aurait obtenu en parcourant le même nombre <em class="bold">α</em> d'unités autour du cercle trigonométrique (de rayon 1 unité) en partant de la droite.</p>
+		<div class="eulercont" style="width: 100%;height: 305px">
+			<div class="euler">
+				<span class="eulerformula"><span>e</span><p>αi</p>= cos(α)+isin(α)</span>
+				<canvas id="caneuler" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra.</canvas>
 			</div>
-			<div class="rightbar">
-				<img src="images/line2.jpg" id="bgd5" class="bgrightbar">
+		</div>
+		<div class="slidercontainer">
+			<input type="range" min="0" max="628" value="0" class="slider" id="slidereuler">
+		</div>
+	</article>
+	<div class="containscroll-e">
+		<div class="slide">
+			<h4>Enrouler la fonction sonore</h4>
+			<p>Partons de la formule d'Euler. Décrivons en premier lieu un tour complet autour du cercle (le périmètre du cercle trigonométrique est de 2π). Pour cela on remplace dans la formule le nombre α par 2π.</p>
+			<span class="eulerformula"><span>e</span><p>2πi</p></span>
+			<canvas id="cantour" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		</div>
+		<div class="slide">
+			<p>On rajoute <em class="bold">la notion de temps</em> à la puissance. Il s'agit du <em class="bold">temps t en abscisse de l'onde sonore</em>. Ainsi une seconde d'onde sonore fera tourner le vecteur rotatif ci-dessous d'un tour complet. Au bout de deux secondes, le vecteur aura fait deux tours. Au bout d'une demie seconde le vecteur aura parcouru un demi tour de cercle.</p>
+			<span class="eulerformula"><span>e</span><p>2πit</p></span>
+			<canvas id="cantime" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		</div>
+		<div class="slide">
+			<p>On cherche à <em class="bold">ralentir ou accélérer le vecteur rotatif selon une fréquence précise</em> (la fréquence que l'on obtiendra en abscisse sur la courbe ĝ). Si la fréquence est réglée sur 1/10, le vecteur rotatif parcourra 1/10 du tour du cercle en une seconde et est alors ralenti de 10 fois. Il faudra alors dix secondes pour réaliser un tour complet (car on a e^2π*10*(1/10)*i = e^2πi)</p>
+			<span class="eulerformula"><span>e</span><p>2πift</p></span>
+			<canvas id="canfreq" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			<div class="slidecontainer">
+				<input type="range" min="1" max="10" value="5" class="slider" id="sliderfreq">
 			</div>
-			<script type="text/javascript" src="js/canvasd5.js"></script>
-			<script type="text/javascript">
-				animatecaneuler();
+		</div>
+		<div class="slide">
+			<p>Par convention, on préfère une <em class="bold">rotation négative</em>, dans le sens des aiguilles d'une montre. On ajoute par conséquent un moins devant la puissance.</p>
+			<span class="eulerformula"><span>e</span><p>-2πift</p></span>
+			<canvas id="caninv" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+		</div>
+		<div class="slide">
+			<p>On multiplie notre vecteur rotatif par la fonction sonore d'origine lors de l'instant t. <em class="bold">Le vecteur est agrandi ou rétréci selon la valeur de la pression enregistrée à ce moment t</em>. Si la pression est à 1/2, le vecteur est réduit de moitié.</p>
+			<span class="eulerformula"><span>g(t)e</span><p>-2πift</p></span>
+			<div class="contentenroul">
+				<div class="canmultcont">
+					<canvas id="canmult" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+					<img class="logo" src="images/enroul.svg">
+					<canvas id="canmult2" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+				</div>
+				<div class="slidecontainer" style="height: 50px;">
+					<input type="range" min="1" max="1000" value="500" class="slider" id="slidermultfreq"><label>Fréquence de l'onde</label>
+					<input type="range" min="1" max="500" value="300" class="slider" id="slidermultamp"><label>Amplitude de l'onde</label>
+					<input type="range" min="0" max="360" value="0" class="slider" id="slidermultalt"><label>Phase de l'onde</label>
+				</div>
+			</div>
+			<span class="rq"><img src="images/rq.svg">On enroule toujours ces 2π secondes de signal une fois autour du cercle: la fréquence f ne change pas (elle est de 1/2π c'est à dire un tour pour 2π secondes). On ne modifie que les caractéristiques du signal sonore d'origine.</span>
+		</div>
+		<div class="slide">
+			<figure>
+				<img class="little" src="images/1hz sinusoidal.png">
+				<figcaption>Pour la suite de cette partie nous utiliserons un son pur de 1 Herz</figcaption>
+			</figure>
+			<p>On cherche le centre de gravité de la figure enroulée qui est la moyenne des points de la courbe enroulée. Plus il y a de points enregistrés par le microphone, plus le calcul sera précis (l'idéal serait de calculer avec l'intégrale de la courbe).</p>
+			<span class="eulerformula"><span><p class="normal">1/N</p><em class="add"><p>N</p>∑<p>k=1</p></em> g(t<em class="indice">k</em>)e</span><p>-2πift<em class="indice">k</em></p></span>
+			<div class="canmultcont">
+				<canvas id="canmoy" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+				<canvas id="cangraph" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+			</div>
+			<div class="slidecontainer" style="height: 50px;">
+				<input type="range" min="1" max="1000" value="100" class="slider" id="slidermoy"><label>Fréquence d'enroulement</label>
+			</div>
+			<span class="rq"><img src="images/rq.svg">Cette fois c'est bien la fréquence d'enroulement que l'on fait varier, celle du signal reste toujours de 1Hz.</span>
+			<p>On peut déduire avec notre équation les fréquences pures du signal de départ c'est à dire 1Hz dans le cas ci-dessus.</p>
+			<span class="rq"><img src="images/rq.svg">Le graphique de droite ne correspond pas à l'equation montrée ci-dessus, celle-ci ne donne pas deux coordonnées mais les parties réelles (vert) et imaginaires (bleu) d'un seul nombre complexe.</span>
+		</div>
+		<div class="slide">
+			<p>Voici la formule finale de la DFT</p>
+			<span class="eulerformula"><span>ĝ(f) = <p class="normal"></p><em class="add"><p>N</p>∑<p>k=1</p></em> g(t<em class="indice">k</em>)e</span><p>-2πift<em class="indice">k</em></p></span>
+			<span class="rq"><img src="images/rq.svg">Remarquez que l'on a enlevé la division par N. La raison en est mathématique et nous permettra de calculer la durée du signal analysé.</span>
+			<p>On dit que la DFT permet une compression avec perte de données car nous ne calculons pas l'intégrale de la fonction sonore, mais la somme d'une suite de points enroulés (ici les samples).</p>
+		</div>
+	</div>
+	<article>
+		<h4>Test de la DFT</h4>
+		<p>Ci-dessous une application plus complexe de la transformation de Fourier, il est possible ici d'additionner deux signaux sonores purs avec les champs de texte ci-dessous pour y appliquer ensuite la DFT.</p>
+		<p class="paratexte">Le but de cet algorithme est de retrouver les différentes fréquences du signal d'origine en calculant la DFT. On pourrait l'utiliser sur un signal inconnu pour retrouver ses fréquences</p>
+		<br>
+		<div class="hzselcontainer">
+			<input type="text" name="fr1" value="1" id="hzselect">Hz
+			+
+			<input type="text" name="fr2" value="2.3" id="hzselect2">Hz
+		</div>
+		<div class="buttonscalc">
+			<div class="claculstart"><p>Go</p></div>
+			<span><div class="loadercanconc"></div></span>
+		</div>
+		<div class="canmultcont">
+			<div>
+				<canvas id="canadd" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+				<figcaption>Signal enregistré</figcaption>
+			</div>
+			<img class="logo" src="images/enroul.svg">
+			<div>
+				<canvas id="canaddenr" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+				<figcaption>Signal enroulé</figcaption>
+			</div>
+		</div>
+		<div class="canmultcont">
+			<div>
+				<canvas id="canaddconc" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
+				<figcaption>Coordonnées du centre de gravité de la figure en fonction de la fréquence</figcaption>
+			</div>
+		</div>
+		<div class="slidecontainer" style="height: 50px;">
+			<input type="range" min="1" max="1000" value="100" class="slider" id="slideraddenr"><label>Fréquence d'enroulement</label>
+		</div>
+	</article>
+	<article>
+		<h4>Conclusion</h4>
+		<p>On peut appliquer cette DFT sur de petits échantillons audios, même si ceux-ci sont très sophistiqués. Nous allons essayer de l'appliquer sur des échantillons audio plus importants, et essayer de traiter en temps réel des sons de plusieurs milliers de samples par seconde.</p>
+	</article>
+</article>
+<aside class="ascontent" id="a5">
+	<div class="imgopened"></div>
+	<div class="asidebut">
+		<button class="prec navig" onclick="page.animate.move(5, 'prec');">Précédent</button>
+		<button class="suiv navig" onclick="page.animate.move(5, 'suiv');">Suivant</button>
+	</div>
+</aside>
+<div class="rightbar">
+	<img src="images/line2.jpg" id="bgd5" class="bgrightbar">
+</div>
+<script type="text/javascript" src="js/canvasd5.js"></script>
+<script type="text/javascript">
+	animatecaneuler();
 
-				$('.claculstart').click(function(){
+	$('.claculstart').click(function(){
 
 
-					tval2 = hzselect2.value;
-				    var confirm2 = filterinput(tval2);
-					tval1 = hzselect.value;
-				    var confirm1 = filterinput(tval1);
+		tval2 = hzselect2.value;
+	    var confirm2 = filterinput(tval2);
+		tval1 = hzselect.value;
+	    var confirm1 = filterinput(tval1);
 
 
-				    if (confirm1[0] == true && confirm2[0] == true) {
-				    	val1 = confirm1[1];
-				    	val2 = confirm2[1];
-				    	precition = Math.max(val1*30,val2*30);
-						setTimeout(function(){animatecanadd(freqaddenr,true)},400);
-						animwait();
-				    }
-					else if(confirm1[0] != true){
-						alert("Il faut rentrer un nombre entre 0 et 5 inclus (pas de virgules mais des points)");
-					}
-				});
-			</script>
+	    if (confirm1[0] == true && confirm2[0] == true) {
+	    	val1 = confirm1[1];
+	    	val2 = confirm2[1];
+	    	precition = Math.max(val1*30,val2*30);
+			setTimeout(function(){animatecanadd(freqaddenr,true)},400);
+			animwait();
+	    }
+		else if(confirm1[0] != true){
+			alert("Il faut rentrer un nombre entre 0 et 5 inclus (pas de virgules mais des points)");
+		}
+	});
+</script>
