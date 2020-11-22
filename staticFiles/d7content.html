@@ -12,7 +12,7 @@
 		<p class="encode-text" style="font-size: 13px;">0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</p>
 		<p>Il est beaucoup plus court d’écrire <em class="bold">100 fois ('0')</em>. Nous venons de créer un modèle de compression pour une information textuelle. Voici un exemple de compression de données sans perte que nous développerons dans la session suivante intitulée <em class="bold">RLE</em>.</p>
 
-		<span class="rq"><img src="images/rq.svg">En pratique, dans notre programme, nous travaillons non avec une information textuelle mais avec une information sonore. Or nous avons vu que l'information sonore peut être écrite sous forme d'une suite de valeurs. Cette suite de valeurs peut elle-même s'écrire sous forme d'une suite de 0 et de 1 (base 2) et donc sous forme de caractères. Dès lors nous travaillerons dans cette partie sur des suites de caractères.</span>
+		<span class="rq"><img src="icon/remarque.svg">En pratique, dans notre programme, nous travaillons non avec une information textuelle mais avec une information sonore. Or nous avons vu que l'information sonore peut être écrite sous forme d'une suite de valeurs. Cette suite de valeurs peut elle-même s'écrire sous forme d'une suite de 0 et de 1 (base 2) et donc sous forme de caractères. Dès lors nous travaillerons dans cette partie sur des suites de caractères.</span>
 
 
 		<p>Il existe beaucoup d'autres méthodes pour compresser une information sans perdre des données. On peut diviser ces méthodes en deux catégories, les codages entropiques et les codages algorithmiques.</p>
@@ -169,12 +169,12 @@
 				<!-- <canvas id="HuffmanExemple" width="12" height="0"></canvas> -->
 				<!-- <video src="images/desy.mp4" autoplay="" muted="" loop="" poster="images/cube.jpg" class="video"></video> -->
 
-				<p>Grâce à l'arbre, on a notre encodage à longueur variable. En effet, le code binaire devient le <em class="bold">&laquo; chemin d'accès &raquo;</em> depuis la base de l'arbre. On part du premier nœud, si on va sur la branche de gauche le code binaire est 0 et si on va sur celle de droite le code binaire est 1. <video src="images/ag.mp4" autoplay="" muted="" loop="" controls class="video"></video><br>
+				<p>Grâce à l'arbre, on a notre encodage à longueur variable. En effet, le code binaire devient le <em class="bold">&laquo; chemin d'accès &raquo;</em> depuis la base de l'arbre. On part du premier nœud, si on va sur la branche de gauche le code binaire est 0 et si on va sur celle de droite le code binaire est 1. <video src="images/video/huffmanDecomposition.mp4" autoplay="" muted="" loop="" controls class="video"></video><br>
 				Pour décoder un codage Huffman il faut connaitre le code binaire de chaque caractère, ainsi on à l'habitude d'inclure en début de fichier une partie qui nous informe sur la concordance binaire-texte. C'est ce qu'on appelle un <em class="bold">dictionnaire</em>.</p>
 
 				<p>Grâce à ce <em class="bold">dictionnaire</em>, on transforme les caractères en suite de bits (0/1). Plus un caractère apparait souvent, moins il prend de place en binaire. Ainsi, l'encodage grâce au codage Huffman prend moins de place qu'un encodage classique.</p>
 
-				<span class="rq"><img src="images/rq.svg">
+				<span class="rq"><img src="icon/remarque.svg">
 					En pratique, certains textes ayant une entropie très faible (chaque caractère apparait aussi souvent que les autres), typiquement les textes générés aléatoirement, peuvent prendre plus de place en codage Huffman que sans codage. En effet il faut au départ inclure un dictionnaire.
 				</span>
 				<p>Dans l'expérimentation ci-dessous vous verrez l'arbre se construire petit à petit. En fonction de la taille du texte l'opération peut être plus ou moins longue avant d'atteindre une position d'équilibre. </p>
@@ -249,7 +249,7 @@
 
 				<p>Ce type de compression est très performant sur des données textuelles qui se repètent. Prenons l'exemple d'un texte vantant les mérites de la soupe aux champignons, les mots <em class="bold">&laquo; soupe aux champignons &raquo;</em> apparaitront souvent et seront considérablement compressés puisque au lieu de les écrire en entier, on écrit le premier en entier puis pour les suivants, on indique simplement les coordonnées du premier mot.</p>
 
-				<span class="rq"><img src="images/rq.svg">
+				<span class="rq"><img src="icon/remarque.svg">
 					La compression LZ77 couplé au codage Huffman forme un algorithme assez complet appellé <em class="bold">Deflate</em> utilisé notamment pour le format <em class="bold">zip</em>.
 				</span>
 

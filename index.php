@@ -6,19 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
 	<link rel="stylesheet" media="screen and (max-width: 800px)" type="text/css" href="styles/phone.css">
 	<script type="text/javascript" src="../jquery-3.5.0.min.js"></script>
-  	<link rel="apple-touch-icon" sizes="57x57" href="icon/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="icon/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="icon/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="icon/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="icon/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="icon/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="icon/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="icon/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="icon/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192"  href="icon/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="icon/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
+	<?php require("icon/iconsLinks.html") ?>
 	<link rel="manifest" href="icon/manifest.json">
 	<link rel="manifest" href="../manifest.json"></link>
 	<meta name="msapplication-TileColor" content="#ffffff">
@@ -29,7 +17,7 @@
 </head>
 <body>
 	<header>
-		<?php include('images/logo.svg'); ?>
+		<?php include('icon/logo.svg'); ?>
 		<h1>Son et compression des données</h1>
 	</header>
 	<section id="loaderHolder">
@@ -172,52 +160,52 @@
 		<div class="page p10"  page="10"></div>
 		<div class="gridcontainer">
 			<div class="diapocontain hidden default dc1" page="1">
-				<img src="images/min/intro.jpg" id="d1" class="diapo" draggable="false">
+				<img src="images/diapo/intro.jpg" id="d1" class="diapo" draggable="false">
 				<h3>Introduction</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc2" page="2">
-				<img src="images/min/son.png" id="d2"  class="diapo" draggable="false">
+				<img src="images/diapo/son.png" id="d2"  class="diapo" draggable="false">
 				<h3>Physique du son</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc3" page="3">
-				<img src="images/min/micro.png" id="d3" class="diapo" draggable="false">
+				<img src="images/diapo/micro.png" id="d3" class="diapo" draggable="false">
 				<h3>Fonctionnement d'un microphone</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc4" page="4">
-				<img src="images/min/dft.jpg" id="d4" class="diapo" draggable="false">
+				<img src="images/diapo/dft.jpg" id="d4" class="diapo" draggable="false">
 				<h3>Introduction à la Transformation de Fourier (DFT)</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc5" page="5">
-				<img src="images/min/maths.png" id="d5" class="diapo" draggable="false">
+				<img src="images/diapo/maths.png" id="d5" class="diapo" draggable="false">
 				<h3>Transformation de Fourier, l'équation mathématique</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc6" page="6">
-				<img src="images/min/fft.jpg" id="d6" class="diapo" draggable="false">
+				<img src="images/diapo/fft.jpg" id="d6" class="diapo" draggable="false">
 				<h3>Accélération de la Transformation de Fourier</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc7" page="7">
-				<img src="images/min/compression.jpg" id="d7" class="diapo" draggable="false">
+				<img src="images/diapo/compression.jpg" id="d7" class="diapo" draggable="false">
 				<h3>Compression sans perte de données</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc8" page="8">
-				<img src="images/min/resultats.jpg" id="d8" class="diapo" draggable="false">
+				<img src="images/diapo/resultats.jpg" id="d8" class="diapo" draggable="false">
 				<h3>Résultats des compressions sans perte</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc9" page="9">
-				<img src="images/min/conclusion.jpg" id="d9" class="diapo" draggable="false">
+				<img src="images/diapo/conclusion.jpg" id="d9" class="diapo" draggable="false">
 				<h3>Conclusion</h3>
 				<div class="loaderDiapo"></div>
 			</div>
 			<div class="diapocontain hidden default dc10" page="10">
-				<img src="images/min/biblio.png" id="d10" class="diapo" draggable="false">
+				<img src="images/diapo/biblio.png" id="d10" class="diapo" draggable="false">
 				<h3>Bibliographie</h3>
 				<div class="loaderDiapo"></div>
 			</div>

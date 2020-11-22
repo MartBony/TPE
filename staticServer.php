@@ -1,7 +1,7 @@
 <?php
-if(isset($_POST['page'])){
-	$_POST['page'] = (int) $_POST['page'];
-	switch($_POST['page']){
+if(isset($_GET['page'])){
+	$_GET['page'] = (int) $_GET['page'];
+	switch($_GET['page']){
 		case 1:	require("staticFiles/d1content.html"); break;
 		case 2:	require("staticFiles/d2content.html"); break;
 		case 3:	require("staticFiles/d3content.html"); break;

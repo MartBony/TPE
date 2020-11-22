@@ -525,7 +525,7 @@ h1
 
 .accbg
 {
-	background: url(../images/bgacc.png) center;
+	background: url(../images/backgrounds/accueil.png) center;
 	background-size: 100%;
 	position: fixed;
 	top: 0;
@@ -1232,13 +1232,13 @@ figcaption
 
 .bgparralax.int
 {
-	background: url(../images/int.jpg) no-repeat;
+	background: url(../images/backgrounds/tableauMaths.jpg) no-repeat;
 	background-size: cover;
 }
 
 .bgparralax.bibl
 {
-	background: url(../images/bibl.jpg) no-repeat;
+	background: url(../images/backgrounds/bibliotheque.jpg) no-repeat;
 	background-size: cover;
 }
 

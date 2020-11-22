@@ -11,7 +11,7 @@
 			<p class="italic">On ne décrit plus 30 points de données mais une seule fréquence.</p>
 		</div>
 		<p>On prend un signal audio brut, enregistré avec un microphone, et présentant un nombre important de samples. Puis on le décompose en fréquences en établissant son spectre. On peut résumer des milliers de points en quelques fréquences.</p>
-		<video class="video" src="images/purefr.mp4" autoplay="" loop="" muted="" poster="images/purefr.jpg" style="width: 70%;"></video>
+		<video class="video" src="images/videos/decompositionSon.mp4" autoplay="" loop="" muted="" poster="images/videos/decompositionSonPoster.jpg" style="width: 70%;"></video>
 		<p>Le spectre d'un son est établi grâce à un outil créé par le physicien et mathématicien Joseph Fourier : la Transformation de Fourier.</p>
 	</article>
 	<div class="slide">
@@ -33,7 +33,7 @@
 		</div>
 		<span class="spr">Faites varier le curseur rouge ci-dessus pour tester différentes vitesses de rotation du vecteur</span>
 		<p>Ce taux d'enroulement est traduit lui aussi par une fréquence : le nombre de tours sur lui-même du signal chaque seconde de signal, ou plus simplement, le nombre de cycles par seconde. Une fréquence d'enroulement de 1 cycle par seconde (1Hz) signifie que chaque seconde de signal sonore est enroulée une fois autour du cercle. 1/2 cycle par seconde (1/2 Hz) signifie que chaque seconde de signal est enroulée autour de la moitiée du cercle. Il faudra alors 2 secondes de signal pour faire le tour du cercle.</p>
-		<span class="rq"><img src="images/rq.svg">Il y a donc deux fréquences <em class="bold">distinctes</em> : La fréquence du signal d'origine et la fréquence d'enroulement autour du cercle.</span>
+		<span class="rq"><img src="icon/remarque.svg">Il y a donc deux fréquences <em class="bold">distinctes</em> : La fréquence du signal d'origine et la fréquence d'enroulement autour du cercle.</span>
 	</div>
 	<div class="slide">
 		<h5>La face cachée de l'enroulement</h5>
@@ -41,7 +41,7 @@
 		<div class="canmultcont">
 			<canvas id="canmatch" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
 			<aside>
-				<figure><img src="images/pisup.png" class="little"></figure>
+				<figure><img src="images/graphiques/signalSuperposition.png" class="little"></figure>
 				<p class="italic">Lorsque la fréquence d'enroulement se rapproche de la fréquence du signal, la figure se superpose et s'éloigne de l'origine.</p>
 			</aside>
 		</div>
@@ -61,7 +61,7 @@
 		<div class="slidercontainer">
 			<input type="range" min="20" max="600" value="20" class="slider" id="sliderae">
 		</div>
-		<span class="rq"><img src="images/rq.svg">On observe encore que la figure se superpose aux fréquences d'enroulement de 2Hz de 4Hz. Nous pourrions vous donner la figure de gauche sans vous dire ses fréquences, et vous pourriez les retrouver en faisant varier le slider d'enroulement.</span>
+		<span class="rq"><img src="icon/remarque.svg">On observe encore que la figure se superpose aux fréquences d'enroulement de 2Hz de 4Hz. Nous pourrions vous donner la figure de gauche sans vous dire ses fréquences, et vous pourriez les retrouver en faisant varier le slider d'enroulement.</span>
 	</div>
 	<div class="slide">
 		<p>Pour résumer la figure enroulée, on calcule le centre de gravité de celle-ci. La plupart du temps, il reste proche de l'origine, mais lorsque la fréquence d'enroulement se superpose à l'une des fréquences du son initial, le centre de gravité s'éloigne de l'origine.</p>
@@ -78,7 +78,7 @@
 			<p class="italic">La fréquence du signal sonore est de 1Hz</p>
 		</div>
 		<div class="canmultcont">
-			<figure><img class="resadd" src="images/resadd.png"></figure>
+			<figure><img class="resadd" src="images/graphiques/decompositionDFT.png"></figure>
 			<p class="italic">Fonction transformée du signal composé de fréquences de 2Hz et 4Hz. Les pics sont clairement visibles.</p>
 		</div>
 	</div>

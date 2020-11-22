@@ -59,13 +59,14 @@ class App{
 				if(loader) document.getElementById('loaderHolder').classList.add("opened")
 				else diapo.classList.add("loading");
 
-				let fd = new FormData();
+				/* let fd = new FormData();
 				fd.append("page", rank)
 				fetch("staticServer.php", {
 					method: "POST",
 					body: fd,
 					mode:"cors"
-				})
+				}) */
+				fetch("staticServer.php?page="+ rank)
 				.then(response =>response.text())
 				.then(data => {
 					Array.from(document.getElementsByClassName("page")).filter(page => page.getAttribute("page") == rank)[0].innerHTML = data;
@@ -77,6 +78,9 @@ class App{
 					application.visitHistory[rank-1] = true;
 					resolve();
 				}).catch(err => {
+					if(loader) document.getElementById('loaderHolder').classList.remove("opened");
+					else diapo.classList.remove("loading");
+					alert("Vous êtes déconnectés et la page n'est pas enregistrée sur votre appareil pour la lecture hors ligne. Veuillez vous connecter.");
 					console.error(err);
 					reject();
 				});
@@ -92,12 +96,12 @@ application = new App();
 
 $(document).ready(function (){
 	
-	window.onpopstate = function(event){
-		application.position = 0;
+	window.onpopstate = event => {
+		application.position = parseInt(event.state.key);
 	}
 
 	document.getElementById("plan").addEventListener("click", () => {
-		history.pushState({key : 'plan'}, 'titre', '');
+		history.pushState({key : -1}, 'titre', '');
 		application.position = -1;
 	});
 
@@ -116,14 +120,15 @@ $(document).ready(function (){
 		diapo.addEventListener("click", e => {
 			if (diapo.classList.contains("default")) {
 				const rank = parseInt(diapo.getAttribute("page"));
-				history.pushState({key : ''+ rank}, 'titre', '');
+				history.pushState({key : rank}, 'titre', '');
 				application.position = rank;
 			}
 		});
 	});
 
 	$('.retour').click(function(){
-		window.history.back();
+		application.position = 0;
+		history.pushState({key : 0}, 'titre', '');
 	});
 
 	$('.reduire').click(function() {

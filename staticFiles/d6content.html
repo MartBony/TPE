@@ -42,18 +42,18 @@
 		<p>Rappellons que la compression par la Transformation de Fourier entraine des pertes de qualité. Pour obtenir un son de la qualité d'un MP3, il faudrait traiter le son ulterieurement avec d'autres algorithmes.</p>
 		<p class="paratexte">Son de piano enregistré puis son compressé</p>
 		<ul class="flex">
-			<li><audio src="audio/enrpi.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
-			<li><audio src="audio/enrpires.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+			<li><audio src="audio/pianoAudioFile.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+			<li><audio src="audio/pianoAudioFileFFT.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
 		</ul>
 		<p class="paratexte">Son de voix robotique, avec peu de tons.</p>
 		<ul class="flex">
-			<li><audio src="audio/audiotest.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
-			<li><audio src="audio/enrglres.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+			<li><audio src="audio/gladosVoice.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+			<li><audio src="audio/gladosVoiceFFT.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
 		</ul>
 		<p class="paratexte">Extrait de musique contemporaine avec des percussions.</p>
 		<ul class="flex">
-			<li><audio src="audio/enrmm.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
-			<li><audio src="audio/enrmmres.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+			<li><audio src="audio/electroAudioFile.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
+			<li><audio src="audio/electroAudioFileFFT.mp3" controls>Veuillez impérativement mettre à jour votre navigateur ou en utiliser un plus récent pour écouter nos resultats.</audio></li>
 		</ul>
 		<p>On atteint des taux de compression significatifs grâce à la Transformation de Fourier. Cependant il y a une perte notable de qualité et on entend de nombreuses coupures dans le signal.</p>
 		<p>Ce problème n’est sans doute pas lié à la qualité de notre enregistrement ou de notre compression mais plutôt à une mauvaise restitution du signal audio, un problème de décompression. En effet, pour restituer notre signal audio à partir de la suite de fréquences et amplitudes calculées par la FFT, nous juxtaposons partie après partie la somme des fréquences et des amplitudes du signal. Cela crée des discontinuités entre les parties reconstituées du signal sonore. <br><br>Pour corriger ce problème, on pourrait essayer de faire une interpolation linéaire entre des différents paramètres : fréquences et amplitudes au moment de la restitution du signal. Le protocole d’une FFT polyvalente donnant un résultat acceptable comporte de nombreux modules à ajouter en plus de l’étape de la FFT. Une fois ces modules appliqués correctement, la FFT devient non seulement fonctionnelle et correcte, mais en plus extrêmement utile et efficace.</p>

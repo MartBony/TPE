@@ -168,6 +168,10 @@ class Animations{
 			diapoListElements = Array.from(document.getElementsByClassName("diapocontain")),
 			diapoElement = diapoListElements.filter(diapo => diapo.getAttribute("page") == destination)[0];
 
+
+		openPageEl.dispatchEvent(new Event('closeContent'));
+		destinationPageElement.dispatchEvent(new Event('openContent'));
+
 		Array.from(document.querySelectorAll('article.opened')).forEach(article => {
 			article.classList.remove("opened");
 		});

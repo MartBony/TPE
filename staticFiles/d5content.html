@@ -66,11 +66,11 @@
 					<input type="range" min="0" max="360" value="0" class="slider" id="slidermultalt"><label>Phase de l'onde</label>
 				</div>
 			</div>
-			<span class="rq"><img src="images/rq.svg">On enroule toujours ces 2π secondes de signal une fois autour du cercle: la fréquence f ne change pas (elle est de 1/2π c'est à dire un tour pour 2π secondes). On ne modifie que les caractéristiques du signal sonore d'origine.</span>
+			<span class="rq"><img src="icon/remarque.svg">On enroule toujours ces 2π secondes de signal une fois autour du cercle: la fréquence f ne change pas (elle est de 1/2π c'est à dire un tour pour 2π secondes). On ne modifie que les caractéristiques du signal sonore d'origine.</span>
 		</div>
 		<div class="slide">
 			<figure>
-				<img class="little" src="images/1hz sinusoidal.png">
+				<img class="little" src="images/graphiques/sinusoidale.png">
 				<figcaption>Pour la suite de cette partie nous utiliserons un son pur de 1 Herz</figcaption>
 			</figure>
 			<p>On cherche le centre de gravité de la figure enroulée qui est la moyenne des points de la courbe enroulée. Plus il y a de points enregistrés par le microphone, plus le calcul sera précis (l'idéal serait de calculer avec l'intégrale de la courbe).</p>
@@ -82,14 +82,14 @@
 			<div class="slidecontainer" style="height: 50px;">
 				<input type="range" min="1" max="1000" value="100" class="slider" id="slidermoy"><label>Fréquence d'enroulement</label>
 			</div>
-			<span class="rq"><img src="images/rq.svg">Cette fois c'est bien la fréquence d'enroulement que l'on fait varier, celle du signal reste toujours de 1Hz.</span>
+			<span class="rq"><img src="icon/remarque.svg">Cette fois c'est bien la fréquence d'enroulement que l'on fait varier, celle du signal reste toujours de 1Hz.</span>
 			<p>On peut déduire avec notre équation les fréquences pures du signal de départ c'est à dire 1Hz dans le cas ci-dessus.</p>
-			<span class="rq"><img src="images/rq.svg">Le graphique de droite ne correspond pas à l'equation montrée ci-dessus, celle-ci ne donne pas deux coordonnées mais les parties réelles (vert) et imaginaires (bleu) d'un seul nombre complexe.</span>
+			<span class="rq"><img src="icon/remarque.svg">Le graphique de droite ne correspond pas à l'equation montrée ci-dessus, celle-ci ne donne pas deux coordonnées mais les parties réelles (vert) et imaginaires (bleu) d'un seul nombre complexe.</span>
 		</div>
 		<div class="slide">
 			<p>Voici la formule finale de la DFT</p>
 			<span class="eulerformula"><span>ĝ(f) = <p class="normal"></p><em class="add"><p>N</p>∑<p>k=1</p></em> g(t<em class="indice">k</em>)e</span><p>-2πift<em class="indice">k</em></p></span>
-			<span class="rq"><img src="images/rq.svg">Remarquez que l'on a enlevé la division par N. La raison en est mathématique et nous permettra de calculer la durée du signal analysé.</span>
+			<span class="rq"><img src="icon/remarque.svg">Remarquez que l'on a enlevé la division par N. La raison en est mathématique et nous permettra de calculer la durée du signal analysé.</span>
 			<p>On dit que la DFT permet une compression avec perte de données car nous ne calculons pas l'intégrale de la fonction sonore, mais la somme d'une suite de points enroulés (ici les samples).</p>
 		</div>
 	</div>
