@@ -121,7 +121,7 @@ body
 	color: black;
 }
 
-.contgenl
+#loaderHolder
 {
 	position: fixed;
 	top: 0;
@@ -129,14 +129,14 @@ body
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	display: none;
+	visibility: hidden;
 	transition: all 300ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	background: var(--color-bglight);
 	transform: scale(1.2);
-	z-index: 3;
+	z-index: 5;
 }
 
-.generalloader
+#loaderHolder div
 {
 	position: absolute;
 	top: 50%;
@@ -153,13 +153,15 @@ body
 	transition-delay: 100ms;
 }
 
-.contgenl.opened
+#loaderHolder.opened
 {
+	visibility: visible;
 	opacity: 1;
 }
 
-.contgenl.opened .generalloader
+#loaderHolder.opened div
 {
+	transition: none;
 	margin-top: -35px;
 }
 
@@ -173,7 +175,7 @@ body
 	height: 50px;
 }
 
-.plan:hover .arrow
+#plan:hover .arrow
 {
 	transform: scale(1.1);
 }
@@ -363,7 +365,7 @@ h1
 	transition: all 300ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 }
 
-.plan
+#plan
 {
 	width: auto;
 	height: auto;
@@ -383,7 +385,7 @@ h1
 	box-sizing: border-box;
 }
 
-.plan h3
+#plan h3
 {
 	font-size: 1.8em;
 	font-weight: 700;
@@ -430,7 +432,7 @@ h1
 	top: 10px;
 }
 
-.loaderacc {
+.loaderDiapo {
 	z-index: 2;
 	position: absolute;
 	top: 50%;
@@ -448,7 +450,7 @@ h1
 	transform: scale(0);
 }
 
-.loaderacc.opened{
+.loading .loaderDiapo{
 	transition: all 300ms cubic-bezier(0.1 , 0.9 , 0 , 1) 200ms;
 	opacity: 1;
 	transform: scale(1);
@@ -523,7 +525,7 @@ h1
 
 .accbg
 {
-	background: url(images/bgacc.png) center;
+	background: url(../images/bgacc.png) center;
 	background-size: 100%;
 	position: fixed;
 	top: 0;
@@ -749,7 +751,7 @@ h1
 
 /* Barre latérale droite */
 
-.ascontent
+#ascontent
 {
 	transition: all 500ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	position: fixed;
@@ -762,7 +764,7 @@ h1
 	justify-content: space-around;
 }
 
-.ascontent.full
+#ascontent.full
 {
 	transform: translateX(500px);
 }
@@ -862,8 +864,9 @@ h1
 	transform-origin: left;
 }
 
-.navig
+#ascontent button
 {
+	display: none;
 	transition: all 100ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	background: rgba(255,255,255, 0);
 	color: var(--color-text);
@@ -875,12 +878,25 @@ h1
 	outline: none;
 }
 
-.navig:hover
+#ascontent.p1 button:nth-child(1){
+	visibility: hidden;
+}
+
+#ascontent.p10 button:nth-child(2){
+	visibility: hidden;
+}
+
+#ascontent.opened button
+{
+	display: block;
+}
+
+#ascontent button:hover
 {
 	transform: scale(1.02);
 }
 
-.navig:focus
+#ascontent button:focus
 {
 	transform: scale(0.98);
 }
@@ -1216,13 +1232,13 @@ figcaption
 
 .bgparralax.int
 {
-	background: url(images/int.jpg) no-repeat;
+	background: url(../images/int.jpg) no-repeat;
 	background-size: cover;
 }
 
 .bgparralax.bibl
 {
-	background: url(images/bibl.jpg) no-repeat;
+	background: url(../images/bibl.jpg) no-repeat;
 	background-size: cover;
 }
 

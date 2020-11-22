@@ -1,4 +1,6 @@
-function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
+import { ligne, texte, ondepure } from "./canvasTools.js";
+
+/* function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
 
 	var Intervalo = new Array(1+Math.floor((fin)*precition)); // On crée l'intervalle
 	var Imageso = new Array(1+Math.floor((fin)*precition));// On crée le tableau d'images
@@ -21,44 +23,7 @@ function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en 
 	return(Result);
 
 
-}
-
-function carre(x, y, width, height, color, id) {
-	id.fillStyle = color;
-	id.beginPath();
-	id.fillRect(x, y, width, height);
-}
-
-function ligne(x1, y1, x2, y2, color, id) {
-	id.strokeStyle = color;
-	id.beginPath();
-	id.moveTo(x1, y1);
-	id.lineTo(x2, y2);
-	id.stroke();
-}
-
-function rond(x, y, rayon, s_angle, f_angle, sens_cont, color, pleind, id) {
-	id.strokeStyle = color;
-	id.fillStyle = color;
-	id.beginPath();
-	id.arc(x, y, rayon, s_angle, f_angle, sens_cont);
-	id.stroke()
-	if (pleind == true) {
-		id.fill();
-	}
-}
-
-function texte(x,y,pxsize,content, color, id){
-	id.fillStyle = color;
-	id.font = pxsize +" Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif";
-	id.fillText(content, x, y); 
-}
-
-
-
-
-
-
+} */
 
 
 
@@ -86,8 +51,8 @@ function tracedotsi() {
 	texte(Originedotsi[0]+2,10,"10px","pression(mPa)","black", cdotsi);
 
 
-	var Result = ondepure(2,1/3,40,0,3/2,-1/3);
-	Intervald = Result[0];		
+	let Result = ondepure(2,1/3,40,0,3/2,-1/3),
+	Intervald = Result[0],
 	Imagesd = Result[1];
 
 

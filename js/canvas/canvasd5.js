@@ -1,14 +1,6 @@
-function filterinput(inval){
-	inval = Number(inval);
-	if (inval >= 0 && inval <= 5) {
-		return([true, inval])
-	}
-	else{
-		return(false)
-	}
-}
+import { ligne, rond, texte, ondepure } from "./canvasTools.js";
 
-function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
+/* function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
 
 	var Interval = new Array(1+Math.floor((fin)*precition)); // On crée l'intervalle
 	var Images = new Array(1+Math.floor((fin)*precition));// On crée le tableau d'images
@@ -31,32 +23,8 @@ function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en 
 	return(Result);
 
 
-}
+} */
 
-function ondepurer(freq,amp,precition,deb,fin,dec, phase){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
-
-	var Interval = new Array(1+Math.floor((fin)*precition)); // On crée l'intervalle
-	var Images = new Array(1+Math.floor((fin)*precition));// On crée le tableau d'images
-
-	var A = amp;
-	var ω = 2*Math.PI*freq;
-
-	var i = deb;
-	var iteration = 0;
-
-	while (i <= fin) {// On y remplis les antécedents et images
-		Interval[iteration] = i;
-		Images[iteration] = (A*Math.sin((ω*i)+phase))-dec;
-
-		i += 1/precition;
-		iteration++;
-	}
-
-	var Result = [Interval,Images];
-	return(Result);
-
-
-}
 
 function addimg(i1,m1,i2,m2) {
 	if (i1.length == i2.length){
@@ -67,46 +35,13 @@ function addimg(i1,m1,i2,m2) {
 			Images.push(added);
 		}
 
-		Result = [i1,Images];
-
-		return Result;
+		return [i1,Images];
 	}
 }
 
 
 
-function carre(x, y, width, height, color, id) {
-	id.fillStyle = color;
-	id.beginPath();
-	id.fillRect(x, y, width, height);
-}
-
-function ligne(x1, y1, x2, y2, color, id) {
-	id.strokeStyle = color;
-	id.beginPath();
-	id.moveTo(x1, y1);
-	id.lineTo(x2, y2);
-	id.stroke();
-}
-
-function rond(x, y, rayon, s_angle, f_angle, sens_cont, color, pleind, id) {
-	id.strokeStyle = color;
-	id.fillStyle = color;
-	id.beginPath();
-	id.arc(x, y, rayon, s_angle, f_angle, sens_cont);
-	id.stroke()
-	if (pleind == true) {
-		id.fill();
-	}
-}
-
-function texte(x,y,pxsize,content, color, id){
-	id.fillStyle = color;
-	id.font = pxsize +" Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif";
-	id.fillText(content, x, y); 
-}
-
-function animwait(){
+/* function animwait(){
 
 	$('.claculstart p').css({'transform':'translateX(50px)'});
 	$('#canadd').css({'opacity':'0.1'});
@@ -115,7 +50,7 @@ function animwait(){
 		$('.buttonscalc span').css({'display':'block'});
 		$('.buttonscalc span').css({'transform':'translateX(0px)'});
 		$('.buttonscalc span').css({'opacity':'1'});
-	},150);
+	},10);
 	setTimeout(function(){$('#canaddconc').css({'opacity':'0.1'})},300);
 
 	setTimeout(function(){
@@ -126,22 +61,45 @@ function animwait(){
 		$('.buttonscalc span').css({'transform':'translateX(-50px)'});
 		$('.claculstart p').css({'transform':'translateX(0px)'});
 		$('.canmultcont img.logo').css({'transform':'rotate(-360deg)'});
-	},1000);
+	},100);
 	
 	setTimeout(function(){
 		$('.buttonscalc span').css({'display':'none'});
-	},1200);
+	},120);
 
 	setTimeout(function(){
 		$('.canmultcont img.logo').css({'transition-duration':'0s'});
 		$('.canmultcont img.logo').css({'transform':'rotate(0deg)'});
 		setTimeout(function(){$('.canmultcont img.logo').css({'transition-duration':'1s'})}, 1);
-	},2100);
+	},210);
 	
-}
+} */
 
 
 
+
+
+
+let animations = {
+	timer: null,
+	frequency: null,
+	inverse: null
+};
+
+document.querySelector('.p5').addEventListener("openContent", e => {
+	if(animations.timer) cancelAnimationFrame(animations.timer)
+	if(animations.frequency) cancelAnimationFrame(animations.frequency)
+	if(animations.inverse) cancelAnimationFrame(animations.inverse)
+	animatecantime();
+	animatecanfreq();	
+	animateCanvasInv();
+});
+
+document.querySelector('.p5').addEventListener("closeContent", e => {
+	if(animations.timer) cancelAnimationFrame(animations.timer)
+	if(animations.frequency) cancelAnimationFrame(animations.frequency)
+	if(animations.inverse) cancelAnimationFrame(animations.inverse)
+});
 
 
 
@@ -154,6 +112,17 @@ var c_height = canvaseuler.height;
 var slider = document.getElementById("slidereuler");
 
 function content() {
+	
+
+	let xlin = c_width/3+Math.cos(poslin)*c_height/3,
+		ylin = c_height/2+Math.sin(poslin)*c_height/3,
+
+		xlintx = c_width/3+Math.cos(poslin)*c_height/3*1.3,
+		ylintx = c_height/2+Math.sin(poslin)*c_height/3*1.3,
+
+		xlintx2 = c_width/3+Math.cos(poslin/2)*c_height/3*1.05,
+		ylintx2 = c_height/2+Math.sin(poslin/2)*c_height/3*1.05;
+
 	ligne(0,c_height/2,c_width,c_height/2,"#eee", c);
 	ligne(c_width/3,0,c_width/3,c_height,"#eee", c);
 	ligne((c_width+c_height)/3,0,(c_width+c_height)/3,c_height,"#eee", c);
@@ -169,11 +138,11 @@ function content() {
 		texte(xlintx,ylintx,"20px","e","#E81123", c);
 		texte(xlintx+10,ylintx-10,"10px",Math.abs(poslin.toFixed(2)) +"i","#E81123", c);
 	}
-
+/* 
 	if (numimg > 80) {
 		velocite /= 1.05;
 		poslin += velocite;
-	}
+	} */
 	
 }
 
@@ -183,39 +152,37 @@ slider.oninput = function() {
 }
 
 var poslin = 0;
-var velocite = -0.1;
 var xlin = 0;
 var ylin = 0;
 var numimg = 0;
 
+let activated = false;
+
 function animatecaneuler(){
 	if (numimg < 300) {
 		if (numimg > 0) {
-			setTimeout(function(){animatecaneuler()}, 10); 
-			slider.value = Math.abs(Math.floor(poslin*100));
+			setTimeout(function(){animatecaneuler()}, 10);
+			slider.value = 200*(1-Math.exp(-numimg/30));
+			poslin = -2*(1-Math.exp(-numimg/30));
 		}
 	}
 	c.clearRect(0,0,c_width,c_height);
 	
-
-	xlin = c_width/3+Math.cos(poslin)*c_height/3;
-	ylin = c_height/2+Math.sin(poslin)*c_height/3;
-
-	xlintx = c_width/3+Math.cos(poslin)*c_height/3*1.3;
-	ylintx = c_height/2+Math.sin(poslin)*c_height/3*1.3;
-
-	xlintx2 = c_width/3+Math.cos(poslin/2)*c_height/3*1.05;
-	ylintx2 = c_height/2+Math.sin(poslin/2)*c_height/3*1.05;
-
 	content();
 
 	numimg++;
 
 }
-
-
-
-
+animatecaneuler();
+window.addEventListener("scroll", (e) => {
+	let wScroll = window.pageYOffset,
+		rect = document.getElementById('caneuler').getBoundingClientRect();
+	
+	if (wScroll > rect.top + window.scrollY - (window.innerHeight / 1.6) && !activated) {
+		animatecaneuler();
+		activated = true;
+	}
+});
 
 
 
@@ -234,8 +201,8 @@ var ctour_height = canvastour.height;
 
 function contenttour() {
 
-	xi = (ctour_width+ctour_height)/3;
-	midheiht = ctour_height/2;
+	let xi = (ctour_width+ctour_height)/3,
+		midheiht = ctour_height/2;
 	
 	ligne(0,midheiht,ctour_width,midheiht,"#eee", ctour);
 	ligne(ctour_width/3,0,ctour_width/3,ctour_height,"#eee", ctour);
@@ -249,6 +216,7 @@ function contenttour() {
 	texte(ctour_width*3/4,midheiht,"20px","2π unités","#E81123", ctour);
 
 }
+
 contenttour();
 
 
@@ -288,22 +256,27 @@ function contenttime() {
 }
 
 var poslintime = 0;
-var velocitetime = -2*Math.PI/80;
+var velocitetime = -2*Math.PI/60;
 var xlintime = 0;
 var ylintime = 0;
 
+let imageCounter = 0;
+
 function animatecantime(){
-	if(position == 5){
-		setTimeout(function(){animatecantime()},25);
+	if(imageCounter % 1 == 0){
+
+		ctime.clearRect(0,0,ctime_width,ctime_height);
+
+		xlintime = ctime_width/3+Math.cos(poslintime)*ctime_height/3;
+		ylintime = ctime_height/2+Math.sin(poslintime)*ctime_height/3;
+
+		contenttime();
+
 	}
 
-	ctime.clearRect(0,0,ctime_width,ctime_height);
-
-	xlintime = ctime_width/3+Math.cos(poslintime)*ctime_height/3;
-	ylintime = ctime_height/2+Math.sin(poslintime)*ctime_height/3;
-
-	contenttime();
-
+	
+	animations.timer = requestAnimationFrame(animatecantime);
+	imageCounter++;
 }
 
 animatecantime();
@@ -330,7 +303,6 @@ var cfreq_height = canvasfreq.height;
 
 var sliderfreq = document.getElementById("sliderfreq");
 
-
 function contentfreq() {
 	ligne(0,cfreq_height/2,cfreq_width,cfreq_height/2,"#eee", cfreq);
 	ligne(cfreq_width/3,0,cfreq_width/3,cfreq_height,"#eee", cfreq);
@@ -340,41 +312,39 @@ function contentfreq() {
 	ligne(cfreq_width/3,cfreq_height/2,xlinfreq,ylinfreq,"black", cfreq);
 	rond(cfreq_width/3,cfreq_height/2,cfreq_height/3,0,poslinfreq%(2*Math.PI),true,"#E81123",false, cfreq);
 
-	texte(cfreq_width*5/8,cfreq_height/2,"16px","Fréquence : 1/"+ sliderfreq + "Hz","#E81123", cfreq);
+	texte(cfreq_width*5/8,cfreq_height/2,"16px","Fréquence : 1/"+ freqAnimatePulse + "Hz","#E81123", cfreq);
 
-	poslinfreq += velocitefreq/sliderfreq;
+	poslinfreq += velocitefreq/freqAnimatePulse;
 }
 
 sliderfreq.oninput = function() {
-	sliderfreq = this.value;
+	freqAnimatePulse = this.value;
 } 
 
 
-sliderfreq = 5;
+let freqAnimatePulse = 5;
 
 var poslinfreq = 0;
-var velocitefreq = -0.1;
+var velocitefreq = -2*Math.PI/60;
 var xlinfreq = 0;
 var ylinfreq = 0;
 
 function animatecanfreq(){
-
-	if(position == 5){
-		requestAnimationFrame(animatecanfreq);
-	}
 
 	cfreq.clearRect(0,0,cfreq_width,cfreq_height);
 
 	xlinfreq = cfreq_width/3+Math.cos(poslinfreq)*cfreq_height/3;
 	ylinfreq = cfreq_height/2+Math.sin(poslinfreq)*cfreq_height/3;
 
-	xlintxfreq = cfreq_width/3+Math.cos(poslinfreq)*cfreq_height/3*1.3;
+	/* xlintxfreq = cfreq_width/3+Math.cos(poslinfreq)*cfreq_height/3*1.3;
 	ylintxfreq = cfreq_height/2+Math.sin(poslinfreq)*cfreq_height/3*1.3;
 
 	xlintx2freq = cfreq_width/3+Math.cos(poslinfreq/2)*cfreq_height/3*1.05;
-	ylintx2freq = cfreq_height/2+Math.sin(poslinfreq/2)*cfreq_height/3*1.05;
+	ylintx2freq = cfreq_height/2+Math.sin(poslinfreq/2)*cfreq_height/3*1.05; */
 
 	contentfreq();
+
+	animations.frequency = requestAnimationFrame(animatecanfreq);
 
 }
 
@@ -413,28 +383,25 @@ function contentinv() {
 	poslininv += velociteinv/inv;
 }
 
-inv = 5;
+let inv = 5;
 
 var poslininv = 0;
-var velociteinv = 0.1;
+var velociteinv = 2*Math.PI/60;
 var xlininv = 0;
 var ylininv = 0;
 
-function animatecaninv(){
-	if(position == 5){
-		requestAnimationFrame(animatecaninv);
-	}
-
+function animateCanvasInv(){
 	cinv.clearRect(0,0,cinv_width,cinv_height);
 
 	xlininv = cinv_width/3+Math.cos(poslininv)*cinv_height/3;
 	ylininv = cinv_height/2+Math.sin(poslininv)*cinv_height/3;
 
 	contentinv();
+	animations.inverse = requestAnimationFrame(animateCanvasInv);
 
 }
 
-animatecaninv();
+animateCanvasInv();
 
 
 
@@ -455,10 +422,10 @@ var cmult2_height = canvasmult2.height;
 
 function enroulement(temps, image) {
 	for (var i = 0; i < temps.length; i++) {
-		x1 = image[i]*(Math.cos(temps[i])*(rayon))+cmult2_width/3;
-		y1 = image[i]*(Math.sin(temps[i])*(rayon))+cmult2_height/2;
-		x2 = image[i+1]*(Math.cos(temps[i+1])*(rayon))+cmult2_width/3;
-		y2 = image[i+1]*(Math.sin(temps[i+1])*(rayon))+cmult2_height/2;
+		let x1 = image[i]*(Math.cos(temps[i])*(rayon))+cmult2_width/3,
+			y1 = image[i]*(Math.sin(temps[i])*(rayon))+cmult2_height/2,
+			x2 = image[i+1]*(Math.cos(temps[i+1])*(rayon))+cmult2_width/3,
+			y2 = image[i+1]*(Math.sin(temps[i+1])*(rayon))+cmult2_height/2;
 
 		ligne(x1,y1,x2,y2,"#E81123", cmult2);
 	}
@@ -517,7 +484,7 @@ function trace(freq,amp) {
 	else{
 		precition = 40;
 	}
-	var Result = ondepurer(freqsin,amp,precition,0,2*Math.PI,0, alt);
+	var Result = ondepure(freqsin,amp,precition,0,2*Math.PI,0, alt);
 	var Interval = Result[0];
 	var Images = Result[1];
 
@@ -555,10 +522,10 @@ var Vecteuri = [cmult_width*5/12, cmult_height/2];
 
 var Vecteurj = [cmult_width/3, Origine[1]+(Origine[0]-Vecteuri[0])]; // Repere orthonormé
 
-precition = 20;
-freqsin = 1;
-amp = 1;
-alt = 0;
+let precition = 20,
+	freqsin = 1,
+	amp = 1,
+	alt = 0;
 
 slidermultfreq.oninput = function() {
 	freqsin = this.value/500;
@@ -610,14 +577,14 @@ var cmoy_height = canvasmoy.height;
 var slidermoy = document.getElementById("slidermoy");
 
 function enroulementmoy(temps, image, freq) {
-	Xco = 0;
-	Yco = 0;
-	num = 0;
+	let Xco = 0,
+		Yco = 0,
+		num = 0;
 	for (var i = 0; i < temps.length; i++) {
-		x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayonmo))+Originemo[0];
-		y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayonmo))+Originemo[1];
-		x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonmo))+Originemo[0];
-		y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonmo))+Originemo[1];
+		let x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayonmo))+Originemo[0],
+			y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayonmo))+Originemo[1],
+			x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonmo))+Originemo[0],
+			y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonmo))+Originemo[1];
 
 		Xco += x1;
 		Yco += y1;
@@ -627,8 +594,8 @@ function enroulementmoy(temps, image, freq) {
 		ligne(x1,y1,x2,y2,"#E81123", cmoy);
 	}
 
-	MoyX = Xco/num;
-	MoyY = Yco/num;
+	let MoyX = Xco/num,
+		MoyY = Yco/num;
 
 	rond(MoyX,MoyY,3,0,Math.PI*2,false,"rgb(70,162,250)",true, cmoy);
 }
@@ -645,7 +612,7 @@ function contentmoy(freq) {
 }
 
 slidermoy.oninput = function() {
-	freqmoy = this.value/100;
+	let freqmoy = this.value/100;
 	animatecanmoy(Resultmoy[0], Resultmoy[1], freqmoy);
 	drawgraph(Resultgraph[0], Resultgraph[1], freqmoy/(2*Math.PI));
 }
@@ -692,14 +659,14 @@ var cgraph_width = canvasgraph.width;
 var cgraph_height = canvasgraph.height;
 
 function enroulementgraph(temps, image, freq) {
-	Xco = 0;
-	Yco = 0;
-	num = 0;
+	let Xco = 0,
+		Yco = 0,
+		num = 0;
 	for (var i = 0; i < temps.length; i++) {
-		x1 = image[i]*(Math.cos(temps[i]*freq)*(rayongr));
-		y1 = image[i]*(Math.sin(temps[i]*freq)*(rayongr));
-		x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayongr));
-		y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayongr));
+		let x1 = image[i]*(Math.cos(temps[i]*freq)*(rayongr)),
+			y1 = image[i]*(Math.sin(temps[i]*freq)*(rayongr)),
+			x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayongr)),
+			y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayongr));
 
 		Xco += x1;
 		Yco += y1;
@@ -708,8 +675,8 @@ function enroulementgraph(temps, image, freq) {
 
 	}
 
-	graphX = Xco/num;
-	graphY = Yco/num;
+	let graphX = Xco/num,
+		graphY = Yco/num;
 
 	return([graphX,graphY]);
 }
@@ -750,29 +717,29 @@ function drawgraph(temps, image, loc){
 		var imagesy = [];
 		for (var i = 0; i < 500; i++) {
 
-			enr = enroulementgraph(temps, image, i/(50));
-			enr1 = enroulementgraph(temps, image, (i+1)/(50));
+			let enr = enroulementgraph(temps, image, i/(50)),
+				enr1 = enroulementgraph(temps, image, (i+1)/(50));
 
 			imagesx.push(enr[0]);
-			imagesix1 = enr1[0];
+			let imagesix1 = enr1[0];
 
-			xx1 = (i*1.60*rayongr/500)+Origineg[0];//1.60 car (500/50)/2pi (la plus grande fréquence est de 1.6) (à cause de la lingueur de 2pi du signal)
-			xy1 = imagesx[i]+Origineg[1];
+			let xx1 = (i*1.60*rayongr/500)+Origineg[0],//1.60 car (500/50)/2pi (la plus grande fréquence est de 1.6) (à cause de la lingueur de 2pi du signal)
+				xy1 = imagesx[i]+Origineg[1],
 
-			xx2 = (i*1.60*rayongr/500)+Origineg[0];
-			xy2 = imagesix1+Origineg[1];
+				xx2 = (i*1.60*rayongr/500)+Origineg[0],
+				xy2 = imagesix1+Origineg[1];
 
 
 			ligne(xx1,xy1,xx2,xy2,"#00CC6A", cgraph);
 			
 			imagesy.push(enr[1]);
-			imagesiy1 = enr1[1];
+			let imagesiy1 = enr1[1],
 
-			yx1 = (i*1.60*rayongr/500)+Origineg[0];
-			yy1 = imagesy[i]+Origineg[1];
+				yx1 = (i*1.60*rayongr/500)+Origineg[0],
+				yy1 = imagesy[i]+Origineg[1],
 
-			yx2 = (i*1.60*rayongr/500)+Origineg[0];
-			yy2 = imagesiy1+Origineg[1];
+				yx2 = (i*1.60*rayongr/500)+Origineg[0],
+				yy2 = imagesiy1+Origineg[1];
 
 
 			ligne(yx1,yy1,yx2,yy2,"rgb(70,162,250)", cgraph);
@@ -782,8 +749,8 @@ function drawgraph(temps, image, loc){
 
 	}
 
-	xr1 = loc*rayongr+Origineg[0];
-	xy1 = cgraph_height*5/6;
+	let xr1 = loc*rayongr+Origineg[0],
+		xy1 = cgraph_height*5/6;
 
 	ligne(xr1,xy1,xr1,xy1+10,"#E81123", cgraph);
 	texte(xr1,xy1+20,"10px",loc.toFixed(2) +"Hz","#E81123", cgraph);
@@ -818,14 +785,14 @@ var caddconc_width = canvasaddconc.width;
 var caddconc_height = canvasaddconc.height;
 
 function enroulementaddconc(temps, image, freq) {
-	Xco = 0;
-	Yco = 0;
-	num = 0;
+	let Xco = 0,
+		Yco = 0,
+		num = 0;
 	for (var i = 0; i < temps.length; i++) {
-		x1 = image[i]*(Math.cos(temps[i]*freq)*(rayonco));
-		y1 = image[i]*(Math.sin(temps[i]*freq)*(rayonco));
-		x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonco));
-		y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonco));
+		let x1 = image[i]*(Math.cos(temps[i]*freq)*(rayonco)),
+			y1 = image[i]*(Math.sin(temps[i]*freq)*(rayonco)),
+			x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonco)),
+			y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonco));
 
 		Xco += x1;
 		Yco += y1;
@@ -834,8 +801,8 @@ function enroulementaddconc(temps, image, freq) {
 
 	}
 
-	addconcX = Xco/num;
-	addconcY = Yco/num;
+	let addconcX = Xco/num,
+		addconcY = Yco/num;
 
 	return([addconcX,addconcY]);
 }
@@ -866,7 +833,7 @@ var Vecteurjc = [caddconc_width/3, Originec[1]+(Originec[0]-Vecteuric[0])]; // R
 
 var rayonco = Vecteuric[0]-Originec[0];
 
-function drawaddconc(temps, image, loc,on){
+function drawaddconc(temps, image, loc, on){
 
 	if (on == true) {
 		caddconc.clearRect(0,0,caddconc_width,caddconc_height);
@@ -886,29 +853,29 @@ function drawaddconc(temps, image, loc,on){
 		var imagesy = [];
 		for (var i = 0; i < 1870; i++) {
 
-			enr = enroulementaddconc(temps, image, i/(50));
-			enr1 = enroulementaddconc(temps, image, (i+1)/(50));
+			let enr = enroulementaddconc(temps, image, i/(50)),
+				enr1 = enroulementaddconc(temps, image, (i+1)/(50));
 
 			imagesx.push(enr[0]);
-			imagesix1 = enr1[0];
+			let imagesix1 = enr1[0];
 
-			xx1 = (i*1.60*rayonco/500)+Originec[0];
-			xy1 = imagesx[i]*1.5+Originec[1];
+			let xx1 = (i*1.60*rayonco/500)+Originec[0],
+				xy1 = imagesx[i]*1.5+Originec[1],
 
-			xx2 = (i*1.60*rayonco/500)+Originec[0];
-			xy2 = imagesix1*1.5+Originec[1];
+				xx2 = (i*1.60*rayonco/500)+Originec[0],
+				xy2 = imagesix1*1.5+Originec[1];
 
 
 			ligne(xx1,xy1,xx2,xy2,"#00CC6A", caddconc);
 			
 			imagesy.push(enr[1]);
-			imagesiy1 = enr1[1];
+			let imagesiy1 = enr1[1],
 
-			yx1 = (i*1.60*rayonco/500)+Originec[0];
-			yy1 = imagesy[i]*1.5+Originec[1];
+				yx1 = (i*1.60*rayonco/500)+Originec[0],
+				yy1 = imagesy[i]*1.5+Originec[1],
 
-			yx2 = (i*1.60*rayonco/500)+Originec[0];
-			yy2 = imagesiy1*1.5+Originec[1];
+				yx2 = (i*1.60*rayonco/500)+Originec[0],
+				yy2 = imagesiy1*1.5+Originec[1];
 
 
 			ligne(yx1,yy1,yx2,yy2,"rgb(70,162,250)", caddconc);
@@ -920,8 +887,8 @@ function drawaddconc(temps, image, loc,on){
 
 	loc = (loc/(2*Math.PI));
 
-	xr1 = loc*rayonco+Originec[0];
-	xy1 = caddconc_height*5/6;
+	let xr1 = loc*rayonco+Originec[0],
+		xy1 = caddconc_height*5/6;
 
 	ligne(xr1,xy1,xr1,xy1+10,"#E81123", caddconc);
 	texte(xr1,xy1+20,"10px",loc.toFixed(2) +"Hz","#E81123", caddconc);
@@ -961,14 +928,14 @@ var caddenr_height = canvasaddenr.height;
 var slideraddenr = document.getElementById("slideraddenr");
 
 function enroulementaddenr(temps, image, freq) {
-	Xco = 0;
-	Yco = 0;
-	num = 0;
+	let Xco = 0,
+		Yco = 0,
+		num = 0;
 	for (var i = 0; i < temps.length; i++) {
-		x1 = image[i]*(Math.cos(temps[i]*freq)*(rayonmo))+Origine2[0];
-		y1 = image[i]*(Math.sin(temps[i]*freq)*(rayonmo))+Origine2[1];
-		x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonmo))+Origine2[0];
-		y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonmo))+Origine2[1];
+		let x1 = image[i]*(Math.cos(temps[i]*freq)*(rayonmo))+Origine2[0],
+			y1 = image[i]*(Math.sin(temps[i]*freq)*(rayonmo))+Origine2[1],
+			x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonmo))+Origine2[0],
+			y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonmo))+Origine2[1];
 
 		Xco += x1;
 		Yco += y1;
@@ -978,8 +945,8 @@ function enroulementaddenr(temps, image, freq) {
 		ligne(x1,y1,x2,y2,"#E81123", caddenr);
 	}
 
-	addenrX = Xco/num;
-	addenrY = Yco/num;
+	let addenrX = Xco/num,
+		addenrY = Yco/num;
 
 	rond(addenrX,addenrY,3,0,Math.PI*2,false,"rgb(70,162,250)",true, caddenr);
 }
@@ -1037,8 +1004,7 @@ var cadd = canvasadd.getContext('2d');
 var cadd_width = canvasadd.width;
 var cadd_height = canvasadd.height;
 
-var hzselect = document.getElementById("hzselect");
-var hzselect2 = document.getElementById("hzselect2");
+let inputsAdder = new Array(document.getElementById("freqInput1"), document.getElementById("freqInput2"));
 
 function traceadd(amp,precition,freq1,freq2,freq, animconc) {
 
@@ -1080,8 +1046,8 @@ function traceadd(amp,precition,freq1,freq2,freq, animconc) {
 
 }
 
-val1 = 1;
-val2 = 2.3;
+let val1 = 1,
+	val2 = 2.3;
 
 var Origineadd = [cadd_width/3, cadd_height/2];
 
@@ -1089,17 +1055,31 @@ var Vecteuriadd = [cadd_width*5/12, cadd_height/2];
 
 var Vecteurjadd = [cadd_width/3, Origineadd[1]+(Origineadd[0]-Vecteuriadd[0])]; // Repere orthonormé
 
-var rayonadd = Vecteuriadd[0]-Origineadd[0];
+var rayonadd = Vecteuriadd[0]-Origineadd[0],
 
-precition = 30;
-ampconc = 1;
+	precitionAdd = 30,
+	ampconc = 1;
 
 function animatecanadd(freq, animconc){
 
 	cadd.clearRect(0,0,cadd_width,cadd_height);
 
-	traceadd(ampconc,precition,val1,val2,freq, animconc);
+	traceadd(ampconc,precitionAdd,val1,val2,freq, animconc);
 
 }
 
 animatecanadd(1, true);
+
+
+let filterinput = num => Number(num) >= 0 && Number(num) <= 5;
+
+inputsAdder.forEach(input => {
+	input.addEventListener("change", e => {
+		let values = inputsAdder.map(el => Number(el.value));
+		if(values.filter(num => filterinput(num)).length == 2){
+			[val1, val2] = values;
+			precitionAdd = Math.max(val1*30,val2*30);
+			animatecanadd(freqaddenr,true);
+		}
+	});
+});

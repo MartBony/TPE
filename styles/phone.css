@@ -36,7 +36,7 @@ canvas{
 	top: -130px;
 }
 
-.plan
+#plan
 {
 	position: fixed;
 	bottom: 10px;
@@ -62,7 +62,7 @@ canvas{
 	max-width: 100%;
 }
 
-.ascontent
+#ascontent
 {
 	position: absolute;
 	top: 160px;

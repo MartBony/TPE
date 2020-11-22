@@ -23,46 +23,6 @@
 		<p>Nous commencerons par définir précisement ce qu'est un son et comment nous l'enregistrons. Ensuite, nous aborderons une transformation mathématique permettant une compression importante au prix d'une perte de données: La transformation de Fourier. Enfin nous verrons les algorithmes de compression sans perte de données pour trouver celui le plus adapté à la compression d'un signal audio.</p>
 	</article>
 </article>
-<aside class="ascontent" id="a1">
-	<button style="opacity: 0;" class="prec navig">Précédent</button>
-	<button class="suiv navig" onclick="page.animate.move(1, 'suiv');">Suivant</button>
-</aside>
 <div class="rightbar">
 	<img src="images/a row2.jpg" id="bgd1" class="bgrightbar">
 </div>
-<script>
-	setTimeout(function(){InitCanvasJS1()}, 2000);
-	
-
-	function InitCanvasJS1() {
-		
-		var chart = new CanvasJS.Chart("chartContainer", {
-			height: 300,
-			width: 500,
-			animationEnabled: false,
-			title:{
-				text: "La pollution du web",
-				horizontalAlign: "center"
-			},
-			subtitles:[{
-				text: '(% dans les emissions de gaz à effet de serre)',
-				horizontalAlign: "center"
-			}],
-			data: [{
-				type: "doughnut",
-				startAngle: 180,
-				//innerRadius: 60,
-				indexLabelFontSize: 17,
-				indexLabel: "{label} - #percent%",
-				toolTipContent: "<b>{label}:</b> {y} (#percent%)",
-				dataPoints: [
-					{ y: 28, label: "Installations" },
-					{ y: 25, label: "Datacenters" },
-					{ y: 47, label: "Internautes" }
-				]
-			}]
-		});
-
-		chart.render();
-	}
-</script>

@@ -1,5 +1,6 @@
-function ondepurer(freq,amp,precition,deb,fin,dec, phase){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
+import { ligne, texte, ondepure } from "./canvasTools.js";
 
+/* function ondepurer(freq,amp,precition,deb,fin,dec, phase){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
 	var Interval = new Array(1+Math.floor((fin)*precition)); // On crée l'intervalle
 	var Images = new Array(1+Math.floor((fin)*precition));// On crée le tableau d'images
 
@@ -21,7 +22,7 @@ function ondepurer(freq,amp,precition,deb,fin,dec, phase){ //y=A × sin (ωt) av
 	return(Result);
 
 
-}
+} */
 
 function addimg(i1,m1,i2,m2) {
 	if (i1.length == i2.length){
@@ -36,39 +37,6 @@ function addimg(i1,m1,i2,m2) {
 
 		return Result;
 	}
-}
-
-
-
-function carre(x, y, width, height, color, id) {
-	id.fillStyle = color;
-	id.beginPath();
-	id.fillRect(x, y, width, height);
-}
-
-function ligne(x1, y1, x2, y2, color, id) {
-	id.strokeStyle = color;
-	id.beginPath();
-	id.moveTo(x1, y1);
-	id.lineTo(x2, y2);
-	id.stroke();
-}
-
-function rond(x, y, rayon, s_angle, f_angle, sens_cont, color, pleind, id) {
-	id.strokeStyle = color;
-	id.fillStyle = color;
-	id.beginPath();
-	id.arc(x, y, rayon, s_angle, f_angle, sens_cont);
-	id.stroke()
-	if (pleind == true) {
-		id.fill();
-	}
-}
-
-function texte(x,y,pxsize,content, color, id){
-	id.fillStyle = color;
-	id.font = pxsize +" Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif";
-	id.fillText(content, x, y); 
 }
 
 
@@ -94,7 +62,7 @@ function tracedrawond(freq,amp) {
 	else{
 		precition = 40;
 	}
-	var Result = ondepurer(freqsindw,amp,precition,0,2*Math.PI,0, phase);
+	var Result = ondepure(freqsindw,amp,precition,0,2*Math.PI,0, phase);
 	var Interval = Result[0];
 	var Images = Result[1];
 
@@ -146,10 +114,10 @@ var Vecteuridwo = [cdrawond_width*5/12, cdrawond_height/2];
 
 var Vecteurjdwo = [cdrawond_width/3, Originedwo[1]+(Originedwo[0]-Vecteuridwo[0])]; // Repere orthonormé
 
-degphase = 0;
-phase = 0;
-precition = 20;
-freqsindw = 1;
+let degphase = 0,
+phase = 0,
+precition = 20,
+freqsindw = 1,
 ampdw = 1;
 
 function animatecandrawond(){

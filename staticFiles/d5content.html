@@ -99,14 +99,14 @@
 		<p class="paratexte">Le but de cet algorithme est de retrouver les différentes fréquences du signal d'origine en calculant la DFT. On pourrait l'utiliser sur un signal inconnu pour retrouver ses fréquences</p>
 		<br>
 		<div class="hzselcontainer">
-			<input type="text" name="fr1" value="1" id="hzselect">Hz
+			<input type="text" name="fr1" value="1" id="freqInput1">Hz
 			+
-			<input type="text" name="fr2" value="2.3" id="hzselect2">Hz
+			<input type="text" name="fr2" value="2.3" id="freqInput2">Hz
 		</div>
-		<div class="buttonscalc">
+		<!-- <div class="buttonscalc">
 			<div class="claculstart"><p>Go</p></div>
 			<span><div class="loadercanconc"></div></span>
-		</div>
+		</div> -->
 		<div class="canmultcont">
 			<div>
 				<canvas id="canadd" width="400" height="300">Votre navigateur ne supporte pas les dernières fonctionnalités intégrées à ce site, si vous ratez cet élement interactif, vous ratez une partie de notre travail. Nous vous prions d'utiliser un navigateur récent et mis à jour comme Microsoft Edge, Mozilla Firefox, Google Chrome ou Opéra</canvas>
@@ -133,35 +133,6 @@
 		<p>On peut appliquer cette DFT sur de petits échantillons audios, même si ceux-ci sont très sophistiqués. Nous allons essayer de l'appliquer sur des échantillons audio plus importants, et essayer de traiter en temps réel des sons de plusieurs milliers de samples par seconde.</p>
 	</article>
 </article>
-<aside class="ascontent" id="a5">
-	<button class="prec navig" onclick="page.animate.move(5, 'prec');">Précédent</button>
-	<button class="suiv navig" onclick="page.animate.move(5, 'suiv');">Suivant</button>
-</aside>
 <div class="rightbar">
 	<img src="images/line2.jpg" id="bgd5" class="bgrightbar">
 </div>
-<script type="text/javascript" src="js/canvasd5.js"></script>
-<script type="text/javascript">
-	animatecaneuler();
-
-	$('.claculstart').click(function(){
-
-
-		tval2 = hzselect2.value;
-	    var confirm2 = filterinput(tval2);
-		tval1 = hzselect.value;
-	    var confirm1 = filterinput(tval1);
-
-
-	    if (confirm1[0] == true && confirm2[0] == true) {
-	    	val1 = confirm1[1];
-	    	val2 = confirm2[1];
-	    	precition = Math.max(val1*30,val2*30);
-			setTimeout(function(){animatecanadd(freqaddenr,true)},400);
-			animwait();
-	    }
-		else if(confirm1[0] != true){
-			alert("Il faut rentrer un nombre entre 0 et 5 inclus (pas de virgules mais des points)");
-		}
-	});
-</script>

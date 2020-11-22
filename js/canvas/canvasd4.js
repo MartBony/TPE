@@ -1,4 +1,6 @@
-function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
+import { ligne, rond, texte, ondepure } from "./canvasTools.js";
+
+/* function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en hertz, ω=2πf, A est l'amplitude, deb et fin entiers en sec
 
 	var Intervalo = new Array(1+Math.floor((fin)*precition)); // On crée l'intervalle
 	var Imageso = new Array(1+Math.floor((fin)*precition));// On crée le tableau d'images
@@ -21,58 +23,34 @@ function ondepure(freq,amp,precition,deb,fin,dec){ //y=A × sin (ωt) avec f en 
 	return(Result);
 
 
-}
-
-function carre(x, y, width, height, color, id) {
-	id.fillStyle = color;
-	id.beginPath();
-	id.fillRect(x, y, width, height);
-}
-
-function ligne(x1, y1, x2, y2, color, id) {
-	id.strokeStyle = color;
-	id.beginPath();
-	id.moveTo(x1, y1);
-	id.lineTo(x2, y2);
-	id.stroke();
-}
-
-function rond(x, y, rayon, s_angle, f_angle, sens_cont, color, pleind, id) {
-	id.strokeStyle = color;
-	id.fillStyle = color;
-	id.beginPath();
-	id.arc(x, y, rayon, s_angle, f_angle, sens_cont);
-	id.stroke()
-	if (pleind == true) {
-		id.fill();
-	}
-}
-
-function texte(x,y,pxsize,content, color, id){
-	id.fillStyle = color;
-	id.font = pxsize +" Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif";
-	id.fillText(content, x, y); 
-}
+} */
 
 
 
 
 
 
+// Start and stop animations in the background
+
+let animations = {
+	enroulement: null,
+	waveVector: null
+};
+
+document.querySelector('.p4').addEventListener("openContent", e => {
+	if(animations.enroulement) cancelAnimationFrame(animations.enroulement)
+	if(animations.waveVector) cancelAnimationFrame(animations.waveVector)
+	animatecantren();
+	animatecanond();
+});
+
+document.querySelector('.p4').addEventListener("closeContent", e => {
+	if(animations.enroulement) cancelAnimationFrame(animations.enroulement)
+	if(animations.waveVector) cancelAnimationFrame(animations.waveVector)
+});
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+// Animations code
 
 var canvassimp = document.getElementById('cansimp');
 var csimp = canvassimp.getContext('2d');
@@ -95,8 +73,8 @@ function tracesimp() {
 	texte(50,csimp_height-10,"20px","Fréquence : 2Hz","#0099BC", csimp);
 
 
-	var Result = ondepure(2,1/3,40,0,3/2,-1/3);
-	Intervald = Result[0];		
+	var Result = ondepure(2,1/3,40,0,3/2,-1/3),
+	Intervald = Result[0],
 	Imagesd = Result[1];
 
 
@@ -143,7 +121,7 @@ var ctren_height = canvastren.height;
 
 function tracetren(freq,amp) {
 
-	var Result = ondepure(freqsin,amp,precition,0,9*Math.PI/6,9/8);
+	var Result = ondepure(freq,amp,precitionTren,0,9*Math.PI/6,9/8);
 	var Interval = Result[0];
 	var Images = Result[1];
 
@@ -160,8 +138,8 @@ function tracetren(freq,amp) {
 
 function enroulementren(temps, image) {
 	for (var i = 0; i < temps.length; i++) {
-		x1 = image[i]*(Math.cos(temps[i])*(rayon))+ctren_width/3;
-		y1 = image[i]*(Math.sin(temps[i])*(rayon))+ctren_height/2;
+		let x1 = image[i]*(Math.cos(temps[i])*(rayon))+ctren_width/3,
+			y1 = image[i]*(Math.sin(temps[i])*(rayon))+ctren_height/2;
 
 		coordrond.push([x1,y1]);
 	}
@@ -188,10 +166,10 @@ var Vecteurj = [ctren_width/3, Origine[1]+(Origine[0]-Vecteuri[0])]; // Repere o
 
 var rayon = Vecteuri[0]-Origine[0];
 
-imgstep = 1;
-precition = 20;
-freqsin = 1;
-amp = 1;
+let imgstep = 1,
+precitionTren = 20,
+freqSinTren = 1,
+ampTren = 1,
 numimg = 3*60; // 3 secondes avec 60 fps
 
 var coordligne = [];
@@ -199,13 +177,13 @@ var coordligne = [];
 var coordrond = [];
 
 
-tracetren(freqsin,amp); // Calculer les coodonnées de début et de fin
+tracetren(freqSinTren,ampTren); // Calculer les coodonnées de début et de fin
 
 var vecteurs = [];
 
 getVector(coordligne,coordrond); // Creer toutes les coordonnées de l'animation
 
-finalcoord = [];
+let finalcoord = [];
 
 function animatecantren(){
 
@@ -216,17 +194,17 @@ function animatecantren(){
 	ligne(Vecteuri[0],0,Vecteuri[0],ctren_height,"#eee", ctren);
 	ligne(0,Vecteurj[1],ctren_width,Vecteurj[1],"#eee", ctren);
 
-	mult = imgstep/numimg;
+	let mult = imgstep/numimg;
 	mult += Math.sin(mult*2*Math.PI+Math.PI)/7;
 
 	if (mult < 1) {
 
 		var localcoord = [];
 		for (var i = 0; i < coordligne.length-1; i++) {
-			x1 = coordligne[i][0]+(vecteurs[i][0]*mult);
-			y1 = coordligne[i][1]+(vecteurs[i][1]*mult);
-			x2 = coordligne[i+1][0]+(vecteurs[i+1][0]*mult);
-			y2 = coordligne[i+1][1]+(vecteurs[i+1][1]*mult);
+			let x1 = coordligne[i][0]+(vecteurs[i][0]*mult),
+				y1 = coordligne[i][1]+(vecteurs[i][1]*mult),
+				x2 = coordligne[i+1][0]+(vecteurs[i+1][0]*mult),
+				y2 = coordligne[i+1][1]+(vecteurs[i+1][1]*mult);
 
 			localcoord.push([x1,y1,x2,y2]);
 
@@ -243,25 +221,21 @@ function animatecantren(){
 		var datastep = finalcoord[step];
 
 		for (var i = 0; i < datastep.length-1; i++) {
-			x1 = datastep[i][0];
-			y1 = datastep[i][1];
-			x2 = datastep[i+1][0];
-			y2 = datastep[i+1][1];
+			let x1 = datastep[i][0],
+				y1 = datastep[i][1],
+				x2 = datastep[i+1][0],
+				y2 = datastep[i+1][1];
 
 			ligne(x1,y1,x2,y2,"rgb(31,209,94)", ctren);
 		}
 
 	}
 
-	if(position == 4){
-		requestAnimationFrame(animatecantren);
-	}
+	animations.enroulement = requestAnimationFrame(animatecantren);
 	imgstep++;
 }
 
 animatecantren();
-
-
 
 
 
@@ -279,10 +253,10 @@ var cenrvec_height = canvasenrvec.height;
 function enroulementenrvec(temps, image, first) {
 	if (first == true) {
 		for (var i = 0; i < temps.length; i++) {
-			x1 = -image[i]*(Math.cos(temps[i])*(rayonev))+cenrvec_width/3;
-			y1 = -image[i]*(Math.sin(temps[i])*(rayonev))+cenrvec_height/2;
-			x2 = -image[i+1]*(Math.cos(temps[i+1])*(rayonev))+cenrvec_width/3;
-			y2 = -image[i+1]*(Math.sin(temps[i+1])*(rayonev))+cenrvec_height/2;
+			let x1 = -image[i]*(Math.cos(temps[i])*(rayonev))+cenrvec_width/3,
+				y1 = -image[i]*(Math.sin(temps[i])*(rayonev))+cenrvec_height/2,
+				x2 = -image[i+1]*(Math.cos(temps[i+1])*(rayonev))+cenrvec_width/3,
+				y2 = -image[i+1]*(Math.sin(temps[i+1])*(rayonev))+cenrvec_height/2;
 
 			datavec.push([x1,y1]);
 			ligne(x1,y1,x2,y2,"rgb(31,209,94)", cenrvec);
@@ -290,10 +264,10 @@ function enroulementenrvec(temps, image, first) {
 	}
 	else{
 		for (var i = 0; i < datavec.length-1; i++) {
-			x1 = datavec[i][0];
-			y1 = datavec[i][1];
-			x2 = datavec[i+1][0];
-			y2 = datavec[i+1][1];
+			let x1 = datavec[i][0],
+				y1 = datavec[i][1],
+				x2 = datavec[i+1][0],
+				y2 = datavec[i+1][1];
 			ligne(x1,y1,x2,y2,"rgb(31,209,94)", cenrvec);
 		}
 	}
@@ -356,10 +330,10 @@ function enroulementfreqvar(temps, image, first) {
 	if (first == true) {
 		datafv.fill(0);
 		for (var i = 0; i < temps.length; i++) {
-			x1 = -image[i]*(Math.cos(temps[i]*freqfv)*(rayonfv))+cfreqvar_width/3;
-			y1 = -image[i]*(Math.sin(temps[i]*freqfv)*(rayonfv))+cfreqvar_height/2;
-			x2 = -image[i+1]*(Math.cos(temps[i+1]*freqfv)*(rayonfv))+cfreqvar_width/3;
-			y2 = -image[i+1]*(Math.sin(temps[i+1]*freqfv)*(rayonfv))+cfreqvar_height/2;
+			let x1 = -image[i]*(Math.cos(temps[i]*freqfv)*(rayonfv))+cfreqvar_width/3,
+				y1 = -image[i]*(Math.sin(temps[i]*freqfv)*(rayonfv))+cfreqvar_height/2,
+				x2 = -image[i+1]*(Math.cos(temps[i+1]*freqfv)*(rayonfv))+cfreqvar_width/3,
+				y2 = -image[i+1]*(Math.sin(temps[i+1]*freqfv)*(rayonfv))+cfreqvar_height/2;
 
 			datafv[i] = [x1,y1];
 
@@ -367,10 +341,10 @@ function enroulementfreqvar(temps, image, first) {
 	}
 	else{
 		for (var i = 0; i < datafv.length-1; i++) {
-			x1 = datafv[i][0];
-			y1 = datafv[i][1];
-			x2 = datafv[i+1][0];
-			y2 = datafv[i+1][1];
+			let x1 = datafv[i][0],
+				y1 = datafv[i][1],
+				x2 = datafv[i+1][0],
+				y2 = datafv[i+1][1];
 			ligne(x1,y1,x2,y2,"rgb(31,209,94)", cfreqvar);
 		}	
 
@@ -515,10 +489,10 @@ var Interval = [];
 var Images = [];
 
 
-actimg = 0;
-
-precition = 20;
-freqsin = 1;
+let actimg = 0,
+imgCounter = 0,
+precition = 20,
+freqsin = 1,
 amp = -1/2;
 
 var datatraceond = [];
@@ -526,17 +500,17 @@ var datatraceond = [];
 var first = true;
 
 function animatecanond(){
-	actimg += 1;
+	if(imgCounter % 3 == 0){
+		actimg += 1;
 
-	cond.clearRect(0,0,cond_width,cond_height);
+		cond.clearRect(0,0,cond_width,cond_height);
 
-	traceond(freqsin,amp, first);
+		traceond(freqsin,amp, first);
 
-	first = false;
-
-	if(position == 4){
-		setTimeout(function(){animatecanond()},100);
+		first = false;
 	}
+	imgCounter++;
+	animations.waveVector = requestAnimationFrame(animatecanond);
 
 }
 
@@ -566,10 +540,10 @@ var slidermatch = document.getElementById("slidermatch");
 function enroulementmatch(temps, image, freq) {
 
 	for (var i = 0; i < temps.length; i++) {
-		x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayonev))+Originemt[0];
-		y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayonev))+Originemt[1];
-		x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonev))+Originemt[0];
-		y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonev))+Originemt[1];
+		let x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayonev))+Originemt[0],
+			y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayonev))+Originemt[1],
+			x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonev))+Originemt[0],
+			y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonev))+Originemt[1];
 
 		ligne(x1,y1,x2,y2,"rgb(31,209,94)", cmatch);
 	}
@@ -587,7 +561,7 @@ function contentmatch(freq) {
 }
 
 slidermatch.oninput = function() {
-	slidermt = this.value;
+	let slidermt = this.value;
 	freqmt = slidermt/10;
 	animatecanmatch(Tpsmt,Imgmt);
 } 
@@ -602,7 +576,7 @@ var dataenr = ondepure(freqsin,amp,precition,0,2*Math.PI,5/8);
 var Tpsmt = dataenr[0];
 var Imgmt = dataenr[1];
 
-freqmt = 1;
+var freqmt = 1;
 
 function animatecanmatch(temps, image){
 
@@ -709,10 +683,10 @@ var sliderae = document.getElementById("sliderae");
 function enroulementaddedenr(temps, image, freq) {
 
 	for (var i = 0; i < temps.length; i++) {
-		x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayonae))+caddedenr_width/3;
-		y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayonae))+caddedenr_height/2;
-		x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonae))+caddedenr_width/3;
-		y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonae))+caddedenr_height/2;
+		let x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayonae))+caddedenr_width/3,
+			y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayonae))+caddedenr_height/2,
+			x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayonae))+caddedenr_width/3,
+			y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayonae))+caddedenr_height/2;
 
 		ligne(x1,y1,x2,y2,"rgb(31,209,94)", caddedenr);
 	}
@@ -729,7 +703,7 @@ function contentaddedenr(freq) {
 }
 
 sliderae.oninput = function() {
-	slideraed = this.value;
+	let slideraed = this.value;
 	freqae = slideraed/20;
 	animatecanaddedenr(FIntervalae,FImagesae);
 } 
@@ -771,14 +745,14 @@ var ccgrav_height = canvascgrav.height;
 var slidercgrav = document.getElementById("slidercgrav");
 
 function enroulementcgrav(temps, image, freq) {
-	Xco = 0;
-	Yco = 0;
-	num = 0;
+	let Xco = 0,
+		Yco = 0,
+		num = 0;
 	for (var i = 0; i < temps.length; i++) {
-		x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayoncg))+Originecg[0];
-		y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayoncg))+Originecg[1];
-		x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayoncg))+Originecg[0];
-		y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayoncg))+Originecg[1];
+		let x1 = -image[i]*(Math.cos(temps[i]*freq)*(rayoncg))+Originecg[0],
+			y1 = -image[i]*(Math.sin(temps[i]*freq)*(rayoncg))+Originecg[1],
+			x2 = -image[i+1]*(Math.cos(temps[i+1]*freq)*(rayoncg))+Originecg[0],
+			y2 = -image[i+1]*(Math.sin(temps[i+1]*freq)*(rayoncg))+Originecg[1];
 
 		Xco += x1;
 		Yco += y1;
@@ -788,8 +762,8 @@ function enroulementcgrav(temps, image, freq) {
 		ligne(x1,y1,x2,y2,"rgb(31,209,94)", ccgrav);
 	}
 
-	cgravX = Xco/num;
-	cgravY = Yco/num;
+	let cgravX = Xco/num,
+		cgravY = Yco/num;
 
 	rond(cgravX,cgravY,3,0,Math.PI*2,false,"rgb(70,162,250)",true, ccgrav);
 }
@@ -806,8 +780,8 @@ function contentcgrav(freq) {
 }
 
 slidercgrav.oninput = function() {
-	freqcgrav = this.value/100;
-	animatecancgrav(Interval, Images, freqcgrav);
+	let freqcgrav = this.value/100;
+	drawGancGrav(Interval, Images, freqcgrav);
 }
 
 var Originecg = [ccgrav_width/3, ccgrav_height/2];
@@ -816,7 +790,7 @@ var Vecteuricg = [ccgrav_width/2, ccgrav_height/2];
 
 var rayoncg = Vecteuricg[0]-Originecg[0];
 
-function animatecancgrav(temps, image, freq){
+function drawGancGrav(temps, image, freq){
 
 	ccgrav.clearRect(0,0,ccgrav_width,ccgrav_height);
 
@@ -826,7 +800,7 @@ function animatecancgrav(temps, image, freq){
 }
 
 
-animatecancgrav(Interval,Images,1);
+drawGancGrav(Interval,Images,1);
 
 
 
@@ -849,14 +823,14 @@ var ccgraph_width = canvascgraph.width;
 var ccgraph_height = canvascgraph.height;
 
 function enroulementcgraph(temps, image, freq) {
-	Xco = 0;
-	Yco = 0;
-	num = 0;
+	let Xco = 0,
+		Yco = 0,
+		num = 0;
 	for (var i = 0; i < temps.length; i++) {
-		x1 = image[i]*(Math.cos(temps[i]*freq)*(rayoncgr));
-		y1 = image[i]*(Math.sin(temps[i]*freq)*(rayoncgr));
-		x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayoncgr));
-		y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayoncgr));
+		let x1 = image[i]*(Math.cos(temps[i]*freq)*(rayoncgr)),
+			y1 = image[i]*(Math.sin(temps[i]*freq)*(rayoncgr)),
+			x2 = image[i+1]*(Math.cos(temps[i+1]*freq)*(rayoncgr)),
+			y2 = image[i+1]*(Math.sin(temps[i+1]*freq)*(rayoncgr));
 
 		Xco += x1;
 		Yco += y1;
@@ -865,8 +839,8 @@ function enroulementcgraph(temps, image, freq) {
 
 	}
 
-	cgraphX = Xco/num;
-	cgraphY = Yco/num;
+	let cgraphX = Xco/num,
+		cgraphY = Yco/num;
 
 	return([cgraphX,cgraphY]);
 }
@@ -899,28 +873,28 @@ function drawcgraph(temps, image){
 	var imagesy = [];
 	for (var i = 0; i < 500; i++) {
 
-		enr = enroulementcgraph(temps, image, i/(50));
-		enr1 = enroulementcgraph(temps, image, (i+1)/(50));
+		let enr = enroulementcgraph(temps, image, i/(50)),
+			enr1 = enroulementcgraph(temps, image, (i+1)/(50));
 
 		imagesx.push(enr[0]);
-		imagesix1 = enr1[0];
+		let imagesix1 = enr1[0],
 
-		xx1 = (i*1.60*rayoncgr/500)+Originecg[0];
-		xy1 = imagesx[i]+Originecg[1];
+		xx1 = (i*1.60*rayoncgr/500)+Originecg[0],
+		xy1 = imagesx[i]+Originecg[1],
 
-		xx2 = (i*1.60*rayoncgr/500)+Originecg[0];
+		xx2 = (i*1.60*rayoncgr/500)+Originecg[0],
 		xy2 = imagesix1+Originecg[1];
 
 
 		ligne(xx1,xy1,xx2,xy2,"#00CC6A", ccgraph);
 		
 		imagesy.push(enr[1]);
-		imagesiy1 = enr1[1];
+		let imagesiy1 = enr1[1],
 
-		yx1 = (i*1.60*rayoncgr/500)+Originecg[0];
-		yy1 = imagesy[i]+Originecg[1];
+		yx1 = (i*1.60*rayoncgr/500)+Originecg[0],
+		yy1 = imagesy[i]+Originecg[1],
 
-		yx2 = (i*1.60*rayoncgr/500)+Originecg[0];
+		yx2 = (i*1.60*rayoncgr/500)+Originecg[0],
 		yy2 = imagesiy1+Originecg[1];
 
 
@@ -932,3 +906,15 @@ function drawcgraph(temps, image){
 var Resultcgraph = ondepure(1,1,40,0,2*Math.PI,0);
 
 drawcgraph(Resultcgraph[0], Resultcgraph[1]);
+
+/* 
+let execute = function(action) {
+	if(this.canvasAnimators) this.canvasAnimators.foreach(el => cancelAnimationFrame(el));
+	if(action == "open"){
+		this.canvasAnimators = [
+			requestAnimationFrame(animatecantren)
+		]
+	}
+}
+
+export default execute; */
