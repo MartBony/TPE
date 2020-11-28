@@ -35,16 +35,17 @@ import { ligne, rond, texte, ondepure } from "./canvasTools.js";
 let animations = {
 	enroulement: null,
 	waveVector: null
-};
+},
+pageElement = Array.from(document.getElementsByClassName("page")).filter(page => page.getAttribute("page") == 4)[0];
 
-document.querySelector('.p4').addEventListener("openContent", e => {
+pageElement.addEventListener("openContent", e => {
 	if(animations.enroulement) cancelAnimationFrame(animations.enroulement)
 	if(animations.waveVector) cancelAnimationFrame(animations.waveVector)
 	animatecantren();
 	animatecanond();
 });
 
-document.querySelector('.p4').addEventListener("closeContent", e => {
+pageElement.addEventListener("closeContent", e => {
 	if(animations.enroulement) cancelAnimationFrame(animations.enroulement)
 	if(animations.waveVector) cancelAnimationFrame(animations.waveVector)
 });

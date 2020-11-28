@@ -84,9 +84,10 @@ let animations = {
 	timer: null,
 	frequency: null,
 	inverse: null
-};
+},
+pageElement = Array.from(document.getElementsByClassName("page")).filter(page => page.getAttribute("page") == 4)[0];
 
-document.querySelector('.p5').addEventListener("openContent", e => {
+pageElement.addEventListener("openContent", e => {
 	if(animations.timer) cancelAnimationFrame(animations.timer)
 	if(animations.frequency) cancelAnimationFrame(animations.frequency)
 	if(animations.inverse) cancelAnimationFrame(animations.inverse)
@@ -95,7 +96,7 @@ document.querySelector('.p5').addEventListener("openContent", e => {
 	animateCanvasInv();
 });
 
-document.querySelector('.p5').addEventListener("closeContent", e => {
+pageElement.addEventListener("closeContent", e => {
 	if(animations.timer) cancelAnimationFrame(animations.timer)
 	if(animations.frequency) cancelAnimationFrame(animations.frequency)
 	if(animations.inverse) cancelAnimationFrame(animations.inverse)
