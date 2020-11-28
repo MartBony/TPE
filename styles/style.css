@@ -1,20 +1,20 @@
-:root{
-	--background-header: linear-gradient(15deg, #372840, #0a0a0a);
-	--color-title: #50e6ff;
+/* :root{
+	--bg-header: linear-gradient(15deg, #372840, #0a0a0a);
+	--color-title-acc: #50e6ff;
 	--color-text: #ffffff;
 	--color-textlight: rgba(255,255,255,0.8);
-	--color-bg: #434343;
-	--color-bglight: rgba(64,64,64,0.9);
-	--maingrid-gap: 5px;
-	--color-pagetitle: #40a8f2;
+	--background-main: #434343;
+	--background-mainLight: rgba(64,64,64,0.9);
+	--grid-gap-main: 5px;
+	--color-title-regular: black;
 	--color-subtitle: #70bef5;
 	--color-mintitle: #88c8f7;
-	--code-bg: linear-gradient(to right, #b7bec8, #97a4b5);
-	--filter-sideimg: blur(5px) saturate(130%) opacity(0.2);
-	--bg-maintitle: linear-gradient(to right, rgb(62,158,250), rgb(57,210,184));
+	--bg-code: linear-gradient(to right, #b7bec8, #97a4b5);
+	--filter-aside: blur(5px) saturate(130%) opacity(0.2);
+	--color-title-page-regular: black;
 	--bg-pages: repeating-linear-gradient(-45deg,#444,#444 3px,#aaa 3px,#aaa 4px);
 	--bg-content: #333;
-	--object-shadow: 0 0 10px rgba(0,0,0,0.6);
+	--shadow-main: 0 0 10px rgba(0,0,0,0.6);
 	--color-sliders: #4c4c4c;
 	--bg-canvas: #4c4c4c;
 	--size-middletext: 1.5rem;
@@ -23,28 +23,53 @@
 	font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-@media (prefers-color-scheme: light) { /* Mode clair */
+@media (prefers-color-scheme: light) {
 	:root
 	{
-		--background-header: linear-gradient(15deg, #e7f4f2, #f5f5f5);
-		--color-title: #0078d4;
+		--bg-header: linear-gradient(135deg,#2d487c 0%, #99b3ce 100%);
+		--color-title-acc: white;
 		--color-text: #000000;
 		--color-textlight: rgba(0,0,0,0.6);
-		--color-bglight: rgba(255,255,255,0.9);
-		--color-bg: #fafafa;
-		--maingrid-gap: 5px;
-		--color-pagetitle: #0a588f;
+		--background-mainLight: rgba(255,255,255,0.9);
+		--background-main: #fafafa;
+		--grid-gap-main: 5px;
+		--color-title-regular: black;
 		--color-subtitle: #0d75bf;
 		--color-mintitle: #1192ee;
-		--code-bg: linear-gradient(to right, #1e2227, #2d353f);
-		--filter-sideimg: blur(5px) saturate(130%) opacity(0.2);
-		--bg-maintitle: linear-gradient(to right, rgb(62,158,250), rgb(57,210,184));
+		--bg-code: linear-gradient(to right, #1e2227, #2d353f);
+		--filter-aside: blur(5px) saturate(130%) opacity(0.2);
+		--color-title-page-regular: black;
 		--bg-pages: repeating-linear-gradient(-45deg,#fff,#fff 3px,#ddd 3px,#ddd 4px);
 		--bg-content: #fff;
-		--object-shadow: 0 0 10px #eee;
+		--shadow-main: 0 0 10px #eee;
 		--color-sliders: #eee;
 		--bg-canvas: #fff;
 	}
+} */
+
+:root
+{
+	--background-main: rgb(250, 250, 250);
+	--background-mainLight: rgba(255,255,255,0.9);
+	--bg-header: linear-gradient(135deg,#2d487c 0%, #99b3ce 100%);
+	--bg-pages: repeating-linear-gradient(-45deg,#fff,#fff 3px,#ddd 3px,#ddd 4px);
+	--bg-content: #fff;
+	--bg-code: linear-gradient(to right, #1e2227, #2d353f);
+	--color-title-acc: white;
+	--color-title-page-regular: black;
+	--color-title-page-regular: linear-gradient(135deg,#2d487c 0%, #99b3ce 100%);
+	--color-title-page-orange: linear-gradient(to right, rgb(249,125,120), rgb(253, 168, 76));
+	--color-text: #000000;
+	--color-textlight: rgba(0,0,0,0.6);
+	--color-title-regular: #2d487c;
+	--color-subtitle: #0d75bf;
+	--color-mintitle: #1192ee;
+	--color-sliders: #eee;
+	--filter-aside: blur(5px) saturate(130%) opacity(0.2);
+	--shadow-main: 0 0 10px #eee;
+	--bg-canvas: #fff;
+	--grid-gap-main: 5px;
+	font-family: "Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 @keyframes open {
@@ -72,7 +97,7 @@
 body 
 {
 	min-height: 100vh;
-	background: var(--color-bg);
+	background: var(--background-main);
 	margin: 0;
 	top: 0px;
 	bottom: 0;
@@ -131,7 +156,7 @@ body
 	opacity: 0;
 	visibility: hidden;
 	transition: all 300ms cubic-bezier(0.8 , 0 , 0.2 , 1);
-	background: var(--color-bglight);
+	background: var(--background-mainLight);
 	transform: scale(1.2);
 	z-index: 5;
 }
@@ -175,7 +200,7 @@ body
 	height: 50px;
 }
 
-#plan:hover .arrow
+#planDiapo:hover .arrow
 {
 	transform: scale(1.1);
 }
@@ -230,7 +255,7 @@ body
 	height: 50px;
 	transition: 500ms all 500ms cubic-bezier(0.1 , 0.9 , 0.2 , 1);
 	z-index: 3;
-	background: var(--color-bglight);
+	background: var(--background-mainLight);
 	border-radius: 50%;
 	border: 1px solid var(--color-text);
 }
@@ -313,7 +338,7 @@ header
 	max-height: 80px;
 	box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 	box-sizing: border-box;
-	background: var(--background-header);
+	background: var(--bg-header);
 	overflow: hidden;
 	display: flex;
 	align-items: center;
@@ -328,7 +353,7 @@ h1
 	margin: 0;
 	font-weight: bold;
 	font-size: var(--size-title);
-	color: var(--color-title);
+	color: var(--color-title-acc);
 	cursor: default;
 }
 
@@ -336,7 +361,7 @@ h1
 {
 	height: 80%;
 	fill: none;
-	stroke: var(--color-text);
+	stroke: white;
 	stroke-width: 4;
 	cursor: default;
 }
@@ -347,7 +372,7 @@ h1
 	font-weight: bold;
 	stroke: none;
 	stroke-width: 0;
-	fill: var(--color-text);
+	fill: white;
 }
 
 /* Accoeil */
@@ -358,14 +383,14 @@ h1
 	left: 0;
 	right: 0;
 	display: grid;
-	padding: var(--maingrid-gap) 1.5rem;
+	padding: var(--grid-gap-main) 1.5rem;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-gap: var(--maingrid-gap);
+	grid-gap: var(--grid-gap-main);
 	box-sizing: border-box;
 	transition: all 300ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 }
 
-#plan
+#planDiapo
 {
 	width: auto;
 	height: auto;
@@ -374,7 +399,7 @@ h1
 	position: relative;
 	grid-row: 3/4;
 	grid-column: 3/5;
-	background: linear-gradient(135deg, rgb(153, 51, 255) 0%, rgb(255, 51, 51) 100%);
+	background: var(--bg-header);
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -385,7 +410,7 @@ h1
 	box-sizing: border-box;
 }
 
-#plan h3
+#planDiapo h3
 {
 	font-size: 1.8em;
 	font-weight: 700;
@@ -439,8 +464,8 @@ h1
 	left: 50%;
 	margin-top: -35px;
 	margin-left: -35px;
-	border: 10px solid #ddd; /* Light grey */
-	border-top: 10px solid #0078D7; /* Blue */
+	border: 10px solid white; /* Light grey */
+	border-top: 10px solid#6D7D9F; /* Blue */
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
@@ -783,7 +808,7 @@ h1
 	padding-right: 10px;
 	display: none;
 	z-index: 3;
-	background: var(--color-bglight);
+	background: var(--background-mainLight);
 }
 
 .reduire span
@@ -830,7 +855,7 @@ h1
 	padding-left: 0px;
 	display: none;
 	z-index: 3;
-	background: var(--color-bglight);
+	background: var(--background-mainLight);
 }
 
 .ouvrir span
@@ -910,7 +935,7 @@ h1
 	right: 0;
 	top: 0;
 	overflow: hidden;
-	background: var(--color-bg);
+	background: var(--background-main);
 }
 
 .rightbar.full
@@ -927,9 +952,9 @@ h1
 	left: 0;
 	object-fit: cover;
 	overflow: hidden;
-	filter: var(--filter-sideimg);
-	-moz-filter: var(--filter-sideimg);
-	-webkit-filter: var(--filter-sideimg);
+	filter: var(--filter-aside);
+	-moz-filter: var(--filter-aside);
+	-webkit-filter: var(--filter-aside);
 }
 
 /* Contenu */
@@ -980,7 +1005,7 @@ h2
 	font-size: 2.5em;
 	font-weight: 700;
 	color: transparent;
-	background: var(--bg-maintitle);
+	background: var(--color-title-page-regular);
 	-webkit-background-clip: text;
 	background-clip: text;
 }
@@ -1001,7 +1026,7 @@ h4
 	font-size: 2em;
 	font-weight: 600;
 	align-self: flex-start;
-	color: var(--color-pagetitle);
+	color: var(--color-title-regular);
 }
 
 h5
@@ -1066,7 +1091,7 @@ video
 	display: block;
 	width: 80%;
 	margin: 30px auto;
-	box-shadow: var(--object-shadow);
+	box-shadow: var(--shadow-main);
 }
 
 .codebutton
@@ -1076,7 +1101,7 @@ video
 	height: 50px;
 	width: 300px;
 	border-radius: 5px;
-	box-shadow: var(--object-shadow);
+	box-shadow: var(--shadow-main);
 	background: linear-gradient(to right, rgb(29,153,239), rgb(98,183,243));
 	margin: 20px;
 	z-index: 2;
@@ -1084,7 +1109,7 @@ video
 
 .codebutton p
 {
-	color: var(--color-bg);
+	color: var(--background-main);
 	text-align: center;
 	width: 220px;
 	height: 30px;
@@ -1103,10 +1128,10 @@ video
 	opacity: 0;
 	display: none;
 	position: relative;
-	color: var(--color-bg);
+	color: var(--background-main);
 	border-radius: 10px;
 	align-self: flex-start;
-	background-image: var(--code-bg);
+	background-image: var(--bg-code);
 	padding: 20px;
 	transition: all 300ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	box-sizing: border-box;
@@ -1179,7 +1204,7 @@ figure img
 	display: block;
 	margin: auto;
 	width: 100%;
-	box-shadow: var(--object-shadow);
+	box-shadow: var(--shadow-main);
 	background: var(--bg-canvas);
 }
 
@@ -1224,7 +1249,7 @@ figcaption
 }
 
 #c1 article:nth-child(1) h2, #c10 article:nth-child(1) h2{
-	background: linear-gradient(to right, rgb(249,125,120), rgb(253,168,76));
+	background: var(--color-title-page-orange);
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: transparent;
@@ -1267,28 +1292,33 @@ figcaption
 	filter: invert(100%);
 }
 
-.p0head
+#plan{
+	padding: 100px;
+}
+
+.planHeader
 {
 	padding: 0;
 	width: 100%;
 	height: 300px;
+	border-radius: 10px;
 }
 
-.p0head h2
+.planHeader h2
 {
 	position: relative;
 	z-index: 3;
 	color: white;
 }
 
-.p0head div
+.planHeader div
 {
 	top: 0;
 	left: 0;
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-image: linear-gradient(135deg, rgb(153, 51, 255) 0%, rgb(255, 51, 51) 100%);
+	background-image: var(--bg-header);
 }
 
 /* content 4 */
@@ -1307,7 +1337,7 @@ figcaption
 	transition: all 500ms cubic-bezier(0.8 , 0 , 0.2 , 1);
 	height: 300px;
 	background: var(--bg-canvas);
-	box-shadow: var(--object-shadow);
+	box-shadow: var(--shadow-main);
 }
 
 .eulercont
@@ -1531,7 +1561,7 @@ p.normal
 	transition: all 600ms cubic-bezier(.78,-0.15,.15,1.15);
 	text-transform: uppercase;
 	font-size: 1.5em;
-	color: var(--color-bg);
+	color: var(--background-main);
 	font-weight: 700;
 	margin: 0;
 	position: absolute;

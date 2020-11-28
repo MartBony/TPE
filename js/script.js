@@ -100,7 +100,7 @@ $(document).ready(function (){
 		application.position = parseInt(event.state.key);
 	}
 
-	document.getElementById("plan").addEventListener("click", () => {
+	document.getElementById("planDiapo").addEventListener("click", () => {
 		history.pushState({key : -1}, 'titre', '');
 		application.position = -1;
 	});

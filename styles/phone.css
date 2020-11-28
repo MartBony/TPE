@@ -19,6 +19,7 @@ canvas{
 	margin: auto;
 	margin-top: 140px;
 	margin-bottom: 120px;
+	padding-bottom: 140px;
 }
 
 .diapocontain
@@ -37,6 +38,11 @@ canvas{
 }
 
 #plan
+{
+	padding: 0;
+}
+
+#planDiapo
 {
 	position: fixed;
 	bottom: 10px;

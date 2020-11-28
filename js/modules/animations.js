@@ -14,14 +14,18 @@ class Animations{
 			}, 500+iter*50);
 		});
 
-		setTimeout(() => { $('#plan').css({'transition':'all 400ms cubic-bezier(0.1 , 0.9 , 0.2 , 1)', 'opacity':'1', 'transform':'translateX(0px)'}); }, 1000);
+		setTimeout(() => {
+			document.getElementById('planDiapo').style.transition = 'all 400ms cubic-bezier(0.1 , 0.9 , 0.2 , 1)';
+			document.getElementById('planDiapo').style.opacity = '1';
+			document.getElementById('planDiapo').style.transform = 'translateX(0px)';
+		}, 1000);
 	}
 	static openDiapo(rank){
 		let event = new Event('openContent'),
 			pageElement = Array.from(document.getElementsByClassName("page")).filter(page => page.getAttribute("page") == rank)[0],
 			diapoElement = Array.from(document.getElementsByClassName("diapocontain")).filter(diapo => diapo.getAttribute("page") == rank)[0];
 
-		document.querySelector(".p"+ rank).dispatchEvent(event);
+		pageElement.dispatchEvent(event);
 		setTimeout(() => {
 			document.querySelector("#ascontent").classList.add("opened", "p"+ rank);
 		}, 550);
@@ -149,7 +153,7 @@ class Animations{
 
 		document.querySelector('.retour').classList.remove("opened");
 
-		Array.from(document.querySelectorAll('.content, article, .page')).forEach(el => {
+		Array.from(document.querySelectorAll('.content, article, .page, .rightbar')).forEach(el => {
 			el.classList.remove("opened", "full");
 		});
 
@@ -198,7 +202,7 @@ class Animations{
 				diapoElement.classList.add('opened');
 				diapoElement.style.zIndex = "2";
 				diapoElement.style.transform = "";
-				if(window.innerHeight > 800) diapoElement.style.position = "fixed"
+				if(window.innerWidth > 800) diapoElement.style.position = "fixed"
 			}, 100);
 
 
